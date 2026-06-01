@@ -1,556 +1,833 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AB — Luxury Fashion</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AB — ارتدِ موقفك</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
   <style>
+    /* ===== BRAND TOKENS ===== */
+    :root {
+      --black:   #080808;
+      --dark:    #111111;
+      --mid:     #1A1A1A;
+      --border:  #252525;
+      --neon:    #AAFF00;
+      --neon2:   rgba(170,255,0,0.12);
+      --silver:  #AAAAAA;
+      --white:   #F0F0F0;
+      --font:    'Cairo', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-    *, *::before, *::after { box-sizing: border-box; }
 
-    /* Liquid glass card */
-    .glass {
-      background: rgba(255,255,255,0.55);
-      backdrop-filter: blur(18px) saturate(180%);
-      -webkit-backdrop-filter: blur(18px) saturate(180%);
-      border: 1px solid rgba(255,255,255,0.65);
-    }
-    .glass-dark {
-      background: rgba(131,24,67,0.18);
-      backdrop-filter: blur(18px) saturate(200%);
-      -webkit-backdrop-filter: blur(18px) saturate(200%);
-      border: 1px solid rgba(255,255,255,0.2);
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: var(--font);
+      direction: rtl;
+      overflow-x: hidden;
     }
 
-    /* Shimmer text */
-    .shimmer-text {
-      background: linear-gradient(
-        120deg,
-        #831843 0%, #DB2777 30%, #CA8A04 50%, #DB2777 70%, #831843 100%
-      );
-      background-size: 200% auto;
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: shimmer 3s linear infinite;
+    /* grain overlay */
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='.045'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9998;
     }
 
-    /* Scroll reveal */
-    .reveal { opacity: 0; transform: translateY(36px); transition: opacity 0.8s cubic-bezier(.16,1,.3,1), transform 0.8s cubic-bezier(.16,1,.3,1); }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-    .reveal-delay-1 { transition-delay: 0.1s; }
-    .reveal-delay-2 { transition-delay: 0.2s; }
-    .reveal-delay-3 { transition-delay: 0.3s; }
-    .reveal-delay-4 { transition-delay: 0.4s; }
+    /* ===== NAVBAR ===== */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.1rem 2.5rem;
+      border-bottom: 1px solid var(--border);
+      background: rgba(8,8,8,.88);
+      backdrop-filter: blur(14px);
+      transition: border-color .4s;
+    }
+    .nav.scrolled { border-bottom-color: rgba(170,255,0,.25); }
 
-    /* Gradient orbs */
-    .orb {
-      border-radius: 50%;
-      filter: blur(70px);
-      position: absolute;
+    .nav-logo {
+      font-size: 1.9rem; font-weight: 900;
+      letter-spacing: .05em; color: var(--white);
+      text-decoration: none;
+    }
+    .nav-logo .dot { color: var(--neon); }
+
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      color: var(--silver); text-decoration: none;
+      font-size: .78rem; font-weight: 500; letter-spacing: .18em;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--neon); }
+
+    .nav-icons { display: flex; gap: 1.1rem; align-items: center; }
+    .nav-icons button {
+      background: none; border: none; color: var(--silver);
+      cursor: pointer; transition: color .2s; line-height: 0;
+    }
+    .nav-icons button:hover { color: var(--neon); }
+    .cart-wrap { position: relative; }
+    .cart-badge {
+      position: absolute; top: -5px; left: -5px;
+      background: var(--neon); color: #000;
+      font-size: .55rem; font-weight: 900;
+      width: 15px; height: 15px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      position: relative; overflow: hidden; padding-top: 5rem;
+    }
+
+    /* grid lines bg */
+    .hero::before {
+      content: ''; position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(170,255,0,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(170,255,0,.04) 1px, transparent 1px);
+      background-size: 70px 70px;
       pointer-events: none;
     }
 
-    /* Horizontal ticker */
+    /* radial glow */
+    .hero-glow {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      width: 60vw; height: 60vw; max-width: 700px;
+      background: radial-gradient(ellipse, rgba(170,255,0,.07) 0%, transparent 65%);
+      pointer-events: none;
+      animation: pulse-glow 5s ease-in-out infinite;
+    }
+    @keyframes pulse-glow {
+      0%,100% { opacity: .7; transform: translate(-50%,-50%) scale(1); }
+      50%      { opacity: 1;  transform: translate(-50%,-50%) scale(1.1); }
+    }
+
+    /* needle SVG */
+    .needle-deco {
+      position: absolute; top: 8%; left: 6%;
+      opacity: .18; animation: needle-float 9s ease-in-out infinite;
+      pointer-events: none;
+    }
+    @keyframes needle-float {
+      0%,100% { transform: rotate(-18deg) translateY(0); }
+      50%      { transform: rotate(-18deg) translateY(-22px); }
+    }
+
+    /* neon thread line top-right */
+    .thread-deco {
+      position: absolute; top: 0; right: 12%;
+      width: 1px; height: 120px;
+      background: linear-gradient(to bottom, transparent, var(--neon), transparent);
+      animation: thread-pulse 4s ease-in-out infinite;
+    }
+    @keyframes thread-pulse {
+      0%,100% { opacity: .3; }
+      50%      { opacity: .9; }
+    }
+
+    .hero-kicker {
+      font-size: .7rem; font-weight: 600; letter-spacing: .35em;
+      color: var(--neon); margin-bottom: 1.5rem; text-align: center;
+      animation: fade-up 1s .1s both;
+    }
+
+    /* BIG GLITCH LOGO */
+    .hero-ab {
+      font-size: clamp(7rem, 23vw, 19rem);
+      font-weight: 900; line-height: 1; letter-spacing: -.02em;
+      color: var(--white); text-align: center;
+      position: relative;
+      animation: logo-in 1s .2s cubic-bezier(.16,1,.3,1) both;
+      user-select: none;
+    }
+    .hero-ab::before, .hero-ab::after {
+      content: 'AB'; position: absolute; top: 0; left: 0; right: 0;
+      text-align: center;
+    }
+    .hero-ab::before {
+      color: var(--neon);
+      clip-path: polygon(0 25%, 100% 25%, 100% 45%, 0 45%);
+      animation: glitch-a 4s infinite;
+    }
+    .hero-ab::after {
+      color: #ff2d6e;
+      clip-path: polygon(0 62%, 100% 62%, 100% 78%, 0 78%);
+      animation: glitch-b 4s infinite;
+    }
+    @keyframes glitch-a {
+      0%,88%,100% { transform: none; opacity: 0; }
+      89%          { transform: translateX(-5px); opacity: .85; }
+      91%          { transform: translateX(5px);  opacity: .85; }
+      93%          { transform: none; opacity: 0; }
+    }
+    @keyframes glitch-b {
+      0%,85%,100% { transform: none; opacity: 0; }
+      86%          { transform: translateX(7px);  opacity: .7; }
+      88%          { transform: translateX(-7px); opacity: .7; }
+      90%          { transform: none; opacity: 0; }
+    }
+    @keyframes logo-in {
+      from { opacity: 0; transform: scale(.88) translateY(25px); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    .hero-tagline {
+      font-size: clamp(1rem, 2.8vw, 1.8rem);
+      font-weight: 300; letter-spacing: .22em;
+      color: var(--silver); margin-top: .4rem; text-align: center;
+      animation: fade-up 1s .45s both;
+    }
+    .hero-tagline strong { color: var(--neon); font-weight: 700; }
+
+    .hero-cta {
+      display: flex; gap: 1rem; margin-top: 2.8rem;
+      animation: fade-up 1s .65s both;
+    }
+
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    .btn-neon {
+      background: var(--neon); color: #000;
+      font-family: var(--font); font-size: .78rem;
+      font-weight: 700; letter-spacing: .2em;
+      padding: .9rem 2.4rem; border: none; cursor: pointer;
+      transition: background .2s, transform .2s;
+      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+    }
+    .btn-neon:hover { background: #fff; transform: translateY(-2px); }
+
+    .btn-ghost {
+      background: transparent; color: var(--white);
+      font-family: var(--font); font-size: .78rem;
+      font-weight: 600; letter-spacing: .2em;
+      padding: .9rem 2.4rem;
+      border: 1px solid var(--border); cursor: pointer;
+      transition: border-color .2s, color .2s;
+    }
+    .btn-ghost:hover { border-color: var(--neon); color: var(--neon); }
+
+    .scroll-hint {
+      position: absolute; bottom: 2rem; left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: .5rem;
+      color: #333; font-size: .62rem; letter-spacing: .28em;
+      animation: fade-up 1s 1.2s both;
+    }
+    .scroll-bar {
+      width: 1px; height: 44px;
+      background: linear-gradient(to bottom, var(--neon), transparent);
+      animation: scroll-anim 2s ease-in-out infinite;
+    }
+    @keyframes scroll-anim {
+      0%   { transform: scaleY(0); transform-origin: top; opacity: 1; }
+      50%  { transform: scaleY(1); transform-origin: top; opacity: 1; }
+      51%  { transform: scaleY(1); transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; opacity: 0; }
+    }
+
+    /* ===== TICKER ===== */
+    .ticker {
+      background: var(--neon); overflow: hidden;
+      padding: .7rem 0; white-space: nowrap;
+    }
+    .ticker-track {
+      display: inline-flex; gap: 0;
+      animation: ticker 22s linear infinite;
+    }
+    .ticker-item {
+      font-size: .73rem; font-weight: 700;
+      letter-spacing: .22em; padding: 0 1.8rem; color: #000;
+    }
+    .ticker-sep { color: rgba(0,0,0,.35); padding: 0 .5rem; }
     @keyframes ticker {
-      0%   { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
     }
-    .ticker-track { display: flex; animation: ticker 22s linear infinite; white-space: nowrap; }
-    .ticker-track:hover { animation-play-state: paused; }
 
-    /* Collection card hover */
-    .collection-card .overlay { opacity: 0; transition: opacity 0.4s ease; }
-    .collection-card:hover .overlay { opacity: 1; }
-    .collection-card img { transition: transform 0.6s cubic-bezier(.16,1,.3,1); }
-    .collection-card:hover img { transform: scale(1.07); }
+    /* ===== SECTION BASE ===== */
+    section { padding: 6rem 2.5rem; }
 
-    /* CTA button pulse */
-    @keyframes pulse-ring {
-      0%   { box-shadow: 0 0 0 0 rgba(219,39,119,.45); }
-      70%  { box-shadow: 0 0 0 14px rgba(219,39,119,0); }
-      100% { box-shadow: 0 0 0 0 rgba(219,39,119,0); }
+    .container { max-width: 1340px; margin: 0 auto; }
+
+    .sec-tag {
+      font-size: .68rem; font-weight: 600;
+      letter-spacing: .32em; color: var(--neon);
+      margin-bottom: .9rem;
     }
-    .btn-pulse { animation: pulse-ring 2.2s ease-out infinite; }
+    .sec-title {
+      font-size: clamp(2rem, 5vw, 3.8rem);
+      font-weight: 900; line-height: 1.1; color: var(--white);
+    }
 
+    /* Reveal */
+    .reveal {
+      opacity: 0; transform: translateY(38px);
+      transition: opacity .85s cubic-bezier(.16,1,.3,1),
+                  transform .85s cubic-bezier(.16,1,.3,1);
+    }
+    .reveal.in { opacity: 1; transform: none; }
+
+    /* ===== COLLECTIONS ===== */
+    #collections { padding-bottom: 0; }
+
+    .col-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      grid-template-rows: 340px 340px;
+      gap: 2px;
+      margin-top: 3rem;
+      background: var(--border);
+    }
+    .col-card {
+      position: relative; overflow: hidden;
+      cursor: pointer; background: var(--dark);
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 1.6rem;
+    }
+    .col-card:first-child { grid-row: span 2; }
+
+    /* neon border on hover */
+    .col-card::after {
+      content: ''; position: absolute; inset: 0;
+      border: 1px solid var(--neon);
+      opacity: 0; transition: opacity .3s;
+    }
+    .col-card:hover::after { opacity: 1; }
+
+    /* bg glow */
+    .col-card::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,.92) 35%, transparent);
+      z-index: 1;
+    }
+    .col-card:hover .col-bg-glow { opacity: 1; }
+    .col-bg-glow {
+      position: absolute; inset: 0;
+      background: radial-gradient(circle at 50% 80%, rgba(170,255,0,.07), transparent 60%);
+      opacity: 0; transition: opacity .4s; z-index: 0;
+    }
+
+    .col-ghost {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 6rem; font-weight: 900;
+      color: rgba(170,255,0,.04);
+      letter-spacing: -.05em; z-index: 0;
+      transition: color .4s;
+    }
+    .col-card:hover .col-ghost { color: rgba(170,255,0,.08); }
+
+    .col-info { position: relative; z-index: 2; }
+    .col-cat {
+      font-size: .62rem; font-weight: 600; letter-spacing: .28em;
+      color: var(--neon); margin-bottom: .4rem;
+    }
+    .col-name {
+      font-size: 1.35rem; font-weight: 700; color: var(--white);
+      margin-bottom: .2rem;
+    }
+    .col-count { font-size: .75rem; color: var(--silver); }
+
+    .col-arrow {
+      position: absolute; top: 1.4rem; left: 1.4rem; z-index: 2;
+      color: var(--neon); opacity: 0;
+      transform: translateX(8px);
+      transition: all .3s;
+    }
+    .col-card:hover .col-arrow { opacity: 1; transform: none; }
+
+    /* ===== DROP (new arrival) ===== */
+    #drop { background: var(--dark); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+
+    .drop-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 5rem; align-items: center;
+    }
+
+    .drop-visual {
+      aspect-ratio: 1; background: var(--mid);
+      position: relative; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .drop-visual::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(circle at 50% 40%, rgba(170,255,0,.1), transparent 65%);
+    }
+    .drop-ghost {
+      font-size: 9rem; font-weight: 900;
+      color: rgba(255,255,255,.04); user-select: none;
+      animation: drop-pulse 4s ease-in-out infinite;
+    }
+    @keyframes drop-pulse {
+      0%,100% { opacity: .5; }
+      50%      { opacity: 1; }
+    }
+    .drop-badge {
+      position: absolute; top: 1.4rem; right: 1.4rem;
+      background: var(--neon); color: #000;
+      font-size: .62rem; font-weight: 700; letter-spacing: .18em;
+      padding: .35rem .75rem;
+      clip-path: polygon(6px 0,100% 0,calc(100% - 6px) 100%, 0 100%);
+    }
+
+    .drop-price {
+      font-size: 2.6rem; font-weight: 900; color: var(--neon);
+      margin: .8rem 0;
+    }
+    .drop-desc {
+      color: var(--silver); line-height: 1.85; font-size: .88rem;
+      font-weight: 300; margin-bottom: 2rem;
+    }
+    .size-row { display: flex; gap: .6rem; flex-wrap: wrap; margin-bottom: 2rem; }
+    .sz {
+      border: 1px solid var(--border); padding: .4rem .9rem;
+      font-size: .8rem; cursor: pointer; color: var(--silver);
+      font-family: var(--font); transition: all .2s;
+    }
+    .sz:hover, .sz.active {
+      border-color: var(--neon); color: var(--neon);
+    }
+
+    /* ===== ABOUT ===== */
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 6rem; align-items: center;
+    }
+    .about-quote {
+      font-size: clamp(1.6rem, 3.5vw, 2.8rem);
+      font-weight: 700; line-height: 1.35; color: var(--white);
+    }
+    .about-quote em { color: var(--neon); font-style: normal; }
+
+    .about-stats {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 2rem; margin-top: 3rem; padding-top: 2.5rem;
+      border-top: 1px solid var(--border);
+    }
+    .stat-n {
+      font-size: 2.8rem; font-weight: 900; color: var(--neon);
+      line-height: 1;
+      animation: count-glow 3s ease-in-out infinite;
+    }
+    @keyframes count-glow {
+      0%,100% { text-shadow: 0 0 8px rgba(170,255,0,.3); }
+      50%      { text-shadow: 0 0 22px rgba(170,255,0,.8); }
+    }
+    .stat-l { font-size: .7rem; color: var(--silver); letter-spacing: .15em; margin-top: .3rem; }
+
+    .about-body { color: var(--silver); line-height: 1.95; font-size: .9rem; font-weight: 300; }
+    .about-link {
+      display: inline-block; margin-top: 2rem;
+      font-size: .78rem; font-weight: 700; letter-spacing: .2em;
+      color: var(--neon); text-decoration: none;
+      border-bottom: 1px solid var(--neon); padding-bottom: .18rem;
+      transition: opacity .2s;
+    }
+    .about-link:hover { opacity: .7; }
+
+    /* ===== NEEDLE DIVIDER ===== */
+    .needle-divider {
+      display: flex; align-items: center; gap: 1.5rem;
+      padding: 3rem 2.5rem; border-top: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .nd-line { flex: 1; height: 1px; background: var(--border); }
+    .nd-needle { color: var(--neon); font-size: .75rem; letter-spacing: .25em; white-space: nowrap; }
+
+    /* ===== NEWSLETTER ===== */
+    #contact { background: var(--dark); border-top: 1px solid var(--border); }
+    .nl-inner { text-align: center; max-width: 560px; margin: 0 auto; }
+    .nl-sub {
+      color: var(--silver); font-size: .88rem; font-weight: 300;
+      line-height: 1.8; margin: 1rem 0 2.5rem;
+    }
+    .nl-form {
+      display: flex; border: 1px solid var(--border);
+      transition: border-color .3s;
+    }
+    .nl-form:focus-within { border-color: var(--neon); }
+    .nl-input {
+      flex: 1; background: transparent; border: none; outline: none;
+      padding: .9rem 1.2rem; color: var(--white);
+      font-family: var(--font); font-size: .85rem; direction: rtl;
+    }
+    .nl-input::placeholder { color: #3a3a3a; }
+
+    /* ===== FOOTER ===== */
+    footer {
+      padding: 4rem 2.5rem 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .footer-grid {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem; max-width: 1340px; margin: 0 auto;
+    }
+    .f-brand {
+      font-size: 3rem; font-weight: 900; line-height: 1; color: var(--white);
+    }
+    .f-brand span { color: var(--neon); }
+    .f-motto { font-size: .65rem; letter-spacing: .28em; color: #333; margin-top: .4rem; }
+    .f-desc { font-size: .82rem; color: #555; line-height: 1.8; margin-top: 1.5rem; font-weight: 300; }
+
+    .f-col-title {
+      font-size: .63rem; font-weight: 700; letter-spacing: .28em;
+      color: var(--neon); margin-bottom: 1.4rem;
+    }
+    .f-links { list-style: none; display: flex; flex-direction: column; gap: .7rem; }
+    .f-links a {
+      color: #555; text-decoration: none; font-size: .84rem;
+      transition: color .2s;
+    }
+    .f-links a:hover { color: var(--neon); }
+
+    .footer-bottom {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-top: 4rem; padding-top: 1.8rem;
+      border-top: 1px solid var(--border);
+      font-size: .72rem; color: #333;
+      max-width: 1340px; margin-left: auto; margin-right: auto;
+    }
+    .f-neon-dot { color: var(--neon); }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 900px) {
+      .col-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+      .col-card:first-child { grid-row: span 1; }
+      .drop-grid, .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .nav-links { display: none; }
+    }
+    @media (max-width: 540px) {
+      .col-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .hero-cta { flex-direction: column; align-items: center; }
+    }
+
+    /* reduced motion */
     @media (prefers-reduced-motion: reduce) {
-      *, .ticker-track, .orb, .shimmer-text { animation: none !important; transition: none !important; }
-      .reveal { opacity: 1 !important; transform: none !important; }
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+      }
     }
   </style>
 </head>
-<body class="bg-bg font-montserrat overflow-x-hidden">
+<body>
 
-  <!-- ──────────── NAVBAR ──────────── -->
-  <nav id="navbar" class="fixed top-4 left-4 right-4 z-50 glass rounded-2xl px-6 py-3 flex items-center justify-between transition-all duration-300">
-    <!-- Logo -->
-    <a href="#" class="font-cormorant text-3xl font-700 tracking-widest text-deep cursor-pointer select-none">AB</a>
-
-    <!-- Desktop links -->
-    <ul class="hidden md:flex gap-8 font-montserrat text-sm font-500 tracking-widest uppercase text-deep/80">
-      <li><a href="#collections" class="hover:text-primary transition-colors duration-200 cursor-pointer">Collections</a></li>
-      <li><a href="#about"       class="hover:text-primary transition-colors duration-200 cursor-pointer">About</a></li>
-      <li><a href="#editorial"   class="hover:text-primary transition-colors duration-200 cursor-pointer">Editorial</a></li>
-      <li><a href="#contact"     class="hover:text-primary transition-colors duration-200 cursor-pointer">Contact</a></li>
+  <!-- ═══ NAVBAR ═══ -->
+  <nav class="nav" id="navbar">
+    <a href="#" class="nav-logo">A<span class="dot">B</span></a>
+    <ul class="nav-links">
+      <li><a href="#collections">المجموعات</a></li>
+      <li><a href="#drop">وصول جديد</a></li>
+      <li><a href="#about">عن AB</a></li>
+      <li><a href="#contact">تواصل</a></li>
     </ul>
-
-    <!-- Right icons -->
-    <div class="flex items-center gap-4">
-      <!-- Search -->
-      <button aria-label="Search" class="cursor-pointer text-deep/70 hover:text-primary transition-colors duration-200">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-        </svg>
+    <div class="nav-icons">
+      <button aria-label="بحث">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
       </button>
-      <!-- Bag -->
-      <button aria-label="Shopping bag" class="cursor-pointer relative text-deep/70 hover:text-primary transition-colors duration-200">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-          <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>
-        </svg>
-        <span class="absolute -top-1 -right-1 w-4 h-4 bg-primary text-white text-[10px] font-600 rounded-full flex items-center justify-center leading-none">2</span>
-      </button>
-      <!-- Hamburger (mobile) -->
-      <button id="menu-btn" aria-label="Open menu" class="md:hidden cursor-pointer text-deep/70 hover:text-primary transition-colors duration-200">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-          <path d="M4 6h16M4 12h16M4 18h16"/>
-        </svg>
-      </button>
+      <div class="cart-wrap">
+        <button aria-label="السلة">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        </button>
+        <span class="cart-badge">0</span>
+      </div>
     </div>
   </nav>
 
-  <!-- Mobile menu -->
-  <div id="mobile-menu" class="fixed inset-0 z-40 bg-bg/95 backdrop-blur-xl flex flex-col items-center justify-center gap-8 translate-x-full transition-transform duration-500 ease-in-out">
-    <button id="menu-close" aria-label="Close menu" class="absolute top-6 right-6 cursor-pointer text-deep/70">
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M18 6 6 18M6 6l12 12"/></svg>
-    </button>
-    <a href="#collections" class="font-cormorant text-5xl font-600 text-deep hover:text-primary transition-colors cursor-pointer mobile-link">Collections</a>
-    <a href="#about"       class="font-cormorant text-5xl font-600 text-deep hover:text-primary transition-colors cursor-pointer mobile-link">About</a>
-    <a href="#editorial"   class="font-cormorant text-5xl font-600 text-deep hover:text-primary transition-colors cursor-pointer mobile-link">Editorial</a>
-    <a href="#contact"     class="font-cormorant text-5xl font-600 text-deep hover:text-primary transition-colors cursor-pointer mobile-link">Contact</a>
-  </div>
+  <!-- ═══ HERO ═══ -->
+  <section class="hero" id="hero">
+    <div class="hero-glow"></div>
+    <div class="thread-deco"></div>
 
-  <!-- ──────────── HERO ──────────── -->
-  <section class="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-24 pb-16">
+    <!-- Needle SVG -->
+    <svg class="needle-deco" width="55" height="175" viewBox="0 0 55 175" fill="none">
+      <ellipse cx="27.5" cy="18" rx="11" ry="16" stroke="#AAFF00" stroke-width="2"/>
+      <ellipse cx="27.5" cy="18" rx="4.5" ry="7"  stroke="#AAFF00" stroke-width="1.5"/>
+      <line x1="27.5" y1="34" x2="27.5" y2="173" stroke="#AAFF00" stroke-width="2"/>
+      <path d="M22.5 164 L27.5 173 L32.5 164" stroke="#AAFF00" stroke-width="2" fill="none"/>
+      <path d="M27.5 24 Q55 58 40 96 Q28 134 48 168" stroke="#AAFF00" stroke-width="1" stroke-dasharray="4 4" opacity=".45"/>
+    </svg>
 
-    <!-- Gradient orbs -->
-    <div class="orb w-[600px] h-[600px] bg-primary/30 top-[-100px] left-[-200px] animate-float"></div>
-    <div class="orb w-[500px] h-[500px] bg-secondary/25 bottom-[-80px] right-[-150px] animate-float-slow"></div>
-    <div class="orb w-[300px] h-[300px] bg-cta/15 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+    <p class="hero-kicker">● مجموعة صيف وربيع ٢٠٢٥</p>
 
-    <!-- Content -->
-    <div class="relative z-10 text-center px-6 max-w-5xl mx-auto">
-      <!-- Season pill -->
-      <div class="inline-flex items-center gap-2 glass rounded-full px-5 py-2 mb-8 animate-fade-in">
-        <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
-        <span class="font-montserrat text-xs font-600 tracking-[0.25em] uppercase text-deep/70">SS 2025 Collection</span>
-      </div>
+    <div class="hero-ab">AB</div>
 
-      <!-- Main headline -->
-      <h1 class="font-cormorant font-700 leading-[0.9] mb-6" style="animation: slideUp 0.9s cubic-bezier(.16,1,.3,1) 0.2s both;">
-        <span class="block text-[clamp(72px,14vw,160px)] text-deep">AB</span>
-        <span class="block text-[clamp(28px,5vw,56px)] font-400 italic text-primary/80 -mt-2">where elegance meets identity</span>
-      </h1>
+    <p class="hero-tagline"><strong>ارتدِ</strong> موقفك</p>
 
-      <!-- Sub -->
-      <p class="font-montserrat font-300 text-[clamp(14px,1.6vw,18px)] text-deep/60 max-w-lg mx-auto leading-relaxed mb-10" style="animation: slideUp 0.9s cubic-bezier(.16,1,.3,1) 0.35s both;">
-        Curated luxury ready-to-wear. Crafted for those who define their own standard.
-      </p>
-
-      <!-- CTAs -->
-      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center" style="animation: slideUp 0.9s cubic-bezier(.16,1,.3,1) 0.5s both;">
-        <a href="#collections" class="btn-pulse bg-primary text-white font-montserrat font-600 text-sm tracking-[0.15em] uppercase px-10 py-4 rounded-full hover:bg-deep transition-colors duration-300 cursor-pointer">
-          Explore Now
-        </a>
-        <a href="#editorial" class="glass text-deep font-montserrat font-500 text-sm tracking-[0.15em] uppercase px-10 py-4 rounded-full hover:bg-primary/10 transition-colors duration-300 cursor-pointer">
-          View Lookbook
-        </a>
-      </div>
+    <div class="hero-cta">
+      <button class="btn-neon" onclick="document.getElementById('collections').scrollIntoView({behavior:'smooth'})">
+        اكتشف المجموعة
+      </button>
+      <button class="btn-ghost" onclick="document.getElementById('drop').scrollIntoView({behavior:'smooth'})">
+        وصول جديد
+      </button>
     </div>
 
-    <!-- Floating product cards -->
-    <div class="absolute left-[5%] top-1/3 hidden lg:block animate-float" style="animation-delay:1s">
-      <div class="glass rounded-2xl p-3 w-36 shadow-xl rotate-[-6deg]">
-        <div class="w-full h-44 rounded-xl overflow-hidden bg-gradient-to-br from-pink-100 to-rose-200 flex items-end p-3">
-          <svg class="w-10 h-10 text-primary/40" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
-        </div>
-        <p class="font-cormorant text-sm font-600 text-deep mt-2">Silk Dress</p>
-        <p class="font-montserrat text-xs text-primary">$320</p>
-      </div>
-    </div>
-    <div class="absolute right-[5%] top-1/4 hidden lg:block animate-float-slow" style="animation-delay:2s">
-      <div class="glass rounded-2xl p-3 w-36 shadow-xl rotate-[5deg]">
-        <div class="w-full h-44 rounded-xl overflow-hidden bg-gradient-to-br from-amber-50 to-rose-100 flex items-end p-3">
-          <svg class="w-10 h-10 text-cta/40" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4v2H2v14h20V6h-5V4H7zm0 2h10v2H7V6zM4 8h16v10H4V8z"/></svg>
-        </div>
-        <p class="font-cormorant text-sm font-600 text-deep mt-2">Gold Clutch</p>
-        <p class="font-montserrat text-xs text-primary">$185</p>
-      </div>
-    </div>
-
-    <!-- Scroll indicator -->
-    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50">
-      <span class="font-montserrat text-[10px] tracking-[0.3em] uppercase text-deep">Scroll</span>
-      <div class="w-px h-12 bg-gradient-to-b from-deep to-transparent"></div>
+    <div class="scroll-hint">
+      <span>مرّر للأسفل</span>
+      <div class="scroll-bar"></div>
     </div>
   </section>
 
-  <!-- ──────────── TICKER ──────────── -->
-  <div class="py-4 border-y border-primary/20 overflow-hidden bg-white/50">
+  <!-- ═══ TICKER ═══ -->
+  <div class="ticker" aria-hidden="true">
     <div class="ticker-track">
-      <span class="ticker-item font-cormorant italic text-lg text-primary/60 px-8">Luxury Craftsmanship</span>
-      <span class="w-1 h-1 rounded-full bg-cta self-center flex-shrink-0"></span>
-      <span class="ticker-item font-cormorant italic text-lg text-primary/60 px-8">SS 2025 Collection</span>
-      <span class="w-1 h-1 rounded-full bg-cta self-center flex-shrink-0"></span>
-      <span class="ticker-item font-cormorant italic text-lg text-primary/60 px-8">Free Shipping Worldwide</span>
-      <span class="w-1 h-1 rounded-full bg-cta self-center flex-shrink-0"></span>
-      <span class="ticker-item font-cormorant italic text-lg text-primary/60 px-8">New Arrivals Every Friday</span>
-      <span class="w-1 h-1 rounded-full bg-cta self-center flex-shrink-0"></span>
-      <span class="ticker-item font-cormorant italic text-lg text-primary/60 px-8">Luxury Craftsmanship</span>
-      <span class="w-1 h-1 rounded-full bg-cta self-center flex-shrink-0"></span>
-      <span class="ticker-item font-cormorant italic text-lg text-primary/60 px-8">SS 2025 Collection</span>
-      <span class="w-1 h-1 rounded-full bg-cta self-center flex-shrink-0"></span>
-      <span class="ticker-item font-cormorant italic text-lg text-primary/60 px-8">Free Shipping Worldwide</span>
-      <span class="w-1 h-1 rounded-full bg-cta self-center flex-shrink-0"></span>
-      <span class="ticker-item font-cormorant italic text-lg text-primary/60 px-8">New Arrivals Every Friday</span>
-      <span class="w-1 h-1 rounded-full bg-cta self-center flex-shrink-0"></span>
+      <span class="ticker-item">وصول جديد</span><span class="ticker-sep">✦</span>
+      <span class="ticker-item">ارتدِ موقفك</span><span class="ticker-sep">✦</span>
+      <span class="ticker-item">مجموعة SS25</span><span class="ticker-sep">✦</span>
+      <span class="ticker-item">صُنع بنيّة</span><span class="ticker-sep">✦</span>
+      <span class="ticker-item">أسلوب لا يُساوَم</span><span class="ticker-sep">✦</span>
+      <span class="ticker-item">WEAR YOUR ATTITUDE</span><span class="ticker-sep">✦</span>
+      <span class="ticker-item">وصول جديد</span><span class="ticker-sep">✦</span>
+      <span class="ticker-item">ارتدِ موقفك</span><span class="ticker-sep">✦</span>
+      <span class="ticker-item">مجموعة SS25</span><span class="ticker-sep">✦</span>
+      <span class="ticker-item">صُنع بنيّة</span><span class="ticker-sep">✦</span>
+      <span class="ticker-item">أسلوب لا يُساوَم</span><span class="ticker-sep">✦</span>
+      <span class="ticker-item">WEAR YOUR ATTITUDE</span><span class="ticker-sep">✦</span>
     </div>
   </div>
 
-  <!-- ──────────── COLLECTIONS ──────────── -->
-  <section id="collections" class="py-24 px-6 max-w-7xl mx-auto">
-    <div class="text-center mb-16 reveal">
-      <p class="font-montserrat text-xs tracking-[0.3em] uppercase text-primary mb-3">Featured</p>
-      <h2 class="font-cormorant text-[clamp(36px,6vw,72px)] font-700 text-deep leading-tight">
-        The Collections
-      </h2>
+  <!-- ═══ COLLECTIONS ═══ -->
+  <section id="collections" style="padding-bottom:0;">
+    <div class="container">
+      <p class="sec-tag reveal">المجموعات</p>
+      <h2 class="sec-title reveal" style="transition-delay:.1s">اكتشف أسلوبك</h2>
     </div>
+    <div class="col-grid container reveal" style="margin-top:3rem; transition-delay:.2s;">
 
-    <!-- Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
-      <!-- Card 1 — large -->
-      <div class="collection-card lg:col-span-2 relative rounded-3xl overflow-hidden cursor-pointer reveal reveal-delay-1 group" style="height:520px">
-        <div class="w-full h-full bg-gradient-to-br from-rose-200 via-pink-100 to-fuchsia-200 flex items-center justify-center">
-          <div class="text-center">
-            <div class="w-32 h-32 rounded-full bg-primary/20 mx-auto mb-4 flex items-center justify-center">
-              <svg class="w-16 h-16 text-primary/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-            </div>
-            <p class="font-cormorant text-3xl italic text-deep/40">Evening Wear</p>
-          </div>
+      <div class="col-card">
+        <div class="col-bg-glow"></div>
+        <div class="col-ghost">AB</div>
+        <div class="col-arrow">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </div>
-        <div class="overlay absolute inset-0 bg-gradient-to-t from-deep/80 via-deep/30 to-transparent flex flex-col justify-end p-8">
-          <p class="font-montserrat text-xs tracking-[0.25em] uppercase text-secondary mb-2">SS 2025</p>
-          <h3 class="font-cormorant text-4xl font-600 text-white mb-3">Evening Luxe</h3>
-          <p class="font-montserrat text-sm font-300 text-white/80 mb-5 max-w-xs">Sculpted silhouettes for unforgettable nights. 24 exclusive pieces.</p>
-          <span class="inline-flex items-center gap-2 text-white font-montserrat text-sm font-500 tracking-widest uppercase">
-            Shop Now
-            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </span>
+        <div class="col-info">
+          <p class="col-cat">الأكثر مبيعاً</p>
+          <p class="col-name">أوفرسايز</p>
+          <p class="col-count">٢٤ قطعة</p>
         </div>
       </div>
 
-      <!-- Card 2 -->
-      <div class="collection-card relative rounded-3xl overflow-hidden cursor-pointer reveal reveal-delay-2" style="height:520px">
-        <div class="w-full h-full bg-gradient-to-br from-amber-100 via-rose-50 to-orange-100 flex items-center justify-center">
-          <div class="text-center">
-            <div class="w-28 h-28 rounded-full bg-cta/15 mx-auto mb-4 flex items-center justify-center">
-              <svg class="w-14 h-14 text-cta/50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-            </div>
-            <p class="font-cormorant text-2xl italic text-deep/30">Daywear</p>
-          </div>
+      <div class="col-card">
+        <div class="col-bg-glow"></div>
+        <div class="col-ghost" style="font-size:3rem;">تي</div>
+        <div class="col-arrow">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </div>
-        <div class="overlay absolute inset-0 bg-gradient-to-t from-deep/80 via-deep/30 to-transparent flex flex-col justify-end p-8">
-          <p class="font-montserrat text-xs tracking-[0.25em] uppercase text-secondary mb-2">New In</p>
-          <h3 class="font-cormorant text-4xl font-600 text-white mb-3">Golden Hour</h3>
-          <p class="font-montserrat text-sm font-300 text-white/80 mb-5">Effortless pieces from sunrise to sunset.</p>
-          <span class="inline-flex items-center gap-2 text-white font-montserrat text-sm font-500 tracking-widest uppercase">
-            Shop Now
-            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </span>
+        <div class="col-info">
+          <p class="col-cat">جديد</p>
+          <p class="col-name">تيشيرتات</p>
+          <p class="col-count">١٨ قطعة</p>
         </div>
       </div>
 
-      <!-- Card 3 -->
-      <div class="collection-card relative rounded-3xl overflow-hidden cursor-pointer reveal reveal-delay-3" style="height:380px">
-        <div class="w-full h-full bg-gradient-to-br from-fuchsia-100 via-pink-50 to-purple-100 flex items-center justify-center">
-          <div class="text-center">
-            <div class="w-24 h-24 rounded-full bg-primary/15 mx-auto mb-3 flex items-center justify-center">
-              <svg class="w-12 h-12 text-primary/50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
-            </div>
-            <p class="font-cormorant text-2xl italic text-deep/30">Accessories</p>
-          </div>
+      <div class="col-card">
+        <div class="col-bg-glow"></div>
+        <div class="col-ghost" style="font-size:3rem;">هودي</div>
+        <div class="col-arrow">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </div>
-        <div class="overlay absolute inset-0 bg-gradient-to-t from-deep/80 via-deep/30 to-transparent flex flex-col justify-end p-8">
-          <p class="font-montserrat text-xs tracking-[0.25em] uppercase text-secondary mb-2">Limited</p>
-          <h3 class="font-cormorant text-3xl font-600 text-white mb-3">Accessories</h3>
-          <span class="inline-flex items-center gap-2 text-white font-montserrat text-sm font-500 tracking-widest uppercase">
-            Shop Now
-            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </span>
+        <div class="col-info">
+          <p class="col-cat">مميز</p>
+          <p class="col-name">هودي</p>
+          <p class="col-count">١٢ قطعة</p>
         </div>
       </div>
 
-      <!-- Card 4 — large -->
-      <div class="collection-card lg:col-span-2 relative rounded-3xl overflow-hidden cursor-pointer reveal reveal-delay-4" style="height:380px">
-        <div class="w-full h-full bg-gradient-to-br from-rose-300 via-primary/30 to-deep/30 flex items-center justify-center">
-          <div class="text-center">
-            <div class="w-32 h-32 rounded-full bg-white/20 mx-auto mb-4 flex items-center justify-center">
-              <span class="font-cormorant text-6xl font-700 text-white/50">AB</span>
-            </div>
-            <p class="font-cormorant text-2xl italic text-white/30">Signature Line</p>
-          </div>
+      <div class="col-card">
+        <div class="col-bg-glow"></div>
+        <div class="col-ghost" style="font-size:3rem;">بنطلون</div>
+        <div class="col-arrow">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </div>
-        <div class="overlay absolute inset-0 bg-gradient-to-t from-deep/80 via-deep/30 to-transparent flex flex-col justify-end p-8">
-          <p class="font-montserrat text-xs tracking-[0.25em] uppercase text-secondary mb-2">Signature</p>
-          <h3 class="font-cormorant text-4xl font-600 text-white mb-3">AB Monogram</h3>
-          <p class="font-montserrat text-sm font-300 text-white/80 mb-5">Our iconic signature — redefined for 2025.</p>
-          <span class="inline-flex items-center gap-2 text-white font-montserrat text-sm font-500 tracking-widest uppercase">
-            Discover
-            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </span>
+        <div class="col-info">
+          <p class="col-cat">محدود</p>
+          <p class="col-name">بناطيل</p>
+          <p class="col-count">٩ قطع</p>
         </div>
       </div>
 
     </div>
   </section>
 
-  <!-- ──────────── ABOUT ──────────── -->
-  <section id="about" class="py-24 px-6 relative overflow-hidden">
-    <div class="orb w-[500px] h-[500px] bg-secondary/20 top-0 right-[-200px]"></div>
-    <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center relative z-10">
-      <!-- Text -->
-      <div class="reveal">
-        <p class="font-montserrat text-xs tracking-[0.3em] uppercase text-primary mb-4">Our Story</p>
-        <h2 class="font-cormorant text-[clamp(36px,5vw,60px)] font-700 text-deep leading-tight mb-6">
-          Crafted with<br/><em>intention</em>
-        </h2>
-        <p class="font-montserrat text-[15px] font-300 text-deep/65 leading-relaxed mb-6">
-          AB was born from the belief that luxury is not a price point — it is a feeling. Every piece in our collection is a conversation between craftsmanship and identity.
-        </p>
-        <p class="font-montserrat text-[15px] font-300 text-deep/65 leading-relaxed mb-10">
-          Founded in 2019, we work with artisan ateliers across Paris, Milan, and Marrakesh to bring you garments that transcend seasons.
-        </p>
-        <a href="#" class="inline-flex items-center gap-3 font-montserrat text-sm font-600 tracking-[0.15em] uppercase text-primary border-b border-primary/30 pb-1 hover:border-primary transition-colors cursor-pointer">
-          Our Manifesto
-          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </a>
-      </div>
-      <!-- Stats grid -->
-      <div class="grid grid-cols-2 gap-4 reveal reveal-delay-2">
-        <div class="glass rounded-2xl p-8 text-center">
-          <p class="shimmer-text font-cormorant text-6xl font-700">6</p>
-          <p class="font-cormorant text-xl font-400 italic text-deep/60 mt-1">Years</p>
+  <!-- ═══ NEEDLE DIVIDER ═══ -->
+  <div class="needle-divider">
+    <div class="nd-line"></div>
+    <span class="nd-needle">✦ صُنع بيد الحِرفي ✦ كل غرزة بنيّة ✦</span>
+    <div class="nd-line"></div>
+  </div>
+
+  <!-- ═══ NEW DROP ═══ -->
+  <section id="drop">
+    <div class="container">
+      <div class="drop-grid">
+        <div class="drop-visual reveal">
+          <div class="drop-ghost">AB</div>
+          <div class="drop-badge">إصدار محدود ✦</div>
         </div>
-        <div class="glass rounded-2xl p-8 text-center">
-          <p class="shimmer-text font-cormorant text-6xl font-700">48</p>
-          <p class="font-cormorant text-xl font-400 italic text-deep/60 mt-1">Countries</p>
-        </div>
-        <div class="glass rounded-2xl p-8 text-center">
-          <p class="shimmer-text font-cormorant text-6xl font-700">3</p>
-          <p class="font-cormorant text-xl font-400 italic text-deep/60 mt-1">Ateliers</p>
-        </div>
-        <div class="glass rounded-2xl p-8 text-center">
-          <p class="shimmer-text font-cormorant text-6xl font-700">∞</p>
-          <p class="font-cormorant text-xl font-400 italic text-deep/60 mt-1">Stories</p>
+        <div class="reveal" style="transition-delay:.18s;">
+          <p class="sec-tag">وصول جديد</p>
+          <h2 class="sec-title" style="margin-bottom:0;">قميص AB<br>الأيقوني</h2>
+          <div class="drop-price">٢٩٩ ر.س</div>
+          <p class="drop-desc">
+            صُمّم لمن يرفض الانسجام مع القطيع. نسيج ثقيل 320gsm، تطريز مرفوع، وقصّة oversize تجعلك تملأ الفراغ. كل قطعة ترقم يدوياً.
+          </p>
+          <div class="size-row">
+            <button class="sz">S</button>
+            <button class="sz active">M</button>
+            <button class="sz">L</button>
+            <button class="sz">XL</button>
+            <button class="sz">XXL</button>
+          </div>
+          <button class="btn-neon" style="width:100%; padding:1rem;">أضف إلى السلة</button>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ──────────── EDITORIAL ──────────── -->
-  <section id="editorial" class="py-24 px-6 max-w-7xl mx-auto">
-    <div class="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-6 reveal">
+  <!-- ═══ ABOUT ═══ -->
+  <section id="about" style="border-top:1px solid var(--border);">
+    <div class="container">
+      <div class="about-grid">
+        <div class="reveal">
+          <p class="sec-tag">قصتنا</p>
+          <p class="about-quote">
+            الموضة ليست ما ترتديه.<br>
+            الموضة <em>هي ما تقوله</em><br>
+            حين لا تتكلم.
+          </p>
+          <div class="about-stats">
+            <div>
+              <div class="stat-n">٦</div>
+              <div class="stat-l">سنوات خبرة</div>
+            </div>
+            <div>
+              <div class="stat-n">٤٨</div>
+              <div class="stat-l">دولة حول العالم</div>
+            </div>
+            <div>
+              <div class="stat-n">∞</div>
+              <div class="stat-l">قصة ترويها</div>
+            </div>
+          </div>
+        </div>
+        <div class="reveal" style="transition-delay:.2s;">
+          <p class="about-body">
+            وُلدت AB من الاعتقاد بأن الملابس ليست مجرد قماش — بل هي بيان. كل خيط، كل تفصيل، كل قطعة تُصنع مع وعي كامل بمن سيرتديها.
+          </p>
+          <br>
+          <p class="about-body">
+            نعمل مع أمهر الحِرفيين لإنتاج ملابس تتجاوز الموسم وتبقى معك. لأن الأسلوب الحقيقي لا يُشترى — يُعاش.
+          </p>
+          <a href="#" class="about-link">اقرأ بيانَنا ←</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ NEWSLETTER ═══ -->
+  <section id="contact">
+    <div class="container">
+      <div class="nl-inner reveal">
+        <p class="sec-tag" style="text-align:center;">ابقَ على اطلاع</p>
+        <h2 class="sec-title" style="text-align:center;">انضم إلى قبيلة AB</h2>
+        <p class="nl-sub">
+          وصول مبكر للإصدارات الجديدة،<br>
+          عروض حصرية ودعوات لفعاليات خاصة.
+        </p>
+        <div class="nl-form">
+          <input class="nl-input" type="email" placeholder="بريدك الإلكتروني" />
+          <button class="btn-neon" style="white-space:nowrap; clip-path:none; border-radius:0;">اشترك الآن</button>
+        </div>
+        <p style="font-size:.7rem; color:#333; margin-top:.9rem;">لا بريد عشوائي. إلغاء في أي وقت.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer>
+    <div class="footer-grid">
       <div>
-        <p class="font-montserrat text-xs tracking-[0.3em] uppercase text-primary mb-3">Latest</p>
-        <h2 class="font-cormorant text-[clamp(32px,5vw,60px)] font-700 text-deep">Editorial</h2>
+        <div class="f-brand">A<span>B</span></div>
+        <div class="f-motto">WEAR YOUR ATTITUDE</div>
+        <p class="f-desc">ملابس مصنوعة بنيّة.<br>لمن يعرف من يكون.</p>
       </div>
-      <a href="#" class="font-montserrat text-sm font-500 tracking-widest uppercase text-deep/50 hover:text-primary transition-colors cursor-pointer self-start md:self-auto">View All →</a>
-    </div>
-
-    <div class="grid md:grid-cols-3 gap-8">
-      <!-- Article 1 -->
-      <article class="group cursor-pointer reveal reveal-delay-1">
-        <div class="rounded-2xl overflow-hidden mb-5 bg-gradient-to-br from-rose-100 to-pink-200 h-64 flex items-center justify-center">
-          <svg class="w-16 h-16 text-primary/30 group-hover:text-primary/50 transition-colors duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="m9 9 6 6M15 9l-6 6"/></svg>
-        </div>
-        <p class="font-montserrat text-[10px] tracking-[0.3em] uppercase text-primary mb-2">Styling Guide</p>
-        <h3 class="font-cormorant text-2xl font-600 text-deep mb-2 group-hover:text-primary transition-colors duration-200">The Art of Layering in 2025</h3>
-        <p class="font-montserrat text-sm font-300 text-deep/55 leading-relaxed">How AB's new collection redefines the summer layer — light, intentional, and effortlessly chic.</p>
-      </article>
-
-      <!-- Article 2 -->
-      <article class="group cursor-pointer reveal reveal-delay-2">
-        <div class="rounded-2xl overflow-hidden mb-5 bg-gradient-to-br from-amber-50 to-rose-100 h-64 flex items-center justify-center">
-          <svg class="w-16 h-16 text-cta/30 group-hover:text-cta/50 transition-colors duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        </div>
-        <p class="font-montserrat text-[10px] tracking-[0.3em] uppercase text-primary mb-2">Atelier Visit</p>
-        <h3 class="font-cormorant text-2xl font-600 text-deep mb-2 group-hover:text-primary transition-colors duration-200">Behind the Seams: Milan Studio</h3>
-        <p class="font-montserrat text-sm font-300 text-deep/55 leading-relaxed">A rare look inside the Milan atelier where every AB piece begins its journey.</p>
-      </article>
-
-      <!-- Article 3 -->
-      <article class="group cursor-pointer reveal reveal-delay-3">
-        <div class="rounded-2xl overflow-hidden mb-5 bg-gradient-to-br from-purple-50 to-fuchsia-100 h-64 flex items-center justify-center">
-          <svg class="w-16 h-16 text-primary/30 group-hover:text-primary/50 transition-colors duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-        </div>
-        <p class="font-montserrat text-[10px] tracking-[0.3em] uppercase text-primary mb-2">Culture</p>
-        <h3 class="font-cormorant text-2xl font-600 text-deep mb-2 group-hover:text-primary transition-colors duration-200">The New Luxury Mindset</h3>
-        <p class="font-montserrat text-sm font-300 text-deep/55 leading-relaxed">Slow fashion, considered purchases, and why fewer things done better defines our era.</p>
-      </article>
-    </div>
-  </section>
-
-  <!-- ──────────── NEWSLETTER ──────────── -->
-  <section id="contact" class="py-24 px-6">
-    <div class="max-w-3xl mx-auto text-center reveal">
-      <div class="glass rounded-3xl p-12 md:p-16 relative overflow-hidden">
-        <div class="orb w-64 h-64 bg-primary/20 -top-16 -right-16"></div>
-        <div class="orb w-48 h-48 bg-secondary/15 -bottom-10 -left-10"></div>
-        <div class="relative z-10">
-          <p class="font-montserrat text-xs tracking-[0.3em] uppercase text-primary mb-4">Stay Close</p>
-          <h2 class="font-cormorant text-[clamp(32px,5vw,56px)] font-700 text-deep leading-tight mb-4">
-            Join the AB Inner Circle
-          </h2>
-          <p class="font-montserrat text-[15px] font-300 text-deep/60 max-w-md mx-auto mb-10">
-            Early access to new collections, exclusive styling notes, and invitations to private events.
-          </p>
-          <form class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto" onsubmit="handleSubscribe(event)">
-            <label for="email-input" class="sr-only">Email address</label>
-            <input
-              id="email-input"
-              type="email"
-              placeholder="your@email.com"
-              required
-              class="flex-1 bg-white/80 border border-primary/20 rounded-full px-6 py-3.5 font-montserrat text-sm text-deep placeholder:text-deep/35 outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition-all duration-200"
-            />
-            <button type="submit" class="bg-primary text-white font-montserrat font-600 text-sm tracking-[0.1em] uppercase px-8 py-3.5 rounded-full hover:bg-deep transition-colors duration-300 cursor-pointer whitespace-nowrap">
-              Subscribe
-            </button>
-          </form>
-          <p id="subscribe-msg" class="font-montserrat text-xs text-primary mt-4 h-4 transition-opacity duration-300 opacity-0"></p>
-          <p class="font-montserrat text-[11px] text-deep/35 mt-6">No spam. Unsubscribe at any time.</p>
-        </div>
+      <div>
+        <p class="f-col-title">المتجر</p>
+        <ul class="f-links">
+          <li><a href="#">وصول جديد</a></li>
+          <li><a href="#">المجموعات</a></li>
+          <li><a href="#">أوفرسايز</a></li>
+          <li><a href="#">هودي</a></li>
+          <li><a href="#">تيشيرتات</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="f-col-title">الشركة</p>
+        <ul class="f-links">
+          <li><a href="#">عن AB</a></li>
+          <li><a href="#">بياننا</a></li>
+          <li><a href="#">وظائف</a></li>
+          <li><a href="#">المدونة</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="f-col-title">تابعنا</p>
+        <ul class="f-links">
+          <li><a href="#">إنستغرام</a></li>
+          <li><a href="#">تيك توك</a></li>
+          <li><a href="#">سناب شات</a></li>
+          <li><a href="#">تويتر / X</a></li>
+        </ul>
       </div>
     </div>
-  </section>
-
-  <!-- ──────────── FOOTER ──────────── -->
-  <footer class="border-t border-primary/10 py-16 px-6">
-    <div class="max-w-7xl mx-auto">
-      <!-- Top row -->
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-10 mb-14">
-        <!-- Brand -->
-        <div class="col-span-2 md:col-span-1">
-          <p class="font-cormorant text-5xl font-700 tracking-widest text-deep mb-4">AB</p>
-          <p class="font-montserrat text-sm font-300 text-deep/50 leading-relaxed max-w-xs">
-            Luxury fashion rooted in craftsmanship and intention.
-          </p>
-        </div>
-        <!-- Shop -->
-        <div>
-          <p class="font-montserrat text-[10px] tracking-[0.3em] uppercase text-primary mb-5">Shop</p>
-          <ul class="space-y-3">
-            <li><a href="#" class="font-montserrat text-sm text-deep/60 hover:text-primary transition-colors cursor-pointer">New Arrivals</a></li>
-            <li><a href="#" class="font-montserrat text-sm text-deep/60 hover:text-primary transition-colors cursor-pointer">Collections</a></li>
-            <li><a href="#" class="font-montserrat text-sm text-deep/60 hover:text-primary transition-colors cursor-pointer">Accessories</a></li>
-            <li><a href="#" class="font-montserrat text-sm text-deep/60 hover:text-primary transition-colors cursor-pointer">Sale</a></li>
-          </ul>
-        </div>
-        <!-- Company -->
-        <div>
-          <p class="font-montserrat text-[10px] tracking-[0.3em] uppercase text-primary mb-5">Company</p>
-          <ul class="space-y-3">
-            <li><a href="#about"    class="font-montserrat text-sm text-deep/60 hover:text-primary transition-colors cursor-pointer">About</a></li>
-            <li><a href="#editorial" class="font-montserrat text-sm text-deep/60 hover:text-primary transition-colors cursor-pointer">Editorial</a></li>
-            <li><a href="#" class="font-montserrat text-sm text-deep/60 hover:text-primary transition-colors cursor-pointer">Careers</a></li>
-            <li><a href="#" class="font-montserrat text-sm text-deep/60 hover:text-primary transition-colors cursor-pointer">Press</a></li>
-          </ul>
-        </div>
-        <!-- Follow -->
-        <div>
-          <p class="font-montserrat text-[10px] tracking-[0.3em] uppercase text-primary mb-5">Follow</p>
-          <div class="flex flex-col gap-3">
-            <!-- Instagram -->
-            <a href="#" class="flex items-center gap-3 font-montserrat text-sm text-deep/60 hover:text-primary transition-colors cursor-pointer group">
-              <svg class="w-4 h-4 group-hover:text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                <rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
-              </svg>
-              Instagram
-            </a>
-            <!-- Pinterest -->
-            <a href="#" class="flex items-center gap-3 font-montserrat text-sm text-deep/60 hover:text-primary transition-colors cursor-pointer group">
-              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                <path d="M12 2C6.48 2 2 6.48 2 12c0 4.24 2.65 7.86 6.39 9.29-.09-.78-.17-1.98.03-2.83.19-.77 1.28-5.43 1.28-5.43s-.33-.65-.33-1.62c0-1.52.88-2.65 1.97-2.65.93 0 1.38.7 1.38 1.54 0 .94-.6 2.34-.91 3.64-.26 1.09.54 1.97 1.6 1.97 1.92 0 3.2-2.46 3.2-5.37 0-2.22-1.5-3.88-4.22-3.88-3.07 0-4.97 2.29-4.97 4.84 0 .88.26 1.5.66 1.98.18.22.2.31.14.56-.05.18-.16.63-.2.8-.06.26-.25.35-.46.25-1.31-.54-1.92-1.99-1.92-3.61 0-2.68 2.26-5.9 6.74-5.9 3.6 0 5.98 2.6 5.98 5.4 0 3.7-2.17 6.47-5.36 6.47-1.07 0-2.08-.57-2.43-1.22l-.66 2.53c-.24.9-.88 2.02-1.31 2.7.98.3 2.02.47 3.1.47 5.52 0 10-4.48 10-10S17.52 2 12 2z"/>
-              </svg>
-              Pinterest
-            </a>
-            <!-- TikTok -->
-            <a href="#" class="flex items-center gap-3 font-montserrat text-sm text-deep/60 hover:text-primary transition-colors cursor-pointer group">
-              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/>
-              </svg>
-              TikTok
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Bottom row -->
-      <div class="border-t border-primary/10 pt-8 flex flex-col md:flex-row justify-between gap-4 items-center">
-        <p class="font-montserrat text-xs text-deep/35">© 2025 AB Fashion House. All rights reserved.</p>
-        <div class="flex gap-6">
-          <a href="#" class="font-montserrat text-xs text-deep/35 hover:text-primary transition-colors cursor-pointer">Privacy</a>
-          <a href="#" class="font-montserrat text-xs text-deep/35 hover:text-primary transition-colors cursor-pointer">Terms</a>
-          <a href="#" class="font-montserrat text-xs text-deep/35 hover:text-primary transition-colors cursor-pointer">Cookies</a>
-        </div>
-      </div>
+    <div class="footer-bottom">
+      <span>© ٢٠٢٥ AB — جميع الحقوق محفوظة</span>
+      <span>صُنع بنيّة <span class="f-neon-dot">✦</span></span>
     </div>
   </footer>
 
-  <!-- ──────────── SCRIPTS ──────────── -->
   <script>
-    // ── Scroll reveal ──────────────────────────────────────
-    const observer = new IntersectionObserver(
-      entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } }),
-      { threshold: 0.12 }
-    );
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    // Scroll reveal
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('in');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-    // ── Navbar shrink on scroll ────────────────────────────
-    const navbar = document.getElementById('navbar');
+    // Navbar scroll tint
     window.addEventListener('scroll', () => {
-      if (window.scrollY > 60) {
-        navbar.classList.add('py-2');
-        navbar.classList.remove('py-3');
-      } else {
-        navbar.classList.add('py-3');
-        navbar.classList.remove('py-2');
-      }
+      document.getElementById('navbar').classList.toggle('scrolled', scrollY > 60);
+    }, { passive: true });
+
+    // Size selector
+    document.querySelectorAll('.sz').forEach(btn => {
+      btn.addEventListener('click', () => {
+        btn.closest('.size-row').querySelectorAll('.sz').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
     });
-
-    // ── Mobile menu ────────────────────────────────────────
-    const menu    = document.getElementById('mobile-menu');
-    const btnOpen = document.getElementById('menu-btn');
-    const btnClose = document.getElementById('menu-close');
-    const openMenu  = () => { menu.classList.remove('translate-x-full'); document.body.style.overflow = 'hidden'; };
-    const closeMenu = () => { menu.classList.add('translate-x-full');    document.body.style.overflow = '';       };
-    btnOpen.addEventListener('click', openMenu);
-    btnClose.addEventListener('click', closeMenu);
-    document.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', closeMenu));
-
-    // ── Newsletter ─────────────────────────────────────────
-    function handleSubscribe(e) {
-      e.preventDefault();
-      const msg = document.getElementById('subscribe-msg');
-      msg.textContent = 'Welcome to the AB Inner Circle.';
-      msg.style.opacity = '1';
-      e.target.reset();
-      setTimeout(() => { msg.style.opacity = '0'; }, 4000);
-    }
   </script>
 </body>
 </html>

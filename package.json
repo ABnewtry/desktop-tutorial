@@ -8,5 +8,8 @@
   },
   "devDependencies": {
     "tailwindcss": "^3.4.19"
+  },
+  "dependencies": {
+    "ws": "^8.21.0"
   }
 }
