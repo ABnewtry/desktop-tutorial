@@ -1,0 +1,169 @@
+{%- comment -%}
+  ════════════════════════════════════════════════
+  AB — قسم الصفحة الرئيسية (Hero + المجموعات)
+  الصقه في: Online Store → Themes → Edit code → Sections → Add a new section
+  سمّه: ab-home  ثم الصق كل هذا المحتوى واحفظ.
+  بعدها: Customize → Add section → AB — الصفحة الرئيسية
+  ════════════════════════════════════════════════
+{%- endcomment -%}
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+
+<style>
+  .ab-wrap {
+    --ab-black:#080808; --ab-neon:#AAFF00; --ab-silver:#AAAAAA;
+    --ab-white:#F0F0F0; --ab-border:#252525;
+    background:var(--ab-black); color:var(--ab-white);
+    font-family:'Cairo',sans-serif; direction:rtl;
+    margin:0; padding:0; overflow:hidden;
+  }
+
+  /* ===== HERO ===== */
+  .ab-hero{
+    min-height:88vh; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; position:relative;
+  }
+  .ab-hero::before{
+    content:''; position:absolute; inset:0;
+    background-image:
+      linear-gradient(rgba(170,255,0,.04) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(170,255,0,.04) 1px,transparent 1px);
+    background-size:70px 70px; pointer-events:none;
+  }
+  .ab-glow{
+    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    width:55vw; height:55vw; max-width:650px;
+    background:radial-gradient(ellipse,rgba(170,255,0,.07),transparent 65%);
+    animation:ab-pulse 5s ease-in-out infinite; pointer-events:none;
+  }
+  @keyframes ab-pulse{0%,100%{opacity:.7;transform:translate(-50%,-50%) scale(1)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.1)}}
+
+  .ab-kicker{font-size:.7rem;font-weight:600;letter-spacing:.35em;color:var(--ab-neon);margin-bottom:1.4rem;animation:ab-up 1s .1s both}
+  .ab-logo{
+    font-size:clamp(6rem,20vw,16rem); font-weight:900; line-height:1;
+    color:var(--ab-white); position:relative; animation:ab-in 1s .2s cubic-bezier(.16,1,.3,1) both;
+  }
+  .ab-logo::before,.ab-logo::after{content:attr(data-t);position:absolute;top:0;left:0;right:0;text-align:center}
+  .ab-logo::before{color:var(--ab-neon);clip-path:polygon(0 25%,100% 25%,100% 45%,0 45%);animation:ab-g1 4s infinite}
+  .ab-logo::after{color:#ff2d6e;clip-path:polygon(0 62%,100% 62%,100% 78%,0 78%);animation:ab-g2 4s infinite}
+  @keyframes ab-g1{0%,88%,100%{transform:none;opacity:0}89%{transform:translateX(-5px);opacity:.85}91%{transform:translateX(5px);opacity:.85}93%{opacity:0}}
+  @keyframes ab-g2{0%,85%,100%{transform:none;opacity:0}86%{transform:translateX(7px);opacity:.7}88%{transform:translateX(-7px);opacity:.7}90%{opacity:0}}
+  @keyframes ab-in{from{opacity:0;transform:scale(.88) translateY(25px)}to{opacity:1;transform:none}}
+  @keyframes ab-up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+
+  .ab-tag{font-size:clamp(1rem,2.6vw,1.7rem);font-weight:300;letter-spacing:.22em;color:var(--ab-silver);margin-top:.4rem;animation:ab-up 1s .45s both}
+  .ab-tag strong{color:var(--ab-neon);font-weight:700}
+  .ab-cta{display:flex;gap:1rem;margin-top:2.6rem;flex-wrap:wrap;justify-content:center;animation:ab-up 1s .65s both}
+  .ab-btn{background:var(--ab-neon);color:#000;font-family:'Cairo';font-size:.78rem;font-weight:700;letter-spacing:.2em;padding:.9rem 2.3rem;border:none;cursor:pointer;text-decoration:none;transition:.2s;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)}
+  .ab-btn:hover{background:#fff;transform:translateY(-2px)}
+  .ab-btn-ghost{background:transparent;color:var(--ab-white);border:1px solid var(--ab-border);clip-path:none;padding:.9rem 2.3rem;font-weight:600}
+  .ab-btn-ghost:hover{border-color:var(--ab-neon);color:var(--ab-neon);background:transparent}
+
+  /* ===== TICKER ===== */
+  .ab-ticker{background:var(--ab-neon);overflow:hidden;padding:.7rem 0;white-space:nowrap}
+  .ab-ticker-track{display:inline-flex;animation:ab-scroll 22s linear infinite}
+  .ab-ticker-item{font-size:.73rem;font-weight:700;letter-spacing:.22em;padding:0 1.8rem;color:#000}
+  @keyframes ab-scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  /* ===== PRODUCTS ===== */
+  .ab-products{padding:5rem 2rem;max-width:1340px;margin:0 auto}
+  .ab-sec-tag{font-size:.68rem;font-weight:600;letter-spacing:.32em;color:var(--ab-neon);margin-bottom:.8rem}
+  .ab-sec-title{font-size:clamp(2rem,5vw,3.5rem);font-weight:900;color:var(--ab-white);margin:0 0 2.5rem}
+  .ab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:2px;background:var(--ab-border)}
+  .ab-card{background:var(--ab-black);position:relative;overflow:hidden;text-decoration:none;color:inherit;display:block}
+  .ab-card-img{aspect-ratio:3/4;background:#141414;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+  .ab-card-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+  .ab-card:hover .ab-card-img img{transform:scale(1.06)}
+  .ab-card-ghost{font-size:4rem;font-weight:900;color:rgba(170,255,0,.05)}
+  .ab-card::after{content:'';position:absolute;inset:0;border:1px solid var(--ab-neon);opacity:0;transition:.3s;pointer-events:none}
+  .ab-card:hover::after{opacity:1}
+  .ab-card-info{padding:1.2rem}
+  .ab-card-cat{font-size:.6rem;font-weight:600;letter-spacing:.25em;color:var(--ab-neon);margin-bottom:.4rem}
+  .ab-card-name{font-size:1rem;font-weight:700;color:var(--ab-white);margin-bottom:.3rem}
+  .ab-card-price{font-size:.95rem;color:var(--ab-neon);font-weight:600}
+
+  @media(max-width:640px){.ab-grid{grid-template-columns:1fr 1fr}}
+  @media(prefers-reduced-motion:reduce){.ab-wrap *{animation-duration:.01ms!important}}
+</style>
+
+<div class="ab-wrap">
+
+  <!-- HERO -->
+  <section class="ab-hero">
+    <div class="ab-glow"></div>
+    <p class="ab-kicker">● {{ section.settings.kicker }}</p>
+    <div class="ab-logo" data-t="{{ section.settings.logo_text }}">{{ section.settings.logo_text }}</div>
+    <p class="ab-tag">{{ section.settings.tagline }}</p>
+    <div class="ab-cta">
+      <a href="{{ section.settings.btn1_link }}" class="ab-btn">{{ section.settings.btn1_text }}</a>
+      <a href="{{ section.settings.btn2_link }}" class="ab-btn ab-btn-ghost">{{ section.settings.btn2_text }}</a>
+    </div>
+  </section>
+
+  <!-- TICKER -->
+  <div class="ab-ticker">
+    <div class="ab-ticker-track">
+      {%- for i in (1..2) -%}
+        <span class="ab-ticker-item">ارتدِ موقفك</span>
+        <span class="ab-ticker-item">✦ وصول جديد</span>
+        <span class="ab-ticker-item">✦ مجموعة SS25</span>
+        <span class="ab-ticker-item">✦ صُنع بنيّة</span>
+        <span class="ab-ticker-item">✦ WEAR YOUR ATTITUDE ✦</span>
+      {%- endfor -%}
+    </div>
+  </div>
+
+  <!-- PRODUCTS -->
+  <section class="ab-products">
+    <p class="ab-sec-tag">{{ section.settings.products_tag }}</p>
+    <h2 class="ab-sec-title">{{ section.settings.products_title }}</h2>
+    <div class="ab-grid">
+      {%- assign coll = collections[section.settings.collection] -%}
+      {%- for product in coll.products limit: section.settings.products_count -%}
+        <a href="{{ product.url }}" class="ab-card">
+          <div class="ab-card-img">
+            {%- if product.featured_image -%}
+              <img src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.title | escape }}" loading="lazy">
+            {%- else -%}
+              <span class="ab-card-ghost">AB</span>
+            {%- endif -%}
+          </div>
+          <div class="ab-card-info">
+            <p class="ab-card-cat">{{ product.type | default: 'AB' }}</p>
+            <p class="ab-card-name">{{ product.title }}</p>
+            <p class="ab-card-price">{{ product.price | money }}</p>
+          </div>
+        </a>
+      {%- else -%}
+        <p style="color:#555;padding:2rem">لا توجد منتجات في هذا التصنيف بعد. اختر تصنيفاً من إعدادات القسم.</p>
+      {%- endfor -%}
+    </div>
+  </section>
+
+</div>
+
+{% schema %}
+{
+  "name": "AB — الصفحة الرئيسية",
+  "tag": "section",
+  "class": "ab-section",
+  "settings": [
+    { "type": "header", "content": "الهيرو" },
+    { "type": "text", "id": "logo_text", "label": "نص الشعار", "default": "AB" },
+    { "type": "text", "id": "kicker", "label": "النص العلوي", "default": "مجموعة صيف وربيع ٢٠٢٥" },
+    { "type": "text", "id": "tagline", "label": "الشعار النصي", "default": "ارتدِ موقفك" },
+    { "type": "text", "id": "btn1_text", "label": "زر ١ - نص", "default": "اكتشف المجموعة" },
+    { "type": "url", "id": "btn1_link", "label": "زر ١ - رابط" },
+    { "type": "text", "id": "btn2_text", "label": "زر ٢ - نص", "default": "وصول جديد" },
+    { "type": "url", "id": "btn2_link", "label": "زر ٢ - رابط" },
+    { "type": "header", "content": "قسم المنتجات" },
+    { "type": "text", "id": "products_tag", "label": "العنوان الصغير", "default": "وصول جديد" },
+    { "type": "text", "id": "products_title", "label": "العنوان", "default": "اكتشف أسلوبك" },
+    { "type": "collection", "id": "collection", "label": "التصنيف المعروض" },
+    { "type": "range", "id": "products_count", "label": "عدد المنتجات", "min": 2, "max": 12, "step": 1, "default": 8 }
+  ],
+  "presets": [
+    { "name": "AB — الصفحة الرئيسية" }
+  ]
+}
+{% endschema %}
