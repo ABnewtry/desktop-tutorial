@@ -1,0 +1,174 @@
+{%- comment -%}
+  ════════════════════════════════════════════════
+  AB — هيرو بخلفية فيديو
+  ────────────────────────────────────────────────
+  التركيب:
+   1) Online Store → Themes → ⋯ → Edit code
+   2) Sections → Add a new section → سمّه: ab-hero-video
+   3) الصق كل هذا المحتوى → Save
+   4) Customize → Add section → "AB — هيرو فيديو"
+   5) ارفع الفيديو من إعدادات القسم (خيار "فيديو الخلفية")
+      أو الصق رابط mp4 مباشر من Content → Files
+  ════════════════════════════════════════════════
+{%- endcomment -%}
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+
+{%- assign vid = section.settings.bg_video -%}
+
+<style>
+  #abv-{{ section.id }}{
+    --ab-black:#080808; --ab-neon:#AAFF00; --ab-silver:#AAAAAA;
+    --ab-white:#F2F2F2;
+    position:relative; width:100%; overflow:hidden;
+    background:var(--ab-black); color:var(--ab-white);
+    font-family:'Cairo',sans-serif; direction:rtl;
+    aspect-ratio:16/9; min-height:480px; max-height:100svh;
+    display:flex; align-items:center; justify-content:center;
+  }
+  #abv-{{ section.id }} .abv-media,
+  #abv-{{ section.id }} .abv-media video,
+  #abv-{{ section.id }} .abv-media img{
+    position:absolute; inset:0; width:100%; height:100%;
+    object-fit:cover; z-index:0;
+  }
+  /* تعتيم + شبكة نيون خفيفة فوق الفيديو لقراءة النص */
+  #abv-{{ section.id }} .abv-scrim{
+    position:absolute; inset:0; z-index:1; pointer-events:none;
+    background:
+      linear-gradient(to top, rgba(8,8,8,.85) 0%, rgba(8,8,8,.35) 45%, rgba(8,8,8,.55) 100%),
+      linear-gradient(rgba(170,255,0,.035) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(170,255,0,.035) 1px,transparent 1px);
+    background-size:auto, 64px 64px, 64px 64px;
+  }
+  #abv-{{ section.id }} .abv-inner{
+    position:relative; z-index:2; text-align:center; padding:2rem 1.5rem;
+    max-width:1100px; margin:0 auto;
+  }
+  #abv-{{ section.id }} .abv-kicker{
+    font-size:.72rem; font-weight:700; letter-spacing:.38em;
+    color:var(--ab-neon); margin:0 0 1.2rem;
+    animation:abv-up 1s .1s both;
+  }
+  #abv-{{ section.id }} .abv-title{
+    font-family:'Bebas Neue',sans-serif; direction:ltr;
+    font-size:clamp(3rem,11vw,9rem); line-height:.92; margin:0;
+    letter-spacing:.02em; color:var(--ab-white);
+    text-shadow:0 4px 40px rgba(0,0,0,.6);
+    animation:abv-in 1.1s .2s cubic-bezier(.16,1,.3,1) both;
+  }
+  #abv-{{ section.id }} .abv-title b{ color:var(--ab-neon); font-weight:400; }
+  #abv-{{ section.id }} .abv-tag{
+    font-size:clamp(.95rem,2.4vw,1.5rem); font-weight:300;
+    letter-spacing:.22em; color:var(--ab-silver); margin:.8rem 0 0;
+    animation:abv-up 1s .45s both;
+  }
+  #abv-{{ section.id }} .abv-cta{
+    display:flex; gap:1rem; margin-top:2.4rem; flex-wrap:wrap;
+    justify-content:center; animation:abv-up 1s .65s both;
+  }
+  #abv-{{ section.id }} .abv-btn{
+    background:var(--ab-neon); color:#000; font-family:'Cairo',sans-serif;
+    font-size:.78rem; font-weight:700; letter-spacing:.2em;
+    padding:.95rem 2.4rem; border:none; cursor:pointer; text-decoration:none;
+    transition:.2s; clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%);
+  }
+  #abv-{{ section.id }} .abv-btn:hover{ background:#fff; transform:translateY(-2px); }
+  #abv-{{ section.id }} .abv-btn.ghost{
+    background:transparent; color:var(--ab-white);
+    border:1px solid rgba(255,255,255,.25); clip-path:none; font-weight:600;
+  }
+  #abv-{{ section.id }} .abv-btn.ghost:hover{
+    border-color:var(--ab-neon); color:var(--ab-neon); background:transparent;
+  }
+  /* زر كتم/تشغيل الصوت (يظهر فقط لو الفيديو فيه صوت ويُفعّل لاحقاً) */
+  #abv-{{ section.id }} .abv-placeholder{
+    position:absolute; inset:0; z-index:0;
+    display:flex; align-items:center; justify-content:center;
+    background:radial-gradient(ellipse at center,#141414,#080808);
+    font-family:'Bebas Neue',sans-serif; font-size:6rem;
+    color:rgba(170,255,0,.08);
+  }
+  @keyframes abv-in{from{opacity:0;transform:scale(.9) translateY(22px)}to{opacity:1;transform:none}}
+  @keyframes abv-up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+
+  @media(max-width:768px){
+    #abv-{{ section.id }}{ aspect-ratio:auto; min-height:88svh; }
+  }
+  @media(prefers-reduced-motion:reduce){
+    #abv-{{ section.id }} *{animation-duration:.01ms!important}
+  }
+</style>
+
+<section id="abv-{{ section.id }}">
+
+  <div class="abv-media">
+    {%- if vid != blank -%}
+      {{ vid | video_tag:
+           image_size: '1600x',
+           autoplay: true,
+           loop: true,
+           muted: true,
+           controls: false,
+           playsinline: true
+      }}
+    {%- elsif section.settings.video_url != blank -%}
+      <video autoplay loop muted playsinline preload="auto"
+             {% if section.settings.poster != blank %}poster="{{ section.settings.poster | image_url: width: 1600 }}"{% endif %}>
+        <source src="{{ section.settings.video_url }}" type="video/mp4">
+      </video>
+    {%- else -%}
+      <div class="abv-placeholder">AB</div>
+    {%- endif -%}
+  </div>
+
+  <div class="abv-scrim"></div>
+
+  <div class="abv-inner">
+    {%- if section.settings.kicker != blank -%}
+      <p class="abv-kicker">● {{ section.settings.kicker }}</p>
+    {%- endif -%}
+
+    <h1 class="abv-title">{{ section.settings.title }}</h1>
+
+    {%- if section.settings.tagline != blank -%}
+      <p class="abv-tag">{{ section.settings.tagline }}</p>
+    {%- endif -%}
+
+    <div class="abv-cta">
+      {%- if section.settings.btn1_text != blank -%}
+        <a href="{{ section.settings.btn1_link | default: '#' }}" class="abv-btn">{{ section.settings.btn1_text }}</a>
+      {%- endif -%}
+      {%- if section.settings.btn2_text != blank -%}
+        <a href="{{ section.settings.btn2_link | default: '#' }}" class="abv-btn ghost">{{ section.settings.btn2_text }}</a>
+      {%- endif -%}
+    </div>
+  </div>
+
+</section>
+
+{% schema %}
+{
+  "name": "AB — هيرو فيديو",
+  "tag": "section",
+  "class": "ab-hero-video-section",
+  "settings": [
+    { "type": "header", "content": "فيديو الخلفية" },
+    { "type": "video", "id": "bg_video", "label": "فيديو الخلفية (ارفعه هنا)" },
+    { "type": "text", "id": "video_url", "label": "أو الصق رابط mp4 مباشر", "info": "من Content → Files بعد رفع الفيديو — انسخ رابط الملف هنا كبديل." },
+    { "type": "image_picker", "id": "poster", "label": "صورة الغلاف (تظهر قبل تحميل الفيديو)" },
+    { "type": "header", "content": "النصوص" },
+    { "type": "text", "id": "kicker", "label": "النص العلوي", "default": "مجموعة صيف وربيع ٢٠٢٥" },
+    { "type": "text", "id": "title", "label": "العنوان الكبير", "default": "WEAR YOUR ATTITUDE" },
+    { "type": "text", "id": "tagline", "label": "الشعار النصي", "default": "ارتدِ موقفك" },
+    { "type": "header", "content": "الأزرار" },
+    { "type": "text", "id": "btn1_text", "label": "زر ١ - نص", "default": "اكتشف المجموعة" },
+    { "type": "url", "id": "btn1_link", "label": "زر ١ - رابط" },
+    { "type": "text", "id": "btn2_text", "label": "زر ٢ - نص", "default": "وصول جديد" },
+    { "type": "url", "id": "btn2_link", "label": "زر ٢ - رابط" }
+  ],
+  "presets": [
+    { "name": "AB — هيرو فيديو" }
+  ]
+}
+{% endschema %}
