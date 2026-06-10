@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AB — Design 2 — Cinematic List</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+  :root{--black:#080808;--neon:#AAFF00;--silver:#9a9a9a;--white:#F2F2F2;--border:#1a1a1a}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--black);color:var(--white);font-family:'Cairo',sans-serif}
+  .wrap{max-width:1500px;margin:0 auto;padding:3rem 2.5rem 5rem}
+  .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:3rem}
+  .logo{font-family:'Bebas Neue';font-size:2rem;letter-spacing:.05em}.logo b{color:var(--neon)}
+  .navlinks{display:flex;gap:1.6rem;font-size:.8rem;color:var(--silver)}.navlinks span:first-child{color:var(--neon)}
+  .head{margin-bottom:1rem}
+  .head .tag{font-size:.7rem;font-weight:700;letter-spacing:.34em;color:var(--neon);margin-bottom:.6rem}
+  .head h1{font-family:'Bebas Neue';font-size:clamp(2.8rem,7vw,5rem);line-height:.95}
+
+  .row{display:grid;grid-template-columns:1fr 1fr;align-items:center;border-bottom:1px solid var(--border);min-height:62vh;position:relative}
+  .row:nth-child(even){direction:ltr}
+  .row .media{height:100%;min-height:62vh;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
+  .row .media .emblem{font-family:'Bebas Neue';font-size:12rem;color:rgba(170,255,0,.05)}
+  .row .txt{padding:3rem;direction:rtl}
+  .row .idx{font-family:'Bebas Neue';font-size:1.4rem;color:#333;margin-bottom:1rem}
+  .row .cat{font-size:.66rem;font-weight:600;letter-spacing:.28em;color:var(--neon);margin-bottom:.8rem}
+  .row .name{font-family:'Bebas Neue';font-size:clamp(2.6rem,6vw,5rem);line-height:.9;margin-bottom:1rem}
+  .row .desc{color:var(--silver);font-size:.86rem;line-height:1.8;max-width:380px;margin-bottom:1.4rem}
+  .row .price{font-size:1.3rem;color:var(--neon);font-weight:700;margin-bottom:1.4rem}
+  .btn{background:var(--neon);color:#000;font-weight:700;font-size:.74rem;letter-spacing:.18em;padding:.95rem 2rem;border:none;cursor:pointer;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)}
+  .badge{position:absolute;top:1.4rem;inset-inline-start:1.4rem;background:var(--neon);color:#000;font-size:.6rem;font-weight:700;letter-spacing:.16em;padding:.4rem .9rem;z-index:2}
+
+  .t1{background:radial-gradient(ellipse at 50% 40%,#162600,#080808)}
+  .t2{background:radial-gradient(ellipse at 50% 40%,#261600,#080808)}
+  .t3{background:radial-gradient(ellipse at 50% 40%,#00161f,#080808)}
+  .t4{background:radial-gradient(ellipse at 50% 40%,#1f0016,#080808)}
+  .t5{background:radial-gradient(ellipse at 50% 40%,#1d1d1d,#080808)}
+  .t6{background:radial-gradient(ellipse at 50% 40%,#101810,#080808)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="logo">A<b>B</b></div>
+    <div class="navlinks"><span>المنتجات</span><span>طلب مسبق</span><span>عن AB</span></div>
+  </div>
+  <div class="head">
+    <p class="tag">● المجموعة الأولى · ٦ قطع</p>
+    <h1>THE DROP</h1>
+  </div>
+
+  <div class="row">
+    <div class="media t1"><span class="badge">القطعة المميزة</span><span class="emblem">AB</span></div>
+    <div class="txt"><div class="idx">01 / 06</div><p class="cat">هودي · OVERSIZED</p><h2 class="name">SIGNATURE<br>HOODIE</h2><p class="desc">هودي ثقيل بقصّة واسعة وشعار AB المطرّز.</p><div class="price">٣٤٩ ر.س</div><button class="btn">أضف للسلة</button></div>
+  </div>
+  <div class="row">
+    <div class="media t2"><span class="emblem">AB</span></div>
+    <div class="txt"><div class="idx">02 / 06</div><p class="cat">تيشيرت</p><h2 class="name">ATTITUDE<br>TEE</h2><p class="desc">تيشيرت قطن ثقيل بطبعة جريئة على الظهر.</p><div class="price">١٤٩ ر.س</div><button class="btn">أضف للسلة</button></div>
+  </div>
+  <div class="row">
+    <div class="media t3"><span class="emblem">AB</span></div>
+    <div class="txt"><div class="idx">03 / 06</div><p class="cat">كارجو</p><h2 class="name">NEON<br>CARGO</h2><p class="desc">بنطال كارجو بجيوب متعددة وخيط نيون.</p><div class="price">٢٩٩ ر.س</div><button class="btn">أضف للسلة</button></div>
+  </div>
+</div>
+</body>
+</html>

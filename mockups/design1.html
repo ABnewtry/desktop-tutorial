@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AB — Design 1 — Editorial Grid</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+  :root{--black:#080808;--neon:#AAFF00;--silver:#9a9a9a;--white:#F2F2F2;--border:#1c1c1c;--card:#101010}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--black);color:var(--white);font-family:'Cairo',sans-serif}
+  .wrap{max-width:1340px;margin:0 auto;padding:3rem 2rem 5rem}
+  .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:3rem}
+  .logo{font-family:'Bebas Neue';font-size:2rem;letter-spacing:.05em}
+  .logo b{color:var(--neon)}
+  .navlinks{display:flex;gap:1.6rem;font-size:.8rem;color:var(--silver)}
+  .navlinks span:first-child{color:var(--neon)}
+  .head{margin-bottom:2.6rem}
+  .head .tag{font-size:.7rem;font-weight:700;letter-spacing:.34em;color:var(--neon);margin-bottom:.7rem}
+  .head h1{font-family:'Bebas Neue';font-size:clamp(2.8rem,7vw,5rem);line-height:.95;letter-spacing:.02em}
+  .head .sub{color:var(--silver);font-size:.9rem;margin-top:.5rem;letter-spacing:.1em}
+
+  /* HERO PRODUCT */
+  .hero-prod{display:grid;grid-template-columns:1.4fr 1fr;gap:2px;background:var(--border);margin-bottom:2px}
+  .hero-img{aspect-ratio:4/3;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;
+    background:radial-gradient(ellipse at 60% 40%,#1a1a1a,#0a0a0a)}
+  .hero-img .emblem{font-family:'Bebas Neue';font-size:13rem;color:rgba(170,255,0,.06);letter-spacing:.05em}
+  .hero-img .badge{position:absolute;top:1.2rem;right:1.2rem;background:var(--neon);color:#000;font-size:.62rem;font-weight:700;letter-spacing:.18em;padding:.4rem .9rem}
+  .hero-info{background:var(--card);padding:2.5rem;display:flex;flex-direction:column;justify-content:center}
+  .hero-info .cat{font-size:.65rem;font-weight:600;letter-spacing:.28em;color:var(--neon);margin-bottom:1rem}
+  .hero-info h2{font-family:'Bebas Neue';font-size:3.2rem;line-height:1;margin-bottom:1rem}
+  .hero-info p{color:var(--silver);font-size:.88rem;line-height:1.8;margin-bottom:1.6rem}
+  .hero-info .price{font-size:1.4rem;color:var(--neon);font-weight:700;margin-bottom:1.6rem}
+  .btn{background:var(--neon);color:#000;font-weight:700;font-size:.74rem;letter-spacing:.18em;padding:1rem 2rem;border:none;cursor:pointer;text-align:center;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%);width:fit-content}
+
+  /* GRID 5 */
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--border)}
+  .card{background:var(--card);position:relative;overflow:hidden}
+  .card-img{aspect-ratio:3/4;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .card-img .emblem{font-family:'Bebas Neue';font-size:5rem;color:rgba(255,255,255,.04)}
+  .card-img .badge{position:absolute;top:.8rem;right:.8rem;background:rgba(0,0,0,.6);border:1px solid var(--neon);color:var(--neon);font-size:.55rem;font-weight:700;letter-spacing:.12em;padding:.3rem .6rem}
+  .card-info{padding:1.1rem}
+  .card-info .cat{font-size:.58rem;font-weight:600;letter-spacing:.22em;color:var(--neon);margin-bottom:.35rem}
+  .card-info .name{font-size:.95rem;font-weight:700;margin-bottom:.3rem}
+  .card-info .price{font-size:.9rem;color:var(--neon);font-weight:600}
+  .card::after{content:'';position:absolute;inset:0;border:1px solid var(--neon);opacity:0;transition:.3s;pointer-events:none}
+  .card:hover::after{opacity:1}
+  /* COMING SOON CARD */
+  .soon{background:#0c0c0c;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;border:1px dashed #2a2a2a}
+  .soon .lock{font-size:2rem;margin-bottom:.8rem}
+  .soon .t{font-family:'Bebas Neue';font-size:1.8rem;color:var(--neon);letter-spacing:.04em}
+  .soon .d{font-size:.74rem;color:var(--silver);margin:.5rem 0 1rem;letter-spacing:.08em}
+  .soon a{color:var(--white);border:1px solid #2a2a2a;font-size:.66rem;letter-spacing:.16em;padding:.6rem 1.3rem;text-decoration:none}
+
+  /* swatch tones */
+  .t1{background:linear-gradient(160deg,#142400,#0a0a0a)}
+  .t2{background:linear-gradient(160deg,#241400,#0a0a0a)}
+  .t3{background:linear-gradient(160deg,#00141f,#0a0a0a)}
+  .t4{background:linear-gradient(160deg,#1f0014,#0a0a0a)}
+  .t5{background:linear-gradient(160deg,#1a1a1a,#0a0a0a)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="logo">A<b>B</b></div>
+    <div class="navlinks"><span>المنتجات</span><span>طلب مسبق</span><span>عن AB</span></div>
+  </div>
+
+  <div class="head">
+    <p class="tag">● المجموعة الأولى</p>
+    <h1>THE DROP</h1>
+    <p class="sub">٦ قطع · دفعة محدودة · ارتدِ موقفك</p>
+  </div>
+
+  <!-- HERO PRODUCT -->
+  <div class="hero-prod">
+    <div class="hero-img">
+      <span class="badge">القطعة المميزة</span>
+      <span class="emblem">AB</span>
+    </div>
+    <div class="hero-info">
+      <p class="cat">هودي · OVERSIZED</p>
+      <h2>AB SIGNATURE<br>HOODIE</h2>
+      <p>هودي ثقيل بقصّة واسعة وشعار AB المطرّز. القطعة الأساسية في المجموعة الأولى.</p>
+      <div class="price">٣٤٩ ر.س</div>
+      <button class="btn">أضف للسلة</button>
+    </div>
+  </div>
+
+  <!-- GRID -->
+  <div class="grid">
+    <div class="card"><div class="card-img t2"><span class="badge">أول دفعة</span><span class="emblem">AB</span></div><div class="card-info"><p class="cat">تيشيرت</p><p class="name">Attitude Tee</p><p class="price">١٤٩ ر.س</p></div></div>
+    <div class="card"><div class="card-img t3"><span class="emblem">AB</span></div><div class="card-info"><p class="cat">كارجو</p><p class="name">Neon Cargo Pants</p><p class="price">٢٩٩ ر.س</p></div></div>
+    <div class="card"><div class="card-img t4"><span class="emblem">AB</span></div><div class="card-info"><p class="cat">كاب</p><p class="name">AB Logo Cap</p><p class="price">٩٩ ر.س</p></div></div>
+    <div class="card"><div class="card-img t1"><span class="badge">أول دفعة</span><span class="emblem">AB</span></div><div class="card-info"><p class="cat">تيشيرت</p><p class="name">Glitch Oversized</p><p class="price">١٦٩ ر.س</p></div></div>
+    <div class="card"><div class="card-img t5"><span class="emblem">AB</span></div><div class="card-info"><p class="cat">كرو نيك</p><p class="name">Statement Crew</p><p class="price">٢٧٩ ر.س</p></div></div>
+    <div class="soon"><div class="lock">🔒</div><div class="t">الدفعة القادمة</div><div class="d">قطع جديدة قريباً</div><a href="#">سجّل اهتمامك</a></div>
+  </div>
+</div>
+</body>
+</html>
