@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AB — معرض التصاميم</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+:root{--bk:#080808;--nn:#AAFF00;--sv:#8c8c8c;--wh:#F2F2F2;--bd:#1c1c1c}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bk);color:var(--wh);font-family:'Cairo',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:3rem 1.5rem}
+h1{font-family:'Bebas Neue';font-size:clamp(2.6rem,7vw,4.6rem);margin-bottom:.4rem;animation:up .8s both}
+h1 b{color:var(--nn)}
+.sub{color:var(--sv);font-size:.9rem;letter-spacing:.14em;margin-bottom:3rem;animation:up .8s .15s both}
+@keyframes up{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+.ls{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;max-width:900px;width:100%}
+a.it{border:1px solid var(--bd);padding:1.8rem 1.5rem;text-decoration:none;color:var(--wh);transition:.3s;position:relative;overflow:hidden;opacity:0;animation:up .7s both}
+a.it:nth-child(1){animation-delay:.25s}a.it:nth-child(2){animation-delay:.35s}a.it:nth-child(3){animation-delay:.45s}
+a.it:nth-child(4){animation-delay:.55s}a.it:nth-child(5){animation-delay:.65s}a.it:nth-child(6){animation-delay:.75s}
+a.it:hover{border-color:var(--nn);transform:translateY(-5px)}
+a.it .n{font-family:'Bebas Neue';font-size:2.4rem;color:var(--nn);line-height:1}
+a.it .t{font-weight:700;font-size:1rem;margin-top:.5rem}
+a.it .d{color:var(--sv);font-size:.74rem;margin-top:.3rem;line-height:1.6}
+@media(max-width:760px){.ls{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.ls{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+  <h1>A<b>B</b> · معرض التصاميم</h1>
+  <p class="sub">صفحة المنتجات — 6 اتجاهات · اضغط أي تصميم لتجربته بالحركة الكاملة</p>
+  <div class="ls">
+    <a class="it" href="design1.html"><div class="n">01</div><div class="t">HERO DROP</div><div class="d">منتج بطل + شبكة + بطاقة الدفعة القادمة</div></a>
+    <a class="it" href="design2.html"><div class="n">02</div><div class="t">CINEMATIC LIST</div><div class="d">صفوف سينمائية ضخمة + شريط متحرك</div></a>
+    <a class="it" href="design3.html"><div class="n">03</div><div class="t">MINIMAL FLOAT</div><div class="d">شبكة نظيفة عائمة + إضافة سريعة</div></a>
+    <a class="it" href="design4.html"><div class="n">04</div><div class="t">BENTO GRID</div><div class="d">بينتو عصري بخلايا متفاوتة + CTA نيون</div></a>
+    <a class="it" href="design5.html"><div class="n">05</div><div class="t">RUNWAY</div><div class="d">منصّة عرض أفقية بسحب + خط نيون متحرك</div></a>
+    <a class="it" href="design6.html"><div class="n">06</div><div class="t">SPLIT LOOKBOOK</div><div class="d">لوحة جانبية ثابتة + لوك بوك متعرّج</div></a>
+  </div>
+</body>
+</html>

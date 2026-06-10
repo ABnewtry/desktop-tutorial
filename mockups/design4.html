@@ -1,72 +1,94 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AB — Design 4 — Filters + Ticker</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AB — 04 · BENTO GRID</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Bebas+Neue&display=swap" rel="stylesheet">
 <style>
-  :root{--black:#080808;--neon:#AAFF00;--silver:#8c8c8c;--white:#F2F2F2;--border:#1a1a1a;--card:#101010}
-  *{margin:0;padding:0;box-sizing:border-box}
-  body{background:var(--black);color:var(--white);font-family:'Cairo',sans-serif}
-  .topbar{display:flex;justify-content:space-between;align-items:center;padding:1.6rem 2.5rem;max-width:1400px;margin:0 auto}
-  .logo{font-family:'Bebas Neue';font-size:2rem;letter-spacing:.05em}.logo b{color:var(--neon)}
-  .navlinks{display:flex;gap:1.6rem;font-size:.8rem;color:var(--silver)}.navlinks span:first-child{color:var(--neon)}
-  /* TICKER HEADLINE */
-  .ticker{overflow:hidden;white-space:nowrap;border-block:1px solid var(--border);padding:1.4rem 0;position:relative}
-  .ticker .track{display:inline-block;font-family:'Bebas Neue';font-size:clamp(3rem,9vw,7rem);color:rgba(255,255,255,.06);letter-spacing:.04em}
-  .ticker .track b{color:rgba(170,255,0,.12)}
-  /* FILTERS */
-  .filters{display:flex;gap:.6rem;justify-content:center;padding:2rem;flex-wrap:wrap}
-  .filters button{background:transparent;border:1px solid var(--border);color:var(--silver);font-family:'Cairo';font-size:.72rem;font-weight:600;letter-spacing:.14em;padding:.6rem 1.3rem;cursor:pointer;border-radius:40px}
-  .filters button.active{background:var(--neon);color:#000;border-color:var(--neon)}
-  /* GRID */
-  .wrap{max-width:1400px;margin:0 auto;padding:0 2.5rem 5rem}
-  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--border)}
-  .card{background:var(--card);position:relative;overflow:hidden}
-  .card-img{position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
-  .card-img .emblem{font-family:'Bebas Neue';font-size:4.5rem;color:rgba(255,255,255,.045)}
-  .badge{position:absolute;top:.8rem;right:.8rem;background:rgba(0,0,0,.55);border:1px solid var(--neon);color:var(--neon);font-size:.52rem;font-weight:700;letter-spacing:.1em;padding:.28rem .55rem;z-index:2}
-  .card-info{padding:1rem}
-  .card-info .cat{font-size:.56rem;font-weight:600;letter-spacing:.2em;color:var(--neon);margin-bottom:.3rem}
-  .card-info .name{font-size:.9rem;font-weight:700;margin-bottom:.25rem}
-  .card-info .price{font-size:.86rem;color:var(--neon);font-weight:600}
-  .card::after{content:'';position:absolute;inset:0;border:1px solid var(--neon);opacity:0;transition:.3s;pointer-events:none}
-  .card:hover::after{opacity:1}
-  /* varied heights (masonry feel) */
-  .h1{aspect-ratio:3/4}.h2{aspect-ratio:1/1}.h3{aspect-ratio:4/5}
-  .t1{background:linear-gradient(160deg,#152400,#0a0a0a)}
-  .t2{background:linear-gradient(160deg,#241500,#0a0a0a)}
-  .t3{background:linear-gradient(160deg,#00151f,#0a0a0a)}
-  .t4{background:linear-gradient(160deg,#1f0015,#0a0a0a)}
-  .t5{background:linear-gradient(160deg,#1c1c1c,#0a0a0a)}
-  .t6{background:linear-gradient(160deg,#0f180f,#0a0a0a)}
+:root{--bk:#080808;--nn:#AAFF00;--sv:#8c8c8c;--wh:#F2F2F2;--bd:#1c1c1c;--cd:#0f0f0f}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bk);color:var(--wh);font-family:'Cairo',sans-serif;overflow-x:hidden}
+.wrap{max-width:1380px;margin:0 auto;padding:2.4rem 2rem 5rem}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:2.6rem;animation:dn .8s both}
+.logo{font-family:'Bebas Neue';font-size:2rem}.logo b{color:var(--nn)}
+.nv{display:flex;gap:1.6rem;font-size:.8rem;color:var(--sv)}.nv span:first-child{color:var(--nn)}
+@keyframes dn{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:none}}
+@keyframes up{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+@keyframes zin{from{opacity:0;transform:scale(.93)}to{opacity:1;transform:none}}
+
+/* BENTO */
+.bn{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:200px;gap:14px}
+.cell{border-radius:18px;position:relative;overflow:hidden;background:var(--cd);border:1px solid var(--bd);opacity:0;animation:zin .8s both;transition:.4s}
+.cell:hover{border-color:rgba(170,255,0,.5);transform:translateY(-4px)}
+.cell:nth-child(1){animation-delay:.1s}.cell:nth-child(2){animation-delay:.2s}.cell:nth-child(3){animation-delay:.3s}
+.cell:nth-child(4){animation-delay:.4s}.cell:nth-child(5){animation-delay:.5s}.cell:nth-child(6){animation-delay:.6s}
+.cell:nth-child(7){animation-delay:.7s}.cell:nth-child(8){animation-delay:.8s}
+/* brand cell */
+.brand{grid-column:span 2;grid-row:span 1;display:flex;flex-direction:column;justify-content:center;padding:2rem;background:linear-gradient(135deg,#101400,#0a0a0a)}
+.brand .tg{font-size:.66rem;font-weight:700;letter-spacing:.3em;color:var(--nn);margin-bottom:.6rem}
+.brand h1{font-family:'Bebas Neue';font-size:clamp(2.2rem,4.5vw,3.6rem);line-height:.92}
+.brand h1 b{color:var(--nn);font-weight:400}
+.brand .sb{color:var(--sv);font-size:.78rem;margin-top:.5rem;letter-spacing:.1em}
+/* hero product cell */
+.hero{grid-column:span 2;grid-row:span 2}
+.cell .im{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.cell .em{font-family:'Bebas Neue';color:rgba(255,255,255,.05);font-size:5rem;transition:.5s}
+.hero .em{font-size:11rem;color:rgba(170,255,0,.07);animation:float 5.5s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+.cell:hover .em{transform:scale(1.12)}
+.inf{position:absolute;bottom:0;left:0;right:0;padding:1.1rem 1.3rem;background:linear-gradient(to top,rgba(0,0,0,.85),transparent);display:flex;justify-content:space-between;align-items:flex-end}
+.inf .ct{font-size:.56rem;font-weight:600;letter-spacing:.2em;color:var(--nn);margin-bottom:.25rem}
+.inf .nm{font-size:.95rem;font-weight:700}
+.hero .inf .nm{font-size:1.4rem}
+.inf .pr{font-size:.95rem;color:var(--nn);font-weight:700;white-space:nowrap}
+.bdg{position:absolute;top:1rem;right:1rem;background:var(--nn);color:#000;font-size:.56rem;font-weight:700;letter-spacing:.14em;padding:.35rem .7rem;border-radius:30px;z-index:2;animation:bl 2.4s infinite}
+@keyframes bl{0%,100%{box-shadow:0 0 0 0 rgba(170,255,0,.45)}55%{box-shadow:0 0 0 11px rgba(170,255,0,0)}}
+.bd2{position:absolute;top:1rem;right:1rem;border:1px solid var(--nn);color:var(--nn);background:rgba(8,8,8,.5);font-size:.52rem;font-weight:700;letter-spacing:.12em;padding:.3rem .6rem;border-radius:30px;z-index:2}
+/* CTA cell */
+.cta{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:var(--nn);border:none;padding:1.4rem}
+.cta:hover{transform:translateY(-4px) scale(1.01)}
+.cta .t{font-family:'Bebas Neue';font-size:1.7rem;color:#000;line-height:1}
+.cta .d{font-size:.66rem;color:#1d2b00;font-weight:700;margin:.4rem 0 .9rem;letter-spacing:.08em}
+.cta a{background:#000;color:var(--nn);font-size:.62rem;font-weight:700;letter-spacing:.14em;padding:.6rem 1.4rem;text-decoration:none;border-radius:30px}
+/* tones */
+.g1{background:radial-gradient(circle at 50% 38%,#1c2b00,#0b0b0b 78%)}
+.g2{background:radial-gradient(circle at 50% 38%,#2b1600,#0b0b0b 78%)}
+.g3{background:radial-gradient(circle at 50% 38%,#001a2b,#0b0b0b 78%)}
+.g4{background:radial-gradient(circle at 50% 38%,#2b0019,#0b0b0b 78%)}
+.g5{background:radial-gradient(circle at 50% 38%,#1d1d1d,#0b0b0b 78%)}
+@media(max-width:900px){.bn{grid-template-columns:1fr 1fr;grid-auto-rows:170px}.brand,.hero{grid-column:span 2}}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important}}
 </style>
 </head>
 <body>
-  <div class="topbar">
-    <div class="logo">A<b>B</b></div>
-    <div class="navlinks"><span>المنتجات</span><span>طلب مسبق</span><span>عن AB</span></div>
-  </div>
-  <div class="ticker"><span class="track">THE DROP · ارتدِ موقفك · <b>WEAR YOUR ATTITUDE</b> · THE DROP · ارتدِ موقفك ·</span></div>
+<div class="wrap">
+  <div class="topbar"><div class="logo">A<b>B</b></div><div class="nv"><span>المنتجات</span><span>طلب مسبق</span><span>عن AB</span></div></div>
 
-  <div class="filters">
-    <button class="active">الكل</button>
-    <button>هوديز</button>
-    <button>تيشيرتات</button>
-    <button>بناطيل</button>
-    <button>إكسسوارات</button>
-  </div>
-
-  <div class="wrap">
-    <div class="grid">
-      <div class="card"><div class="card-img h1 t1"><span class="badge">مميز</span><span class="emblem">AB</span></div><div class="card-info"><p class="cat">هودي</p><p class="name">AB Signature Hoodie</p><p class="price">٣٤٩ ر.س</p></div></div>
-      <div class="card"><div class="card-img h2 t2"><span class="emblem">AB</span></div><div class="card-info"><p class="cat">تيشيرت</p><p class="name">Attitude Tee</p><p class="price">١٤٩ ر.س</p></div></div>
-      <div class="card"><div class="card-img h3 t3"><span class="emblem">AB</span></div><div class="card-info"><p class="cat">كارجو</p><p class="name">Neon Cargo</p><p class="price">٢٩٩ ر.س</p></div></div>
-      <div class="card"><div class="card-img h2 t4"><span class="emblem">AB</span></div><div class="card-info"><p class="cat">كاب</p><p class="name">AB Logo Cap</p><p class="price">٩٩ ر.س</p></div></div>
-      <div class="card"><div class="card-img h3 t5"><span class="badge">أول دفعة</span><span class="emblem">AB</span></div><div class="card-info"><p class="cat">تيشيرت</p><p class="name">Glitch Oversized</p><p class="price">١٦٩ ر.س</p></div></div>
-      <div class="card"><div class="card-img h1 t6"><span class="emblem">AB</span></div><div class="card-info"><p class="cat">كرو نيك</p><p class="name">Statement Crew</p><p class="price">٢٧٩ ر.س</p></div></div>
+  <div class="bn">
+    <!-- brand statement -->
+    <div class="cell brand">
+      <p class="tg">● THE DROP — المجموعة الأولى</p>
+      <h1>WEAR YOUR <b>ATTITUDE</b></h1>
+      <p class="sb">٦ قطع · دفعة محدودة · ارتدِ موقفك</p>
+    </div>
+    <!-- hero product 2x2 -->
+    <div class="cell hero g1">
+      <span class="bdg">القطعة المميزة</span>
+      <div class="im"><span class="em">AB</span></div>
+      <div class="inf"><div><p class="ct">هودي · OVERSIZED</p><p class="nm">AB Signature Hoodie</p></div><p class="pr">٣٤٩ ر.س</p></div>
+    </div>
+    <div class="cell g2"><span class="bd2">أول دفعة</span><div class="im"><span class="em">AB</span></div><div class="inf"><div><p class="ct">تيشيرت</p><p class="nm">Attitude Tee</p></div><p class="pr">١٤٩</p></div></div>
+    <div class="cell g3"><div class="im"><span class="em">AB</span></div><div class="inf"><div><p class="ct">كارجو</p><p class="nm">Neon Cargo</p></div><p class="pr">٢٩٩</p></div></div>
+    <div class="cell g4"><div class="im"><span class="em">AB</span></div><div class="inf"><div><p class="ct">كاب</p><p class="nm">AB Logo Cap</p></div><p class="pr">٩٩</p></div></div>
+    <div class="cell g5"><span class="bd2">أول دفعة</span><div class="im"><span class="em">AB</span></div><div class="inf"><div><p class="ct">تيشيرت</p><p class="nm">Glitch Oversized</p></div><p class="pr">١٦٩</p></div></div>
+    <div class="cell g1"><div class="im"><span class="em">AB</span></div><div class="inf"><div><p class="ct">كرو نيك</p><p class="nm">Statement Crew</p></div><p class="pr">٢٧٩</p></div></div>
+    <!-- pre-order CTA -->
+    <div class="cell cta">
+      <div class="t">الدفعة القادمة</div>
+      <div class="d">سجّل اهتمامك الآن — كمية محدودة</div>
+      <a href="#">طلب مسبق ←</a>
     </div>
   </div>
+</div>
 </body>
 </html>
