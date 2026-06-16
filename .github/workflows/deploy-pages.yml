@@ -29,8 +29,11 @@ jobs:
           mkdir -p _site
           cp index.html _site/
           [ -f styles.css ] && cp styles.css _site/ || true
-          mkdir -p _site/mockups
+          mkdir -p _site/mockups/assets
           cp mockups/*.html _site/mockups/
+          cp -r mockups/assets/* _site/mockups/assets/ 2>/dev/null || true
+          mkdir -p _site/assets
+          cp -r assets/* _site/assets/ 2>/dev/null || true
 
       - name: Configure Pages
         uses: actions/configure-pages@v5

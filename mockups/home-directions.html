@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>AB — استكشاف تصاميم الصفحة الرئيسية (8 اتجاهات)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;600;800;900&family=Bodoni+Moda:opsz,wght@6..96,400;6..96,700;6..96,900&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600&family=IBM+Plex+Mono:wght@400;500;700&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ════════════════ BRAND TOKENS ════════════════ */
+:root{
+  --black:#080808; --black2:#0e0e0e; --ink:#141414;
+  --neon:#C8F000; --cream:#F5F1E6; --white:#ffffff;
+  --silver:#9a9a9a; --hair:rgba(245,241,230,.12); --hair2:rgba(245,241,230,.06);
+  --arabic:'IBM Plex Sans Arabic',sans-serif;
+  --mono:'IBM Plex Mono',monospace;
+  --bodoni:'Bodoni Moda',serif;
+  --fraunces:'Fraunces',serif;
+  --anton:'Anton',sans-serif;
+  --archivo:'Archivo',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--black); color:var(--cream);
+  font-family:var(--arabic); -webkit-font-smoothing:antialiased;
+  overflow-x:hidden; font-size:16px; line-height:1.6;
+}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer}
+
+/* film grain overlay (whole page) */
+body::after{
+  content:'';position:fixed;inset:0;z-index:9998;pointer-events:none;opacity:.045;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ════════════════ DIRECTION SWITCHER ════════════════ */
+.switcher{
+  position:fixed; bottom:0; left:0; right:0; z-index:9999;
+  background:rgba(8,8,8,.88); backdrop-filter:blur(14px);
+  border-top:1px solid var(--hair);
+  display:flex; gap:.4rem; padding:.7rem .8rem calc(.7rem + env(safe-area-inset-bottom));
+  overflow-x:auto; scrollbar-width:none; -ms-overflow-style:none;
+}
+.switcher::-webkit-scrollbar{display:none}
+.sw-btn{
+  flex:0 0 auto; min-width:44px; min-height:44px; padding:.4rem .8rem;
+  background:transparent; border:1px solid var(--hair); border-radius:2px;
+  color:var(--silver); font-family:var(--mono); font-size:.7rem; line-height:1.2;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px;
+  transition:.2s; white-space:nowrap;
+}
+.sw-btn b{font-size:.82rem;color:var(--cream)}
+.sw-btn .nm{font-size:.56rem;letter-spacing:.04em}
+.sw-btn:hover{border-color:var(--silver)}
+.sw-btn.active{background:var(--neon);border-color:var(--neon);color:#000}
+.sw-btn.active b,.sw-btn.active .nm{color:#000}
+.sw-label{
+  position:fixed; top:0; left:0; right:0; z-index:9997;
+  background:rgba(8,8,8,.8); backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--hair);
+  font-family:var(--mono); font-size:.7rem; letter-spacing:.12em; color:var(--silver);
+  padding:.6rem 1rem; display:flex; justify-content:space-between; align-items:center;
+}
+.sw-label b{color:var(--neon)}
+.sw-label .pill{border:1px solid var(--hair);padding:.2rem .6rem;border-radius:30px;color:var(--cream)}
+
+/* ════════════════ SHARED: HERO PLACEHOLDER ════════════════ */
+.dir{display:none;padding-bottom:5rem}
+.dir.active{display:block}
+.hero-slot{
+  position:relative; min-height:78svh; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; text-align:center;
+  border-bottom:1px solid var(--hair);
+  background:
+    repeating-linear-gradient(135deg,transparent 0 22px,rgba(200,240,0,.018) 22px 23px),
+    radial-gradient(ellipse at 50% 30%,#15170c 0%,#080808 60%);
+  margin-top:2.4rem; padding:2rem;
+}
+.hero-slot::before{
+  content:'HERO — جاهز ومعتمد';
+  position:absolute; top:1rem; right:1rem;
+  font-family:var(--mono); font-size:.6rem; letter-spacing:.18em; color:var(--neon);
+  border:1px dashed rgba(200,240,0,.4); padding:.35rem .7rem; border-radius:2px;
+}
+.hs-logo{font-family:var(--anton);font-size:clamp(4rem,18vw,9rem);letter-spacing:.04em;line-height:.9;color:var(--cream)}
+.hs-logo b{color:var(--neon)}
+.hs-tag{font-family:var(--mono);font-size:.72rem;letter-spacing:.3em;color:var(--silver);margin-top:1rem}
+.hs-sub{font-size:.8rem;color:#5a5a5a;margin-top:1.6rem;max-width:300px}
+.hs-nav{position:absolute;top:1rem;left:1rem;display:flex;gap:1rem;font-size:.74rem;color:var(--silver)}
+.hs-nav span:first-child{color:var(--neon)}
+
+/* ════════════════ SHARED UTILITIES ════════════════ */
+.rv{opacity:0;transform:translateY(40px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1)}
+.rv.shown{opacity:1;transform:none}
+.rv-d1{transition-delay:.1s}.rv-d2{transition-delay:.2s}.rv-d3{transition-delay:.32s}
+
+/* poster media (shared building block) */
+.pm{position:relative;width:100%;height:100%;overflow:hidden;background:#0c0c0c}
+.pm-img{width:100%;height:100%;object-fit:cover;object-position:center}
+.kb{animation:kenburns 18s ease-in-out infinite alternate}
+@keyframes kenburns{from{transform:scale(1)}to{transform:scale(1.07)}}
+.pm-ph{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;position:relative;overflow:hidden}
+.pm-ph-en{font-family:var(--bodoni);font-weight:900;font-size:clamp(3rem,12vw,7rem);color:rgba(245,241,230,.06);letter-spacing:.02em}
+.pm-ph-lbl{position:absolute;bottom:1rem;font-family:var(--mono);font-size:.58rem;letter-spacing:.14em;color:#444;border:1px dashed #333;padding:.25rem .6rem}
+.t-street{background:radial-gradient(circle at 50% 35%,#14180c,#080808 72%)}
+.t-noir{background:radial-gradient(circle at 50% 35%,#0b0e16,#080808 72%)}
+.t-ess{background:radial-gradient(circle at 50% 35%,#161616,#080808 72%)}
+.t-arch{background:radial-gradient(circle at 50% 35%,#1a1206,#080808 72%)}
+
+/* section wrappers */
+.wrap{max-width:1280px;margin:0 auto;padding:0 1.2rem}
+.sec-head{padding:3.2rem 1.2rem 1.4rem;max-width:1280px;margin:0 auto}
+.eyebrow{font-family:var(--mono);font-size:.66rem;letter-spacing:.28em;color:var(--neon);margin-bottom:.7rem}
+
+/* shared CTA */
+.cta{
+  display:inline-flex;align-items:center;gap:.6rem;min-height:44px;
+  background:var(--neon);color:#000;font-family:var(--arabic);font-weight:700;
+  font-size:.82rem;letter-spacing:.04em;padding:.85rem 1.6rem;border:none;
+  clip-path:polygon(10px 0,100% 0,calc(100% - 10px) 100%,0 100%);transition:.25s;
+}
+.cta:hover{background:var(--cream);transform:translateX(-4px)}
+.cta-ghost{background:transparent;color:var(--cream);border:1px solid var(--hair);clip-path:none;border-radius:2px}
+.cta-ghost:hover{border-color:var(--neon);color:var(--neon);background:transparent;transform:none}
+
+/* about teaser + newsletter + footer (shared base, themed per dir) */
+.about{padding:4rem 1.2rem;max-width:900px;margin:0 auto;text-align:center}
+.about h3{font-family:var(--bodoni);font-weight:700;font-size:clamp(1.8rem,6vw,3rem);margin-bottom:1rem;color:var(--cream)}
+.about p{color:var(--silver);font-size:.95rem;line-height:1.9;max-width:560px;margin:0 auto 1.6rem}
+.news{margin:2rem 1.2rem;padding:2.6rem 1.4rem;border:1px solid var(--hair);border-radius:3px;text-align:center;background:linear-gradient(180deg,#0c0c0c,#080808)}
+.news h3{font-family:var(--anton);font-size:clamp(1.6rem,7vw,2.6rem);letter-spacing:.02em;margin-bottom:.6rem}
+.news h3 b{color:var(--neon)}
+.news p{color:var(--silver);font-size:.84rem;margin-bottom:1.4rem}
+.news form{display:flex;gap:.5rem;max-width:420px;margin:0 auto;flex-wrap:wrap}
+.news input{flex:1;min-width:180px;min-height:44px;background:#000;border:1px solid var(--hair);border-radius:2px;color:var(--cream);padding:0 1rem;font-family:var(--arabic);font-size:.9rem;text-align:right}
+.news input:focus{outline:none;border-color:var(--neon)}
+.ft{border-top:1px solid var(--hair);margin-top:3rem;padding:2.4rem 1.2rem;max-width:1280px;margin-left:auto;margin-right:auto}
+.ft-top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.ft .logo{font-family:var(--anton);font-size:1.8rem}.ft .logo b{color:var(--neon)}
+.ft-nav{display:flex;gap:1.2rem;font-size:.8rem;color:var(--silver)}
+.ft-cr{font-family:var(--mono);font-size:.64rem;color:#444;margin-top:1.6rem;letter-spacing:.1em}
+
+/* ═══════════════════════════════════════════════════════════
+   01 · EDITORIAL MAGAZINE  (Bodoni, asymmetric, hairlines)
+═══════════════════════════════════════════════════════════ */
+#d1 .ed-intro{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:1px solid var(--hair);padding-bottom:1rem}
+#d1 .ed-intro h2{font-family:var(--bodoni);font-weight:900;font-size:clamp(2.4rem,9vw,4.4rem);line-height:.95}
+#d1 .ed-intro .idx{font-family:var(--mono);font-size:.7rem;color:var(--silver)}
+#d1 .ed-item{position:relative;padding:3rem 0;border-bottom:1px solid var(--hair)}
+#d1 .ed-poster{position:relative;height:62vh;min-height:380px;overflow:hidden}
+#d1 .ed-no{font-family:var(--bodoni);font-weight:900;font-size:clamp(4rem,22vw,11rem);line-height:.8;color:var(--cream);opacity:.96}
+#d1 .ed-no sup{font-family:var(--mono);font-size:.9rem;color:var(--neon);vertical-align:super;margin-inline-start:.4rem}
+#d1 .ed-title{font-family:var(--bodoni);font-weight:700;font-style:italic;font-size:clamp(2rem,8vw,3.6rem);margin:.4rem 0;direction:ltr;text-align:right}
+#d1 .ed-line{color:var(--silver);font-size:.92rem;margin-bottom:1.2rem;max-width:340px}
+#d1 .ed-meta{font-family:var(--mono);font-size:.64rem;letter-spacing:.16em;color:#555;margin-top:1.2rem;display:flex;gap:1rem}
+@media(min-width:780px){
+  #d1 .ed-item{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;align-items:center}
+  #d1 .ed-item:nth-child(even) .ed-poster{order:2}
+  #d1 .ed-poster{height:74vh}
+}
+
+/* ═══════════════════════════════════════════════════════════
+   02 · BRUTALIST INDUSTRIAL  (Anton, slabs, caution strip)
+═══════════════════════════════════════════════════════════ */
+#d2{background:var(--black)}
+#d2 .caution{background:var(--neon);color:#000;font-family:var(--anton);font-size:.9rem;letter-spacing:.1em;padding:.6rem 0;overflow:hidden;white-space:nowrap;border-block:3px solid #000}
+#d2 .caution .run{display:inline-block;animation:marq 16s linear infinite}
+#d2 .caution span{padding:0 1.2rem}
+#d2 .br-item{border:3px solid var(--cream);margin:1rem;position:relative;background:#0a0a0a}
+#d2 .br-poster{height:56vh;min-height:340px;position:relative;overflow:hidden;border-bottom:3px solid var(--cream)}
+#d2 .br-bar{display:flex;justify-content:space-between;align-items:stretch}
+#d2 .br-no{font-family:var(--anton);font-size:clamp(2.4rem,12vw,5rem);color:var(--neon);padding:.4rem 1rem;border-inline-start:3px solid var(--cream);line-height:1}
+#d2 .br-titlebox{padding:1rem 1.2rem;flex:1}
+#d2 .br-title{font-family:var(--anton);font-size:clamp(1.8rem,9vw,3.4rem);letter-spacing:.02em;line-height:.95;direction:ltr;text-align:right}
+#d2 .br-line{font-family:var(--mono);font-size:.72rem;color:var(--silver);margin-top:.3rem}
+#d2 .br-cta{background:var(--neon);color:#000;font-family:var(--anton);font-size:1rem;letter-spacing:.06em;display:flex;align-items:center;padding:0 1.4rem;border:none;border-inline-start:3px solid #000}
+#d2 .br-tags{font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;color:#555;padding:.5rem 1.2rem;border-top:3px solid var(--cream);display:flex;gap:1rem;flex-wrap:wrap}
+@media(min-width:780px){#d2 .br-poster{height:72vh}}
+
+/* ═══════════════════════════════════════════════════════════
+   03 · LUXURY MINIMAL  (Fraunces light, vast negative space)
+═══════════════════════════════════════════════════════════ */
+#d3{background:#060606}
+#d3 .lx-head{text-align:center;padding:6rem 1.2rem 3rem}
+#d3 .lx-head .dot{width:6px;height:6px;background:var(--neon);border-radius:50%;margin:0 auto 1.6rem}
+#d3 .lx-head h2{font-family:var(--fraunces);font-weight:300;font-size:clamp(2rem,7vw,3.4rem);letter-spacing:.02em}
+#d3 .lx-item{padding:5rem 1.2rem;text-align:center;max-width:680px;margin:0 auto}
+#d3 .lx-poster{height:64vh;min-height:420px;position:relative;overflow:hidden;margin:0 auto;box-shadow:0 40px 90px -40px rgba(0,0,0,.9)}
+#d3 .lx-no{font-family:var(--mono);font-size:.66rem;letter-spacing:.4em;color:var(--neon);margin-bottom:1.6rem}
+#d3 .lx-title{font-family:var(--fraunces);font-weight:300;font-size:clamp(2.2rem,9vw,4rem);margin:1.8rem 0 .6rem;direction:ltr;letter-spacing:.01em}
+#d3 .lx-line{color:var(--silver);font-weight:300;font-size:.95rem;letter-spacing:.04em;margin-bottom:2rem}
+#d3 .lx-cta{font-family:var(--arabic);font-size:.78rem;letter-spacing:.18em;color:var(--cream);border-bottom:1px solid var(--neon);padding-bottom:.4rem;display:inline-block;min-height:auto}
+#d3 .lx-cta:hover{color:var(--neon)}
+@media(min-width:780px){#d3 .lx-poster{height:80vh;max-width:560px}}
+
+/* ═══════════════════════════════════════════════════════════
+   04 · KINETIC MOTION-LED  (marquees, sweeps, slides)
+═══════════════════════════════════════════════════════════ */
+#d4{background:#070707}
+#d4 .kx-marq{overflow:hidden;white-space:nowrap;border-block:1px solid var(--hair);padding:1.1rem 0}
+#d4 .kx-marq .run{display:inline-block;font-family:var(--bodoni);font-weight:900;font-size:clamp(2.4rem,9vw,5rem)}
+#d4 .kx-marq .run.a{animation:marq 22s linear infinite}
+#d4 .kx-marq .run.b{animation:marq 28s linear infinite reverse}
+#d4 .kx-marq span{padding:0 1.4rem;color:transparent;-webkit-text-stroke:1px #2c2c2c}
+#d4 .kx-marq span.on{color:var(--neon);-webkit-text-stroke:0}
+#d4 .kx-item{position:relative;height:70vh;min-height:440px;overflow:hidden;margin:0}
+#d4 .kx-cap{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:1.6rem;background:linear-gradient(to top,rgba(8,8,8,.85),transparent 60%)}
+#d4 .kx-no{font-family:var(--mono);font-size:.7rem;letter-spacing:.2em;color:var(--neon)}
+#d4 .kx-title{font-family:var(--bodoni);font-weight:900;font-size:clamp(2.6rem,13vw,5.5rem);line-height:.9;direction:ltr;text-align:right;overflow:hidden}
+#d4 .kx-title span{display:inline-block;transform:translateY(110%);transition:transform .8s cubic-bezier(.16,1,.3,1)}
+#d4 .kx-item.shown .kx-title span{transform:none}
+#d4 .kx-line{color:var(--cream);font-size:.9rem;margin:.4rem 0 1rem;opacity:0;transition:opacity .6s .4s}
+#d4 .kx-item.shown .kx-line{opacity:1}
+#d4 .kx-under{height:2px;background:var(--neon);width:0;transition:width .8s .3s cubic-bezier(.16,1,.3,1)}
+#d4 .kx-item.shown .kx-under{width:120px}
+
+/* ═══════════════════════════════════════════════════════════
+   05 · CINEMATIC POSTER-FIRST  (full panels, scroll-snap)
+═══════════════════════════════════════════════════════════ */
+#d5{background:#000}
+#d5 .cin-scroller{height:100svh;overflow-y:auto;scroll-snap-type:y mandatory;scrollbar-width:none}
+#d5 .cin-scroller::-webkit-scrollbar{display:none}
+#d5 .cin-panel{height:100svh;scroll-snap-align:start;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;text-align:center}
+#d5 .cin-panel .pm{position:absolute;inset:0}
+#d5 .cin-panel .pm-img,#d5 .cin-panel .pm-ph{filter:brightness(.62)}
+#d5 .cin-shade{position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 30%,rgba(8,8,8,.8))}
+#d5 .cin-inner{position:relative;z-index:2;padding:2rem}
+#d5 .cin-no{font-family:var(--mono);font-size:.72rem;letter-spacing:.34em;color:var(--neon);margin-bottom:1rem}
+#d5 .cin-title{font-family:var(--bodoni);font-weight:900;font-size:clamp(3rem,18vw,8rem);line-height:.9;direction:ltr;letter-spacing:.01em;text-shadow:0 10px 60px rgba(0,0,0,.7)}
+#d5 .cin-line{color:var(--cream);font-size:1rem;letter-spacing:.06em;margin:1rem 0 1.8rem}
+#d5 .cin-hint{position:absolute;bottom:2rem;left:0;right:0;text-align:center;font-family:var(--mono);font-size:.62rem;letter-spacing:.2em;color:rgba(245,241,230,.5);animation:bobh 2s ease-in-out infinite}
+@keyframes bobh{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+
+/* ═══════════════════════════════════════════════════════════
+   06 · GALLERY / GRID  (editorial varied grid, dense)
+═══════════════════════════════════════════════════════════ */
+#d6{background:#0a0a0a}
+#d6 .gl-grid{display:grid;grid-template-columns:1fr;gap:1rem;padding:1.2rem;max-width:1280px;margin:0 auto}
+#d6 .gl-cell{position:relative;overflow:hidden;border:1px solid var(--hair)}
+#d6 .gl-poster{height:46vh;min-height:300px;position:relative;overflow:hidden}
+#d6 .gl-cap{position:absolute;left:0;right:0;bottom:0;padding:1rem 1.1rem;display:flex;justify-content:space-between;align-items:flex-end;background:linear-gradient(to top,rgba(8,8,8,.9),transparent)}
+#d6 .gl-title{font-family:var(--archivo);font-weight:900;font-size:clamp(1.6rem,7vw,2.4rem);direction:ltr;text-align:right;line-height:1}
+#d6 .gl-line{font-size:.76rem;color:var(--silver);margin-top:.2rem}
+#d6 .gl-no{font-family:var(--mono);font-size:.66rem;color:var(--neon);align-self:flex-start}
+#d6 .gl-arrow{position:absolute;top:1rem;left:1rem;width:38px;height:38px;border:1px solid var(--hair);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--cream);transition:.25s;font-size:1rem}
+#d6 .gl-cell:hover .gl-arrow{background:var(--neon);color:#000;border-color:var(--neon)}
+@media(min-width:780px){
+  #d6 .gl-grid{grid-template-columns:repeat(6,1fr);grid-auto-rows:30vh;gap:1.2rem}
+  #d6 .gl-cell{height:auto}
+  #d6 .gl-poster{height:100%;min-height:0}
+  #d6 .gl-cell.big{grid-column:span 4;grid-row:span 2}
+  #d6 .gl-cell.tall{grid-column:span 2;grid-row:span 2}
+  #d6 .gl-cell.wide{grid-column:span 3}
+  #d6 .gl-cell.sm{grid-column:span 3}
+}
+
+/* ═══════════════════════════════════════════════════════════
+   07 · MONO / TERMINAL-TECH  (green-on-black, scanlines)
+═══════════════════════════════════════════════════════════ */
+#d7{background:#040504;font-family:var(--mono);position:relative}
+#d7::before{content:'';position:absolute;inset:0;pointer-events:none;z-index:1;background:repeating-linear-gradient(rgba(200,240,0,.025) 0 1px,transparent 1px 3px)}
+#d7 .tm-head{padding:2.6rem 1.2rem 1rem;max-width:1100px;margin:0 auto;position:relative;z-index:2}
+#d7 .tm-cmd{color:var(--neon);font-size:.84rem;letter-spacing:.04em}
+#d7 .tm-cmd .cur{display:inline-block;width:9px;height:1.1em;background:var(--neon);vertical-align:-2px;margin-inline-start:4px;animation:blink 1.1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+#d7 .tm-sys{color:#3f5a1f;font-size:.72rem;margin-top:.4rem}
+#d7 .tm-item{max-width:1100px;margin:1.4rem auto;border:1px solid #2c3a14;position:relative;z-index:2;background:rgba(6,8,4,.6)}
+#d7 .tm-titlebar{display:flex;justify-content:space-between;border-bottom:1px solid #2c3a14;padding:.5rem .9rem;color:#7fae3a;font-size:.7rem;letter-spacing:.1em}
+#d7 .tm-poster{height:52vh;min-height:320px;position:relative;overflow:hidden;border-bottom:1px solid #2c3a14}
+#d7 .tm-poster .pm-img,#d7 .tm-poster .pm-ph{filter:saturate(.5) brightness(.85)}
+#d7 .tm-body{padding:1rem .9rem}
+#d7 .tm-title{font-family:var(--mono);font-weight:700;font-size:clamp(1.6rem,8vw,3rem);color:var(--neon);direction:ltr;text-align:right;letter-spacing:.02em}
+#d7 .tm-line{color:#9fce5a;font-size:.82rem;margin:.5rem 0 1rem}
+#d7 .tm-line::before{content:'// ';color:#3f5a1f}
+#d7 .tm-cta{display:inline-flex;align-items:center;min-height:44px;border:1px solid var(--neon);color:var(--neon);background:transparent;font-family:var(--mono);font-size:.78rem;letter-spacing:.08em;padding:.6rem 1.2rem}
+#d7 .tm-cta:hover{background:var(--neon);color:#000}
+#d7 .tm-cta::before{content:'$ ';opacity:.7}
+@media(min-width:780px){#d7 .tm-poster{height:64vh}}
+
+/* ═══════════════════════════════════════════════════════════
+   08 · SAFE FALLBACK  (classic conversion-first stack)
+═══════════════════════════════════════════════════════════ */
+#d8{background:var(--black)}
+#d8 .sf-head{text-align:center;padding:3rem 1.2rem 1.4rem}
+#d8 .sf-head h2{font-family:var(--archivo);font-weight:900;font-size:clamp(1.8rem,7vw,2.8rem)}
+#d8 .sf-head p{color:var(--silver);font-size:.9rem;margin-top:.5rem}
+#d8 .sf-item{position:relative;height:60vh;min-height:380px;overflow:hidden;margin:0 0 1rem}
+#d8 .sf-cap{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:.7rem;background:linear-gradient(180deg,rgba(8,8,8,.25),rgba(8,8,8,.7))}
+#d8 .sf-no{font-family:var(--mono);font-size:.66rem;letter-spacing:.24em;color:var(--neon)}
+#d8 .sf-title{font-family:var(--archivo);font-weight:900;font-size:clamp(2.2rem,10vw,4rem);direction:ltr;line-height:1;text-shadow:0 6px 30px rgba(0,0,0,.6)}
+#d8 .sf-line{color:var(--cream);font-size:.92rem;margin-bottom:.4rem}
+@media(min-width:780px){
+  #d8 .sf-item{height:74vh}
+  #d8 .sf-grid{max-width:1280px;margin:0 auto;padding:0 1rem}
+}
+
+/* marquee keyframe (shared) */
+@keyframes marq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ════════════════ REDUCED MOTION ════════════════ */
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}
+  .rv{opacity:1!important;transform:none!important;transition:none!important}
+  .kb{animation:none!important}
+  #d4 .kx-title span{transform:none!important}
+  [data-pll]{transform:none!important}
+}
+</style>
+</head>
+<body>
+
+<div class="sw-label">
+  <span>AB · استكشاف الصفحة الرئيسية — <b id="swName">EDITORIAL</b></span>
+  <span class="pill" id="swNum">01 / 08</span>
+</div>
+
+<!-- direction containers populated by JS -->
+<main id="stage"></main>
+
+<nav class="switcher" id="switcher" aria-label="تبديل الاتجاه"></nav>
+
+<script>
+/* ════════════════ DATA ════════════════ */
+const COLLECTIONS = [
+  {key:'travel', en:'TRAVEL', ar:'مجموعة الترحال', line:'اكتشف العالم — قطعٌ مستوحاة من الطريق.', poster:'assets/poster-travel.png', real:true, tag:'الدفعة الحالية', tone:'t-arch', meta:['OVERSIZED','١٠ قطع','صيف ٢٥']},
+  {key:'street', en:'STREET', ar:'مجموعة الشارع', line:'روح المدينة بأسلوب AB الجريء.', poster:null, tone:'t-street', meta:['STREETWEAR','٨ قطع','أساسي']},
+  {key:'noir',   en:'NOIR',   ar:'مجموعة الليل', line:'لليل · للسهر · للمدينة التي لا تنام.', poster:null, tone:'t-noir', meta:['ALL BLACK','٦ قطع','محدود']},
+  {key:'ess',    en:'ESSENTIALS', ar:'الأساسيات', line:'الأساسيات التي لا تنتهي من خزانتك.', poster:null, tone:'t-ess', meta:['BASICS','١٢ قطعة','دائم']},
+];
+const DIRS = [
+  {id:'d1', nm:'EDITORIAL', label:'مجلة تحريرية'},
+  {id:'d2', nm:'BRUTALIST', label:'بروتالي صناعي'},
+  {id:'d3', nm:'LUXURY',    label:'فخامة بسيطة'},
+  {id:'d4', nm:'KINETIC',   label:'حركي'},
+  {id:'d5', nm:'CINEMATIC', label:'سينمائي'},
+  {id:'d6', nm:'GALLERY',   label:'معرض شبكي'},
+  {id:'d7', nm:'TERMINAL',  label:'تقني/تيرمنال'},
+  {id:'d8', nm:'SAFE',      label:'الآمن (كلاسيكي)'},
+];
+const AR2 = s => s; // arabic-indic numerals already in strings
+
+/* ════════════════ POSTER MEDIA ════════════════ */
+function media(c, extra=''){
+  if(c.real){
+    return `<div class="pm"><img class="pm-img kb ${extra}" src="${c.poster}" alt="${c.en} collection" loading="lazy"
+      onerror="this.style.display='none';this.parentElement.insertAdjacentHTML('beforeend','<div class=\\'pm-ph ${c.tone}\\'><span class=\\'pm-ph-en\\'>${c.en}</span><span class=\\'pm-ph-lbl\\'>poster-travel.png — ضع الصورة هنا</span></div>')"></div>`;
+  }
+  return `<div class="pm"><div class="pm-ph ${c.tone} ${extra}"><span class="pm-ph-en">${c.en}</span><span class="pm-ph-lbl">بوستر الكولكشن — Placeholder</span></div></div>`;
+}
+
+/* shared blocks */
+function heroSlot(){return `
+<section class="hero-slot">
+  <div class="hs-nav"><span>المنتجات</span><span>طلب مسبق</span><span>عن AB</span></div>
+  <div class="hs-logo">A<b>B</b></div>
+  <p class="hs-tag">WEAR YOUR ATTITUDE · YOUNG · BOLD · DIFFERENT</p>
+  <p class="hs-sub">هذا القسم العلوي (الهيرو) جاهز ومعتمد مسبقاً — التصاميم أدناه تعيد بناء ما تحته فقط.</p>
+</section>`;}
+
+function aboutTeaser(){return `
+<section class="about rv">
+  <div class="eyebrow" style="justify-content:center">● عن AB</div>
+  <h3>صُنعت بنيّة. تُلبَس بموقف.</h3>
+  <p>AB علامة شارع سعودية للجيل الجديد. قطعٌ محدودة، خاماتٌ ثقيلة، وتفاصيل نيون تحمل بصمتنا. لا نتبع الموضة — نكتبها.</p>
+  <a href="#" class="cta-ghost cta">اعرف القصة</a>
+</section>`;}
+
+function newsletter(){return `
+<section class="news rv">
+  <h3>الدفعة القادمة <b>قريباً</b></h3>
+  <p>سجّل بريدك وكن أول من يحصل على الطلب المسبق — كميات محدودة.</p>
+  <form onsubmit="return false">
+    <input type="email" placeholder="بريدك الإلكتروني" aria-label="البريد الإلكتروني">
+    <button class="cta" type="submit">سجّل اهتمامك</button>
+  </form>
+</section>`;}
+
+function footer(){return `
+<footer class="ft">
+  <div class="ft-top">
+    <div class="logo">A<b>B</b></div>
+    <div class="ft-nav"><span>المنتجات</span><span>طلب مسبق</span><span>عن AB</span><span>إنستغرام</span></div>
+  </div>
+  <p class="ft-cr">© 2026 AB — WEAR YOUR ATTITUDE · صُنع في السعودية</p>
+</footer>`;}
+
+/* ════════════════ DIRECTION RENDERERS ════════════════ */
+function d1(){ // EDITORIAL MAGAZINE
+  const items = COLLECTIONS.map((c,i)=>`
+    <article class="ed-item rv">
+      <div class="ed-poster" data-pll="0.06">${media(c)}</div>
+      <div class="ed-text">
+        <div class="ed-no">${String(i+1).padStart(2,'0')}<sup>N°</sup></div>
+        <div class="ed-title">${c.en}</div>
+        <p class="ed-line">${c.line}</p>
+        <a href="#" class="cta">ادخل الكولكشن</a>
+        <div class="ed-meta">${c.meta.map(m=>`<span>${m}</span>`).join('')}</div>
+      </div>
+    </article>`).join('');
+  return heroSlot()+`
+  <div class="sec-head rv">
+    <div class="eyebrow">● المجموعات</div>
+    <div class="ed-intro"><h2>The Collections</h2><span class="idx">٤ مجموعات · ٢٠٢٥</span></div>
+  </div>
+  <div class="wrap">${items}</div>`+aboutTeaser()+newsletter()+footer();
+}
+
+function d2(){ // BRUTALIST
+  const cau = `<div class="caution"><span class="run">${'<span>AB ✦ WEAR YOUR ATTITUDE ✦ DROP 01 ✦ LIMITED ✦ </span>'.repeat(2)}</span></div>`;
+  const items = COLLECTIONS.map((c,i)=>`
+    <div class="br-item rv">
+      <div class="br-poster" data-pll="0.05">${media(c)}</div>
+      <div class="br-bar">
+        <div class="br-no">${String(i+1).padStart(2,'0')}</div>
+        <div class="br-titlebox">
+          <div class="br-title">${c.en}</div>
+          <div class="br-line">${c.line}</div>
+        </div>
+        <a href="#" class="br-cta">ادخل ←</a>
+      </div>
+      <div class="br-tags">${c.meta.map(m=>`<span>[ ${m} ]</span>`).join('')}<span>[ ${c.ar} ]</span></div>
+    </div>`).join('');
+  return heroSlot()+cau+`<div class="sec-head rv"><div class="eyebrow">● COLLECTIONS / المجموعات</div></div>${items}`+aboutTeaser()+newsletter()+footer();
+}
+
+function d3(){ // LUXURY MINIMAL
+  const items = COLLECTIONS.map((c,i)=>`
+    <section class="lx-item rv">
+      <div class="lx-no">COLLECTION · ${String(i+1).padStart(2,'0')}</div>
+      <div class="lx-poster" data-pll="0.04">${media(c)}</div>
+      <div class="lx-title">${c.en}</div>
+      <p class="lx-line">${c.line}</p>
+      <a href="#" class="lx-cta">ادخل الكولكشن</a>
+    </section>`).join('');
+  return heroSlot()+`
+  <div class="lx-head rv"><div class="dot"></div><h2>مجموعاتٌ مختارة بعناية</h2></div>
+  ${items}`+aboutTeaser()+newsletter()+footer();
+}
+
+function d4(){ // KINETIC
+  const marq = `<div class="kx-marq"><div class="run a">${'<span>AB</span><span class="on">DROP</span><span>2025</span><span class="on">ATTITUDE</span>'.repeat(4)}</div></div>`;
+  const items = COLLECTIONS.map((c,i)=>`
+    <div class="kx-item rv" data-rvclass>
+      ${media(c,'')}
+      <div class="kx-cap">
+        <div class="kx-no">N° ${String(i+1).padStart(2,'0')} — ${c.ar}</div>
+        <div class="kx-title"><span>${c.en}</span></div>
+        <div class="kx-under"></div>
+        <p class="kx-line">${c.line}</p>
+        <a href="#" class="cta">ادخل الكولكشن</a>
+      </div>
+    </div>
+    ${i<COLLECTIONS.length-1?`<div class="kx-marq"><div class="run ${i%2?'a':'b'}">${'<span>WEAR YOUR ATTITUDE</span><span class="on">✦</span>'.repeat(6)}</div></div>`:''}`).join('');
+  return heroSlot()+marq+`<div class="sec-head rv"><div class="eyebrow">● المجموعات بالحركة</div></div>${items}`+aboutTeaser()+newsletter()+footer();
+}
+
+function d5(){ // CINEMATIC — own internal scroll-snap
+  const panels = COLLECTIONS.map((c,i)=>`
+    <section class="cin-panel">
+      ${media(c,'kb')}
+      <div class="cin-shade"></div>
+      <div class="cin-inner">
+        <div class="cin-no">COLLECTION ${String(i+1).padStart(2,'0')} / ${String(COLLECTIONS.length).padStart(2,'0')}</div>
+        <div class="cin-title">${c.en}</div>
+        <p class="cin-line">${c.line}</p>
+        <a href="#" class="cta">ادخل الكولكشن</a>
+      </div>
+      ${i===0?`<div class="cin-hint">مرّر للأسفل ↓</div>`:''}
+    </section>`).join('');
+  return heroSlot()+`
+  <div class="sec-head rv"><div class="eyebrow">● بوسترات سينمائية — مرّر داخل اللوحة</div></div>
+  <div class="cin-scroller">${panels}</div>`+aboutTeaser()+newsletter()+footer();
+}
+
+function d6(){ // GALLERY GRID
+  const sizes=['big','tall','wide','sm'];
+  const items = COLLECTIONS.map((c,i)=>`
+    <a href="#" class="gl-cell ${sizes[i%sizes.length]} rv">
+      <div class="gl-poster" data-pll="0.05">${media(c)}</div>
+      <div class="gl-arrow">↖</div>
+      <div class="gl-cap">
+        <div><div class="gl-title">${c.en}</div><div class="gl-line">${c.line}</div></div>
+        <div class="gl-no">${String(i+1).padStart(2,'0')}</div>
+      </div>
+    </a>`).join('');
+  return heroSlot()+`
+  <div class="sec-head rv"><div class="eyebrow">● معرض المجموعات</div></div>
+  <div class="gl-grid">${items}</div>`+aboutTeaser()+newsletter()+footer();
+}
+
+function d7(){ // TERMINAL
+  const items = COLLECTIONS.map((c,i)=>`
+    <div class="tm-item rv">
+      <div class="tm-titlebar"><span>~/collections/${c.key}</span><span>[ ${String(i+1).padStart(2,'0')}/${String(COLLECTIONS.length).padStart(2,'0')} ]</span></div>
+      <div class="tm-poster" data-pll="0.04">${media(c)}</div>
+      <div class="tm-body">
+        <div class="tm-title">${c.en}</div>
+        <p class="tm-line">${c.line}</p>
+        <a href="#" class="tm-cta">enter --collection ${c.key}</a>
+      </div>
+    </div>`).join('');
+  return heroSlot()+`
+  <div class="tm-head rv">
+    <div class="tm-cmd">AB:~$ load collections --all<span class="cur"></span></div>
+    <div class="tm-sys">[ok] 4 collections found · rendering posters · status: LIVE</div>
+  </div>
+  ${items}`+aboutTeaser()+newsletter()+footer();
+}
+
+function d8(){ // SAFE FALLBACK
+  const items = COLLECTIONS.map((c,i)=>`
+    <section class="sf-item rv">
+      ${media(c)}
+      <div class="sf-cap">
+        <div class="sf-no">COLLECTION ${String(i+1).padStart(2,'0')}</div>
+        <div class="sf-title">${c.en}</div>
+        <p class="sf-line">${c.line}</p>
+        <a href="#" class="cta">ادخل الكولكشن</a>
+      </div>
+    </section>`).join('');
+  return heroSlot()+`
+  <div class="sf-head rv"><h2>تسوّق حسب المجموعة</h2><p>٤ مجموعات · جديدنا أولاً</p></div>
+  <div class="sf-grid">${items}</div>`+aboutTeaser()+newsletter()+footer();
+}
+
+const RENDER = {d1,d2,d3,d4,d5,d6,d7,d8};
+
+/* ════════════════ BUILD + SWITCH ════════════════ */
+const stage = document.getElementById('stage');
+const switcher = document.getElementById('switcher');
+DIRS.forEach((d,i)=>{
+  const sec=document.createElement('section');
+  sec.className='dir'; sec.id=d.id;
+  sec.innerHTML=RENDER[d.id]();
+  stage.appendChild(sec);
+  const b=document.createElement('button');
+  b.className='sw-btn'; b.dataset.dir=d.id;
+  b.innerHTML=`<b>${String(i+1).padStart(2,'0')}</b><span class="nm">${d.nm}</span>`;
+  b.onclick=()=>activate(d.id);
+  switcher.appendChild(b);
+});
+
+let current=null;
+function activate(id){
+  document.querySelectorAll('.dir').forEach(s=>s.classList.toggle('active',s.id===id));
+  document.querySelectorAll('.sw-btn').forEach(b=>b.classList.toggle('active',b.dataset.dir===id));
+  const i=DIRS.findIndex(d=>d.id===id);
+  document.getElementById('swName').textContent=DIRS[i].nm;
+  document.getElementById('swNum').textContent=`${String(i+1).padStart(2,'0')} / 08`;
+  current=id;
+  window.scrollTo(0,0);
+  initReveal(); initParallax();
+}
+
+/* scroll-reveal */
+let io=null;
+function initReveal(){
+  if(io) io.disconnect();
+  io=new IntersectionObserver((es)=>{
+    es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('shown'); io.unobserve(e.target);} });
+  },{threshold:.15, rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('.dir.active .rv').forEach(el=>io.observe(el));
+}
+
+/* parallax (rAF, subtle) */
+let pllEls=[], ticking=false;
+const reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
+function initParallax(){
+  pllEls=[...document.querySelectorAll('.dir.active [data-pll] .pm-img, .dir.active [data-pll] .pm-ph')];
+}
+function onScroll(){
+  if(reduce||ticking) return;
+  ticking=true;
+  requestAnimationFrame(()=>{
+    const vh=innerHeight;
+    pllEls.forEach(el=>{
+      const box=el.closest('[data-pll]');
+      const r=box.getBoundingClientRect();
+      const f=parseFloat(box.dataset.pll)||0.05;
+      const off=((r.top+r.height/2)-vh/2)*-f*1.4;
+      el.style.transform=`translateY(${off.toFixed(1)}px) scale(1.08)`;
+    });
+    ticking=false;
+  });
+}
+window.addEventListener('scroll',onScroll,{passive:true});
+
+activate('d1');
+</script>
+</body>
+</html>
