@@ -185,7 +185,13 @@
       {%- endif -%}
 
       {%- if section.settings.button_label != blank -%}
-        {%- assign blink = section.settings.button_link | default: collection.url -%}
+        {%- if section.settings.button_link != blank -%}
+          {%- assign blink = section.settings.button_link -%}
+        {%- elsif collection != blank -%}
+          {%- assign blink = collection.url | append: '#ab-products' -%}
+        {%- else -%}
+          {%- assign blink = '/collections/travel' -%}
+        {%- endif -%}
         <a class="abc-cta" href="{{ blink }}">{{ section.settings.button_label }}</a>
       {%- endif -%}
     </div>
@@ -193,6 +199,21 @@
     <div class="abc-scroll"></div>
   </header>
 </div>
+<div id="ab-products" style="scroll-margin-top:0"></div>
+
+<script>
+(function(){
+  var btn = document.querySelector('#ab-col-{{ section.id }} .abc-cta');
+  if(!btn) return;
+  var target = document.getElementById('ab-products');
+  if(target && btn.getAttribute('href') && btn.getAttribute('href').indexOf('#ab-products') > -1){
+    btn.addEventListener('click', function(e){
+      e.preventDefault();
+      target.scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  }
+})();
+</script>
 
 {% schema %}
 {
