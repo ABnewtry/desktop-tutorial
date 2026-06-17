@@ -1,12 +1,5 @@
 {%- comment -%}
-  ════════════════════════════════════════════════
-  AB — قسم المجموعة (بوستر فقط، Full-screen متحرك)
-  يصلح للكولكشنات الثلاثة: travel / anime / couples
-  الفرونت بيج = بوستر فقط، بدون عرض منتجات. زر "تسوّق المجموعة" يقود للمنتجين.
-  التركيب: Online Store → Themes → Edit code → Sections → Add a new section
-  سمّه: ab-collection  ثم الصق هذا واحفظ.
-  - البوستر: يأخذ صورة المجموعة، وإن لم توجد يعرض بليس هولدر متحرك.
-  ════════════════════════════════════════════════
+  AB — قسم المجموعة (بوستر Full-screen + انيميشن Boarding Stamp)
 {%- endcomment -%}
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
@@ -15,98 +8,188 @@
 
 <style>
   #ab-col-{{ section.id }}{
-    --ab-black:#080808; --ab-neon:{{ accent }}; --ab-silver:#9a9a9a;
-    --ab-white:#F0F0F0; --ab-border:#222;
-    background:var(--ab-black); color:var(--ab-white);
+    --neon:{{ accent }}; --black:#080808; --silver:#9a9a9a; --white:#F0F0F0;
+    background:var(--black); color:var(--white);
     font-family:'Cairo',sans-serif; direction:rtl;
     margin:0; padding:0; overflow:hidden;
   }
   #ab-col-{{ section.id }} *{box-sizing:border-box}
 
+  /* ── HERO ── */
   #ab-col-{{ section.id }} .abc-hero{
-    position:relative; min-height:100vh; display:flex;
-    align-items:flex-end; overflow:hidden;
+    position:relative; min-height:100vh;
+    display:flex; align-items:flex-end; overflow:hidden;
   }
+
+  /* Poster — Ken Burns */
   #ab-col-{{ section.id }} .abc-poster{
     position:absolute; inset:0; z-index:0;
-    background-size:cover; background-position:center;
-    animation:abc-kb 20s ease-in-out infinite alternate;
+    background-size:cover; background-position:center top;
+    animation:abc-kb 22s ease-in-out infinite alternate;
   }
-  @keyframes abc-kb{from{transform:scale(1) translateY(0)}to{transform:scale(1.12) translateY(-2%)}}
-  /* بليس هولدر متحرك إن لم توجد صورة */
+  @keyframes abc-kb{
+    from{transform:scale(1) translateY(0)}
+    to  {transform:scale(1.10) translateY(-2%)}
+  }
+
+  /* Placeholder متحرك */
   #ab-col-{{ section.id }} .abc-ph{
     position:absolute; inset:0; z-index:0;
-    background:
-      radial-gradient(circle at 30% 30%, rgba(170,255,0,.10), transparent 55%),
-      repeating-linear-gradient(45deg,#0d0d0d 0 22px,#0a0a0a 22px 44px);
-    animation:abc-kb 20s ease-in-out infinite alternate;
+    background:radial-gradient(circle at 28% 28%,rgba(170,255,0,.09),transparent 55%),
+               repeating-linear-gradient(45deg,#0d0d0d 0 20px,#0a0a0a 20px 40px);
+    animation:abc-kb 22s ease-in-out infinite alternate;
   }
   #ab-col-{{ section.id }} .abc-ph::after{
     content:'POSTER'; position:absolute; inset:0; display:flex;
     align-items:center; justify-content:center;
     font-size:clamp(2rem,8vw,5rem); font-weight:900; letter-spacing:.3em;
-    color:rgba(255,255,255,.05);
+    color:rgba(255,255,255,.04);
   }
+
+  /* Scrim */
   #ab-col-{{ section.id }} .abc-scrim{
     position:absolute; inset:0; z-index:1;
-    background:linear-gradient(to top,var(--ab-black) 3%,rgba(8,8,8,.55) 42%,rgba(8,8,8,.10) 100%);
+    background:linear-gradient(
+      to top,
+      var(--black) 0%,
+      rgba(8,8,8,.72) 38%,
+      rgba(8,8,8,.25) 65%,
+      rgba(8,8,8,.05) 100%
+    );
   }
-  #ab-col-{{ section.id }} .abc-in{
-    position:relative; z-index:2; padding:0 7vw 9vh; width:100%;
-  }
-  #ab-col-{{ section.id }} .abc-tag{
-    display:inline-block; font-size:.66rem; font-weight:700; letter-spacing:.3em;
-    color:#000; background:var(--ab-neon); padding:.4rem 1rem; margin-bottom:1.2rem;
-    clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%);
-    animation:abc-up .9s .1s both;
-  }
-  #ab-col-{{ section.id }} .abc-title{
-    font-size:clamp(3rem,13vw,7rem); font-weight:900; line-height:.92; margin:0;
-    animation:abc-up 1s .2s both;
-  }
-  #ab-col-{{ section.id }} .abc-sub{
-    font-size:clamp(1rem,3.6vw,1.5rem); font-weight:300; color:var(--ab-silver);
-    max-width:600px; margin:1rem 0 0; animation:abc-up 1s .35s both;
-  }
-  #ab-col-{{ section.id }} .abc-cta{
-    display:inline-block; margin-top:2rem; background:var(--ab-neon); color:#000;
-    font-family:'Cairo'; font-size:.8rem; font-weight:700; letter-spacing:.2em;
-    padding:1rem 2.6rem; text-decoration:none; transition:.2s;
-    clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%);
-    animation:abc-up 1s .55s both;
-  }
-  #ab-col-{{ section.id }} .abc-cta:hover{background:#fff; transform:translateY(-2px)}
-  @keyframes abc-up{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
 
-  /* مؤشر تمرير صغير */
-  #ab-col-{{ section.id }} .abc-scroll{
-    position:absolute; bottom:3vh; inset-inline-start:50%; transform:translateX(-50%);
-    z-index:2; width:1px; height:42px; background:linear-gradient(var(--ab-neon),transparent);
-    animation:abc-fade 2s ease-in-out infinite;
+  /* Content */
+  #ab-col-{{ section.id }} .abc-in{
+    position:relative; z-index:2;
+    padding:0 8vw 10vh; width:100%;
+    text-align:right;
   }
-  @keyframes abc-fade{0%,100%{opacity:.2}50%{opacity:.9}}
+
+  /* Badge */
+  #ab-col-{{ section.id }} .abc-badge{
+    display:inline-block; font-size:.68rem; font-weight:700;
+    letter-spacing:.28em; color:#000; background:var(--neon);
+    padding:.42rem 1.1rem; margin-bottom:1.2rem;
+    clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%);
+    animation:abc-up .8s .05s both;
+  }
+
+  /* Title — Boarding Stamp انيميشن */
+  #ab-col-{{ section.id }} .abc-title{
+    font-size:clamp(3.5rem,13vw,8rem); font-weight:900;
+    line-height:.9; margin:0; letter-spacing:-.01em;
+    display:block;
+  }
+  #ab-col-{{ section.id }} .abc-title span{
+    display:inline-block;
+    animation:abc-stamp .55s cubic-bezier(.175,.885,.32,1.275) both;
+  }
+  /* تأخير كل حرف */
+  #ab-col-{{ section.id }} .abc-title span:nth-child(1){animation-delay:.12s}
+  #ab-col-{{ section.id }} .abc-title span:nth-child(2){animation-delay:.21s}
+  #ab-col-{{ section.id }} .abc-title span:nth-child(3){animation-delay:.30s}
+  #ab-col-{{ section.id }} .abc-title span:nth-child(4){animation-delay:.39s}
+  #ab-col-{{ section.id }} .abc-title span:nth-child(5){animation-delay:.48s}
+  #ab-col-{{ section.id }} .abc-title span:nth-child(6){animation-delay:.57s}
+
+  @keyframes abc-stamp{
+    0%  {opacity:0; transform:scale(1.45) translateY(-6px); filter:blur(3px)}
+    60% {opacity:1; transform:scale(.96) translateY(1px);  filter:blur(0)}
+    100%{opacity:1; transform:scale(1)   translateY(0);    filter:blur(0)}
+  }
+
+  /* خط النيون */
+  #ab-col-{{ section.id }} .abc-under{
+    height:3px; width:0; background:var(--neon); margin-top:1.2rem;
+    animation:abc-grow 1s .8s forwards;
+  }
+  @keyframes abc-grow{to{width:110px}}
+
+  /* التاغ لاين */
+  #ab-col-{{ section.id }} .abc-sub{
+    font-size:clamp(1.05rem,3.8vw,1.55rem); font-weight:300;
+    color:var(--silver); max-width:580px; margin:.9rem 0 0;
+    line-height:1.55; animation:abc-up 1s .65s both;
+  }
+
+  /* الزر */
+  #ab-col-{{ section.id }} .abc-cta{
+    display:inline-block; margin-top:2.2rem;
+    background:var(--neon); color:#000;
+    font-family:'Cairo'; font-size:.82rem; font-weight:700;
+    letter-spacing:.22em; padding:1rem 2.8rem;
+    text-decoration:none; border:none; cursor:pointer;
+    clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%);
+    transition:background .2s, transform .2s;
+    animation:abc-up 1s .8s both;
+  }
+  #ab-col-{{ section.id }} .abc-cta:hover{
+    background:#fff; transform:translateY(-2px);
+  }
+
+  /* عداد القطع */
+  #ab-col-{{ section.id }} .abc-count{
+    position:absolute; top:5.5vh; inset-inline-start:7vw; z-index:3;
+    font-size:.62rem; font-weight:600; letter-spacing:.28em;
+    color:rgba(255,255,255,.35); animation:abc-up 1s .3s both;
+  }
+
+  /* مؤشر التمرير */
+  #ab-col-{{ section.id }} .abc-scroll{
+    position:absolute; bottom:3.5vh; left:50%; transform:translateX(-50%);
+    z-index:2; width:1px; height:44px;
+    background:linear-gradient(var(--neon),transparent);
+    animation:abc-pulse 2.2s ease-in-out infinite;
+  }
+  @keyframes abc-pulse{0%,100%{opacity:.15}50%{opacity:.85}}
+
+  @keyframes abc-up{
+    from{opacity:0; transform:translateY(24px)}
+    to  {opacity:1; transform:none}
+  }
 </style>
 
 <div id="ab-col-{{ section.id }}">
   <header class="abc-hero">
+
     {%- if section.settings.poster != blank -%}
-      <div class="abc-poster" style="background-image:url('{{ section.settings.poster | image_url: width: 1600 }}')"></div>
+      <div class="abc-poster" style="background-image:url('{{ section.settings.poster | image_url: width: 1800 }}')"></div>
     {%- elsif collection.image -%}
-      <div class="abc-poster" style="background-image:url('{{ collection.image | image_url: width: 1600 }}')"></div>
+      <div class="abc-poster" style="background-image:url('{{ collection.image | image_url: width: 1800 }}')"></div>
     {%- else -%}
       <div class="abc-ph"></div>
     {%- endif -%}
+
     <div class="abc-scrim"></div>
+
+    <span class="abc-count">{{ section.settings.pieces_label | default: '٢ قطع — محدود' }}</span>
+
     <div class="abc-in">
-      {%- if section.settings.tag != blank -%}<span class="abc-tag">{{ section.settings.tag }}</span>{%- endif -%}
-      <h1 class="abc-title">{{ section.settings.heading | default: collection.title | default: 'المجموعة' }}</h1>
+      {%- if section.settings.tag != blank -%}
+        <div class="abc-badge">{{ section.settings.tag }}</div>
+      {%- endif -%}
+
+      {%- assign heading = section.settings.heading | default: collection.title | default: 'المجموعة' -%}
+      <h1 class="abc-title">
+        {%- for i in (1..heading.size) -%}
+          {%- assign letter = heading | slice: forloop.index0, 1 -%}
+          {%- if letter == ' ' -%}&nbsp;{%- else -%}<span>{{ letter }}</span>{%- endif -%}
+        {%- endfor -%}
+      </h1>
+
+      <div class="abc-under"></div>
+
       {%- assign sub = section.settings.subline | default: collection.description -%}
-      {%- if sub != blank -%}<p class="abc-sub">{{ sub | strip_html | truncatewords: 26 }}</p>{%- endif -%}
+      {%- if sub != blank -%}
+        <p class="abc-sub">{{ sub | strip_html | truncatewords: 28 }}</p>
+      {%- endif -%}
+
       {%- if section.settings.button_label != blank -%}
         {%- assign blink = section.settings.button_link | default: collection.url -%}
         <a class="abc-cta" href="{{ blink }}">{{ section.settings.button_label }}</a>
       {%- endif -%}
     </div>
+
     <div class="abc-scroll"></div>
   </header>
 </div>
@@ -118,18 +201,17 @@
   "class": "ab-collection-section",
   "settings": [
     { "type": "header", "content": "البوستر والنصوص" },
-    { "type": "image_picker", "id": "poster", "label": "صورة البوستر (اتركها فارغة لاستخدام صورة المجموعة أو البليس هولدر)" },
-    { "type": "text", "id": "heading", "label": "العنوان", "info": "اتركه فارغاً لاستخدام اسم المجموعة" },
-    { "type": "textarea", "id": "subline", "label": "الوصف تحت العنوان", "info": "اتركه فارغاً لاستخدام وصف المجموعة" },
-    { "type": "text", "id": "tag", "label": "شارة علوية", "default": "الدفعة الحالية" },
+    { "type": "image_picker", "id": "poster", "label": "صورة البوستر" },
+    { "type": "text", "id": "heading", "label": "العنوان", "info": "فارغ = اسم المجموعة" },
+    { "type": "textarea", "id": "subline", "label": "التاغ لاين", "info": "فارغ = وصف المجموعة" },
+    { "type": "text", "id": "tag", "label": "شارة (Badge)", "default": "الدفعة الحالية" },
+    { "type": "text", "id": "pieces_label", "label": "نص عداد القطع", "default": "٢ قطع — محدود" },
     { "type": "header", "content": "الزر" },
     { "type": "text", "id": "button_label", "label": "نص الزر", "default": "تسوّق المجموعة" },
-    { "type": "url", "id": "button_link", "label": "رابط الزر", "info": "اتركه فارغاً ليقود لصفحة منتجات المجموعة" },
+    { "type": "url", "id": "button_link", "label": "رابط الزر" },
     { "type": "header", "content": "اللون" },
     { "type": "color", "id": "accent", "label": "لون النيون", "default": "#AAFF00" }
   ],
-  "presets": [
-    { "name": "AB — المجموعة" }
-  ]
+  "presets": [{ "name": "AB — المجموعة" }]
 }
 {% endschema %}
