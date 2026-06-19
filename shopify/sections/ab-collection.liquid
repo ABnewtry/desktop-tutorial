@@ -74,7 +74,7 @@
     animation:abc-up .8s .05s both;
   }
 
-  /* Title — Boarding Stamp انيميشن */
+  /* Title — Boarding Pass Typewriter */
   #ab-col-{{ section.id }} .abc-title{
     font-size:clamp(3.5rem,13vw,8rem); font-weight:900;
     line-height:.9; margin:0; letter-spacing:-.01em;
@@ -82,20 +82,30 @@
   }
   #ab-col-{{ section.id }} .abc-title span{
     display:inline-block;
-    animation:abc-stamp .55s cubic-bezier(.175,.885,.32,1.275) both;
+    animation:abc-stamp .38s ease-out both;
   }
-  /* تأخير كل حرف */
-  #ab-col-{{ section.id }} .abc-title span:nth-child(1){animation-delay:.12s}
-  #ab-col-{{ section.id }} .abc-title span:nth-child(2){animation-delay:.21s}
-  #ab-col-{{ section.id }} .abc-title span:nth-child(3){animation-delay:.30s}
-  #ab-col-{{ section.id }} .abc-title span:nth-child(4){animation-delay:.39s}
-  #ab-col-{{ section.id }} .abc-title span:nth-child(5){animation-delay:.48s}
-  #ab-col-{{ section.id }} .abc-title span:nth-child(6){animation-delay:.57s}
+  /* تأخير كل حرف — إيقاع الطابعة */
+  #ab-col-{{ section.id }} .abc-title span:nth-child(1){animation-delay:.20s}
+  #ab-col-{{ section.id }} .abc-title span:nth-child(2){animation-delay:.36s}
+  #ab-col-{{ section.id }} .abc-title span:nth-child(3){animation-delay:.52s}
+  #ab-col-{{ section.id }} .abc-title span:nth-child(4){animation-delay:.68s}
+  #ab-col-{{ section.id }} .abc-title span:nth-child(5){animation-delay:.84s}
+  #ab-col-{{ section.id }} .abc-title span:nth-child(6){animation-delay:1.00s}
+
+  /* مؤشر وامض بعد آخر حرف */
+  #ab-col-{{ section.id }} .abc-title::after{
+    content:'|'; color:var(--neon); font-weight:300;
+    margin-inline-start:.06em; opacity:0;
+    animation:abc-cursor 1s step-end infinite;
+    animation-delay:1.3s;
+  }
+  @keyframes abc-cursor{0%,100%{opacity:0}50%{opacity:1}}
 
   @keyframes abc-stamp{
-    0%  {opacity:0; transform:scale(1.45) translateY(-6px); filter:blur(3px)}
-    60% {opacity:1; transform:scale(.96) translateY(1px);  filter:blur(0)}
-    100%{opacity:1; transform:scale(1)   translateY(0);    filter:blur(0)}
+    0%  {opacity:0;}
+    6%  {opacity:1; color:var(--neon); text-shadow:0 0 22px var(--neon),0 0 45px rgba(170,255,0,.35);}
+    45% {color:var(--neon); text-shadow:0 0 10px var(--neon);}
+    100%{opacity:1; color:var(--white); text-shadow:none;}
   }
 
   /* خط النيون */
