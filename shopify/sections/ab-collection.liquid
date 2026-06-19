@@ -1,0 +1,248 @@
+{%- comment -%}
+  AB — قسم المجموعة (بوستر Full-screen + انيميشن Boarding Stamp)
+{%- endcomment -%}
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+
+{%- assign accent = section.settings.accent | default: '#AAFF00' -%}
+
+<style>
+  #ab-col-{{ section.id }}{
+    --neon:{{ accent }}; --black:#080808; --silver:#9a9a9a; --white:#F0F0F0;
+    background:var(--black); color:var(--white);
+    font-family:'Cairo',sans-serif; direction:rtl;
+    margin:0; padding:0; overflow:hidden;
+  }
+  #ab-col-{{ section.id }} *{box-sizing:border-box}
+
+  /* ── HERO ── */
+  #ab-col-{{ section.id }} .abc-hero{
+    position:relative; min-height:100vh;
+    display:flex; align-items:flex-end; overflow:hidden;
+  }
+
+  /* Poster — Ken Burns */
+  #ab-col-{{ section.id }} .abc-poster{
+    position:absolute; inset:0; z-index:0;
+    background-size:cover; background-position:center top;
+    animation:abc-kb 22s ease-in-out infinite alternate;
+  }
+  @keyframes abc-kb{
+    from{transform:scale(1) translateY(0)}
+    to  {transform:scale(1.10) translateY(-2%)}
+  }
+
+  /* Placeholder متحرك */
+  #ab-col-{{ section.id }} .abc-ph{
+    position:absolute; inset:0; z-index:0;
+    background:radial-gradient(circle at 28% 28%,rgba(170,255,0,.09),transparent 55%),
+               repeating-linear-gradient(45deg,#0d0d0d 0 20px,#0a0a0a 20px 40px);
+    animation:abc-kb 22s ease-in-out infinite alternate;
+  }
+  #ab-col-{{ section.id }} .abc-ph::after{
+    content:'POSTER'; position:absolute; inset:0; display:flex;
+    align-items:center; justify-content:center;
+    font-size:clamp(2rem,8vw,5rem); font-weight:900; letter-spacing:.3em;
+    color:rgba(255,255,255,.04);
+  }
+
+  /* Scrim */
+  #ab-col-{{ section.id }} .abc-scrim{
+    position:absolute; inset:0; z-index:1;
+    background:linear-gradient(
+      to top,
+      var(--black) 0%,
+      rgba(8,8,8,.72) 38%,
+      rgba(8,8,8,.25) 65%,
+      rgba(8,8,8,.05) 100%
+    );
+  }
+
+  /* Content */
+  #ab-col-{{ section.id }} .abc-in{
+    position:relative; z-index:2;
+    padding:0 8vw 10vh; width:100%;
+    text-align:right;
+  }
+
+  /* Badge */
+  #ab-col-{{ section.id }} .abc-badge{
+    display:inline-block; font-size:.68rem; font-weight:700;
+    letter-spacing:.28em; color:#000; background:var(--neon);
+    padding:.42rem 1.1rem; margin-bottom:1.2rem;
+    clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%);
+    animation:abc-up .8s .05s both;
+  }
+
+  /* Title — Boarding Pass Typewriter */
+  #ab-col-{{ section.id }} .abc-title{
+    font-size:clamp(3.5rem,13vw,8rem); font-weight:900;
+    line-height:.9; margin:0; letter-spacing:-.01em;
+    display:block;
+  }
+  #ab-col-{{ section.id }} .abc-title span{
+    display:inline-block;
+    animation:abc-stamp .38s ease-out both;
+  }
+  /* تأخير كل حرف — إيقاع الطابعة */
+  #ab-col-{{ section.id }} .abc-title span:nth-child(1){animation-delay:.20s}
+  #ab-col-{{ section.id }} .abc-title span:nth-child(2){animation-delay:.36s}
+  #ab-col-{{ section.id }} .abc-title span:nth-child(3){animation-delay:.52s}
+  #ab-col-{{ section.id }} .abc-title span:nth-child(4){animation-delay:.68s}
+  #ab-col-{{ section.id }} .abc-title span:nth-child(5){animation-delay:.84s}
+  #ab-col-{{ section.id }} .abc-title span:nth-child(6){animation-delay:1.00s}
+
+  /* مؤشر وامض بعد آخر حرف */
+  #ab-col-{{ section.id }} .abc-title::after{
+    content:'|'; color:var(--neon); font-weight:300;
+    margin-inline-start:.06em; opacity:0;
+    animation:abc-cursor 1s step-end infinite;
+    animation-delay:1.3s;
+  }
+  @keyframes abc-cursor{0%,100%{opacity:0}50%{opacity:1}}
+
+  @keyframes abc-stamp{
+    0%  {opacity:0;}
+    6%  {opacity:1; color:var(--neon); text-shadow:0 0 22px var(--neon),0 0 45px rgba(170,255,0,.35);}
+    45% {color:var(--neon); text-shadow:0 0 10px var(--neon);}
+    100%{opacity:1; color:var(--white); text-shadow:none;}
+  }
+
+  /* خط النيون */
+  #ab-col-{{ section.id }} .abc-under{
+    height:3px; width:0; background:var(--neon); margin-top:1.2rem;
+    animation:abc-grow 1s .8s forwards;
+  }
+  @keyframes abc-grow{to{width:110px}}
+
+  /* التاغ لاين */
+  #ab-col-{{ section.id }} .abc-sub{
+    font-size:clamp(1.05rem,3.8vw,1.55rem); font-weight:300;
+    color:var(--silver); max-width:580px; margin:.9rem 0 0;
+    line-height:1.55; animation:abc-up 1s .65s both;
+  }
+
+  /* الزر */
+  #ab-col-{{ section.id }} .abc-cta{
+    display:inline-block; margin-top:2.2rem;
+    background:var(--neon); color:#000;
+    font-family:'Cairo'; font-size:.82rem; font-weight:700;
+    letter-spacing:.22em; padding:1rem 2.8rem;
+    text-decoration:none; border:none; cursor:pointer;
+    clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%);
+    transition:background .2s, transform .2s;
+    animation:abc-up 1s .8s both;
+  }
+  #ab-col-{{ section.id }} .abc-cta:hover{
+    background:#fff; transform:translateY(-2px);
+  }
+
+  /* عداد القطع */
+  #ab-col-{{ section.id }} .abc-count{
+    position:absolute; top:5.5vh; inset-inline-start:7vw; z-index:3;
+    font-size:.62rem; font-weight:600; letter-spacing:.28em;
+    color:rgba(255,255,255,.35); animation:abc-up 1s .3s both;
+  }
+
+  /* مؤشر التمرير */
+  #ab-col-{{ section.id }} .abc-scroll{
+    position:absolute; bottom:3.5vh; left:50%; transform:translateX(-50%);
+    z-index:2; width:1px; height:44px;
+    background:linear-gradient(var(--neon),transparent);
+    animation:abc-pulse 2.2s ease-in-out infinite;
+  }
+  @keyframes abc-pulse{0%,100%{opacity:.15}50%{opacity:.85}}
+
+  @keyframes abc-up{
+    from{opacity:0; transform:translateY(24px)}
+    to  {opacity:1; transform:none}
+  }
+</style>
+
+<div id="ab-col-{{ section.id }}">
+  <header class="abc-hero">
+
+    {%- if section.settings.poster != blank -%}
+      <div class="abc-poster" style="background-image:url('{{ section.settings.poster | image_url: width: 1800 }}')"></div>
+    {%- elsif collection.image -%}
+      <div class="abc-poster" style="background-image:url('{{ collection.image | image_url: width: 1800 }}')"></div>
+    {%- else -%}
+      <div class="abc-ph"></div>
+    {%- endif -%}
+
+    <div class="abc-scrim"></div>
+
+    <span class="abc-count">{{ section.settings.pieces_label | default: '٢ قطع — محدود' }}</span>
+
+    <div class="abc-in">
+      {%- if section.settings.tag != blank -%}
+        <div class="abc-badge">{{ section.settings.tag }}</div>
+      {%- endif -%}
+
+      {%- assign heading = section.settings.heading | default: collection.title | default: 'المجموعة' -%}
+      <h1 class="abc-title">
+        {%- for i in (1..heading.size) -%}
+          {%- assign letter = heading | slice: forloop.index0, 1 -%}
+          {%- if letter == ' ' -%}&nbsp;{%- else -%}<span>{{ letter }}</span>{%- endif -%}
+        {%- endfor -%}
+      </h1>
+
+      <div class="abc-under"></div>
+
+      {%- assign sub = section.settings.subline | default: collection.description -%}
+      {%- if sub != blank -%}
+        <p class="abc-sub">{{ sub | strip_html | truncatewords: 28 }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.button_label != blank -%}
+        {%- if section.settings.button_link != blank -%}
+          {%- assign blink = section.settings.button_link -%}
+        {%- elsif collection != blank -%}
+          {%- assign blink = collection.url | append: '#ab-products' -%}
+        {%- else -%}
+          {%- assign blink = '/collections/travel' -%}
+        {%- endif -%}
+        <a class="abc-cta" href="{{ blink }}">{{ section.settings.button_label }}</a>
+      {%- endif -%}
+    </div>
+
+    <div class="abc-scroll"></div>
+  </header>
+</div>
+<div id="ab-products" style="scroll-margin-top:0"></div>
+
+<script>
+(function(){
+  var btn = document.querySelector('#ab-col-{{ section.id }} .abc-cta');
+  if(!btn) return;
+  var target = document.getElementById('ab-products');
+  if(target && btn.getAttribute('href') && btn.getAttribute('href').indexOf('#ab-products') > -1){
+    btn.addEventListener('click', function(e){
+      e.preventDefault();
+      target.scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "AB — المجموعة",
+  "tag": "section",
+  "class": "ab-collection-section",
+  "settings": [
+    { "type": "header", "content": "البوستر والنصوص" },
+    { "type": "image_picker", "id": "poster", "label": "صورة البوستر" },
+    { "type": "text", "id": "heading", "label": "العنوان", "info": "فارغ = اسم المجموعة" },
+    { "type": "textarea", "id": "subline", "label": "التاغ لاين", "info": "فارغ = وصف المجموعة" },
+    { "type": "text", "id": "tag", "label": "شارة (Badge)", "default": "الدفعة الحالية" },
+    { "type": "text", "id": "pieces_label", "label": "نص عداد القطع", "default": "٢ قطع — محدود" },
+    { "type": "header", "content": "الزر" },
+    { "type": "text", "id": "button_label", "label": "نص الزر", "default": "تسوّق المجموعة" },
+    { "type": "url", "id": "button_link", "label": "رابط الزر" },
+    { "type": "header", "content": "اللون" },
+    { "type": "color", "id": "accent", "label": "لون النيون", "default": "#AAFF00" }
+  ],
+  "presets": [{ "name": "AB — المجموعة" }]
+}
+{% endschema %}

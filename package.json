@@ -1,0 +1,15 @@
+{
+  "name": "ab-fashion-landing",
+  "version": "1.0.0",
+  "description": "Animated luxury fashion landing page for AB",
+  "scripts": {
+    "build:css": "tailwindcss -c tailwind.config.js -i src/input.css -o styles.css --minify",
+    "watch:css": "tailwindcss -c tailwind.config.js -i src/input.css -o styles.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.19"
+  },
+  "dependencies": {
+    "ws": "^8.21.0"
+  }
+}

@@ -1,0 +1,528 @@
+{% comment %}
+  ╔═══════════════════════════════════════════════════════════════╗
+  ║  AB — ANIMATED HERO  |  sections/ab-hero-animated.liquid      ║
+  ║  Production line scene: sewing machine → hoodie parade        ║
+  ╚═══════════════════════════════════════════════════════════════╝
+  HOW TO INSTALL:
+  1. Online Store → Themes → ⋯ → Edit code
+  2. Sections → Add a new section → name it "ab-hero-animated"
+  3. Delete default content and paste this entire file → Save
+  4. Themes → Customize → Add section → "AB — Hero Animé" → drag to top
+  5. In section settings: upload AB_scene_1_green.png as the scene image
+  6. Set button link to your main collection
+{% endcomment %}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ═══════════════════════════════════════════════
+   TOKENS
+═══════════════════════════════════════════════ */
+#ab-hero-{{ section.id }} {
+  --neon:    #C8F000;
+  --black:   #080808;
+  --white:   #F2F2F2;
+  --muted:   #666666;
+  --font-h:  'Bebas Neue', sans-serif;
+  --font-b:  'Barlow Condensed', sans-serif;
+}
+
+/* ═══════════════════════════════════════════════
+   WRAPPER
+═══════════════════════════════════════════════ */
+#ab-hero-{{ section.id }} {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--black);
+  max-height: 100svh;
+}
+
+/* ═══════════════════════════════════════════════
+   BACKGROUND SCENE IMAGE
+═══════════════════════════════════════════════ */
+.abh-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ═══════════════════════════════════════════════
+   BELT OVERLAY — animated diagonal slat lines
+   (sits over the output conveyor area)
+═══════════════════════════════════════════════ */
+.abh-belt {
+  position: absolute;
+  /* belt output area — tune for your scene image */
+  left:  50%;
+  top:   60%;
+  width: 42%;
+  height: 22%;
+  transform: rotate(17deg);
+  transform-origin: left top;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0.18;
+  mix-blend-mode: screen;
+}
+.abh-belt-inner {
+  position: absolute;
+  top: 0; left: -100%;
+  width: 300%; height: 100%;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0px, transparent 28px,
+    var(--neon) 28px, var(--neon) 30px
+  );
+  animation: abh-belt 1.4s linear infinite;
+}
+@keyframes abh-belt {
+  from { transform: translateX(0); }
+  to   { transform: translateX(calc(100% / 3)); }
+}
+
+/* ═══════════════════════════════════════════════
+   SCREEN PULSE — subtle glow over machine screen
+═══════════════════════════════════════════════ */
+.abh-screen {
+  position: absolute;
+  left:  28.5%;
+  top:   42%;
+  width: 18%;
+  height: 22%;
+  border-radius: 3px;
+  background: var(--neon);
+  opacity: 0;
+  pointer-events: none;
+  mix-blend-mode: color-dodge;
+  animation: abh-screen 2.8s ease-in-out infinite;
+}
+@keyframes abh-screen {
+  0%, 100% { opacity: 0.02; }
+  50%       { opacity: 0.10; }
+}
+
+/* ═══════════════════════════════════════════════
+   NEEDLE — bobs up/down over machine arm
+═══════════════════════════════════════════════ */
+.abh-needle {
+  position: absolute;
+  left:  49.2%;
+  top:   10%;
+  width: 1.4%;
+  pointer-events: none;
+  transform-origin: top center;
+  animation: abh-needle 0.45s ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 3px var(--neon));
+  opacity: 0.85;
+}
+@keyframes abh-needle {
+  0%   { transform: translateY(0%); }
+  100% { transform: translateY(20%); }
+}
+
+/* ═══════════════════════════════════════════════
+   SPOOL ROTATION OVERLAY
+═══════════════════════════════════════════════ */
+.abh-spool {
+  position: absolute;
+  left:  18%;
+  top:   38%;
+  width: 5.5%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1.5px solid rgba(200,240,0,0.15);
+  pointer-events: none;
+  animation: abh-spool 2s linear infinite;
+  transform-origin: center;
+}
+.abh-spool::after {
+  content: '';
+  position: absolute;
+  inset: 30%;
+  border-radius: 50%;
+  border: 1px solid rgba(200,240,0,0.2);
+}
+@keyframes abh-spool {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ═══════════════════════════════════════════════
+   HOODIE SPRITES
+═══════════════════════════════════════════════ */
+.abh-hoodies {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.abh-hoodie {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform, opacity;
+  /* start anchored at machine output */
+  left: 50%;
+  top:  62%;
+  transform: translate(-50%, -50%);
+}
+.abh-hoodie svg {
+  width: clamp(70px, 7.5vw, 130px);
+  height: auto;
+  filter: drop-shadow(0 6px 18px rgba(0,0,0,.8));
+}
+
+/* ═══════════════════════════════════════════════
+   TEXT OVERLAY
+═══════════════════════════════════════════════ */
+.abh-text {
+  position: absolute;
+  left: 4%;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 20;
+  max-width: 38%;
+}
+/* soft radial scrim so text is readable */
+.abh-text::before {
+  content: '';
+  position: absolute;
+  inset: -30% -50% -30% -40%;
+  background: radial-gradient(ellipse at 30% 50%,
+    rgba(8,8,8,.82) 0%, transparent 75%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.abh-eyebrow {
+  font-family: var(--font-b);
+  font-size: clamp(.55rem, .9vw, .78rem);
+  font-weight: 600;
+  letter-spacing: .38em;
+  color: var(--neon);
+  margin-bottom: .6rem;
+  opacity: 0;
+  animation: abh-fadein .8s .3s ease forwards;
+}
+.abh-headline {
+  font-family: var(--font-h);
+  font-size: clamp(2.2rem, 6.5vw, 6.5rem);
+  line-height: .92;
+  letter-spacing: .01em;
+  color: var(--white);
+  margin: 0 0 .35rem;
+  opacity: 0;
+  animation: abh-fadein .9s .5s ease forwards;
+}
+.abh-headline span { color: var(--neon); display: block; }
+.abh-subline {
+  font-family: var(--font-b);
+  font-size: clamp(.6rem, 1vw, .85rem);
+  font-weight: 500;
+  letter-spacing: .38em;
+  color: var(--muted);
+  margin-bottom: clamp(.8rem, 2vw, 1.8rem);
+  opacity: 0;
+  animation: abh-fadein .9s .75s ease forwards;
+}
+.abh-btn {
+  display: inline-block;
+  background: var(--neon);
+  color: #000;
+  font-family: var(--font-b);
+  font-size: clamp(.65rem, 1vw, .88rem);
+  font-weight: 700;
+  letter-spacing: .28em;
+  padding: clamp(.55rem, 1vw, .85rem) clamp(1rem, 2.5vw, 2.2rem);
+  text-decoration: none;
+  clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+  transition: background .2s, transform .2s;
+  opacity: 0;
+  animation: abh-fadein .9s 1s ease forwards;
+}
+.abh-btn:hover { background: #fff; transform: translateY(-2px); }
+
+@keyframes abh-fadein {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ═══════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════ */
+@media (max-width: 900px) {
+  #ab-hero-{{ section.id }} { aspect-ratio: 4/3; }
+  .abh-text { left: 4%; max-width: 55%; }
+  .abh-bg { object-position: 65% center; }
+}
+@media (max-width: 600px) {
+  #ab-hero-{{ section.id }} { aspect-ratio: auto; height: 90svh; }
+  .abh-bg { object-position: 70% center; }
+  .abh-text { top: 8%; transform: none; max-width: 88%; }
+  .abh-belt, .abh-spool, .abh-screen, .abh-needle { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .abh-belt-inner, .abh-spool, .abh-needle, .abh-screen { animation: none !important; }
+}
+</style>
+
+<!-- ════════════════════════════════
+     SECTION HTML
+════════════════════════════════ -->
+<section id="ab-hero-{{ section.id }}" class="ab-animated-hero">
+
+  {% if section.settings.scene_image != blank %}
+    <img class="abh-bg"
+      src="{{ section.settings.scene_image | image_url: width: 2560 }}"
+      srcset="{{ section.settings.scene_image | image_url: width: 800  }} 800w,
+              {{ section.settings.scene_image | image_url: width: 1440 }} 1440w,
+              {{ section.settings.scene_image | image_url: width: 2560 }} 2560w"
+      sizes="100vw"
+      alt="{{ section.settings.headline | escape }}"
+      loading="eager"
+      fetchpriority="high"
+      width="2560" height="1440">
+  {% else %}
+    <!-- Placeholder when no image is set -->
+    <div class="abh-bg" style="background: linear-gradient(135deg,#0a0a0a 60%,#0f1a00);"></div>
+  {% endif %}
+
+  <!-- Animated overlays -->
+  <div class="abh-belt" aria-hidden="true"><div class="abh-belt-inner"></div></div>
+  <div class="abh-screen" aria-hidden="true"></div>
+  <div class="abh-spool" aria-hidden="true"></div>
+
+  <!-- Needle SVG overlay -->
+  <svg class="abh-needle" viewBox="0 0 10 52" fill="none" aria-hidden="true">
+    <rect x="4.2" y="0" width="1.8" height="42" rx="0.9" fill="#BBBBBB"/>
+    <path d="M4.2 42 L5.1 52 L6 42Z" fill="#BBBBBB"/>
+    <circle cx="5.1" cy="5" r="2.2" fill="none" stroke="#C8F000" stroke-width="1.2"/>
+    <line x1="5.1" y1="4" x2="5.1" y2="6" stroke="#080808" stroke-width="0.6"/>
+  </svg>
+
+  <!-- Hoodie parade layer -->
+  <div class="abh-hoodies" id="abh-hoodies-{{ section.id }}" aria-hidden="true"></div>
+
+  <!-- Text -->
+  <div class="abh-text">
+    <p class="abh-eyebrow">{{ section.settings.eyebrow }}</p>
+    <h1 class="abh-headline">
+      WEAR YOUR<span>ATTITUDE</span>
+    </h1>
+    <p class="abh-subline">{{ section.settings.subline }}</p>
+    <a href="{{ section.settings.btn_link }}" class="abh-btn">
+      {{ section.settings.btn_label }}
+    </a>
+  </div>
+
+</section>
+
+<!-- ════════════════════════════════
+     GSAP ANIMATION
+════════════════════════════════ -->
+<script>
+(function () {
+  'use strict';
+
+  const SID = '{{ section.id }}';
+
+  /* ── HOODIE COLOR PALETTE ─────────────────────────
+     Cycles: green → pink → red → blue → green → …
+     Each object defines 3 face colours + logo accent
+  ─────────────────────────────────────────────────── */
+  const PALETTE = [
+    { top: '#131a00', front: '#0c1000', side: '#080c00', logo: '#C8F000' }, // green
+    { top: '#1a0010', front: '#100009', side: '#08000a', logo: '#FF1FA0' }, // pink
+    { top: '#1a0400', front: '#100200', side: '#080100', logo: '#FF3333' }, // red
+    { top: '#001a30', front: '#001020', side: '#000810', logo: '#1F8CFF' }, // blue
+  ];
+
+  /* ── SVG ISOMETRIC HOODIE ────────────────────────
+     240 × 96 viewBox — isometric flat-box shape.
+     Top face visible, left + right side faces.
+  ─────────────────────────────────────────────────── */
+  function hoodieHTML(p) {
+    return `<svg viewBox="0 0 240 96" xmlns="http://www.w3.org/2000/svg" role="img">
+      <defs>
+        <filter id="hf" x="-5%" y="-5%" width="110%" height="110%">
+          <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#000" flood-opacity=".7"/>
+        </filter>
+      </defs>
+      <g filter="url(#hf)">
+        <!-- top face -->
+        <polygon points="120,4 233,54 120,72 7,22" fill="${p.top}"/>
+        <!-- left/front face -->
+        <polygon points="7,22 120,72 120,90 7,40"  fill="${p.front}"/>
+        <!-- right face -->
+        <polygon points="120,72 233,54 233,72 120,90" fill="${p.side}"/>
+        <!-- top-face highlight edge -->
+        <polyline points="7,22 120,4 233,54"
+          fill="none" stroke="${p.logo}" stroke-width="0.7" opacity="0.35"/>
+        <!-- AB logo -->
+        <text x="120" y="43"
+          text-anchor="middle" dominant-baseline="middle"
+          font-family="'Bebas Neue',sans-serif"
+          font-size="25" font-weight="900" letter-spacing="2"
+          fill="${p.logo}" opacity="0.92">AB</text>
+      </g>
+    </svg>`;
+  }
+
+  /* ── ANIMATION CONFIG ─────────────────────────────
+     Positions are fractions of section W / H.
+     Start = machine output opening.
+     End   = right belt exit (lower-right).
+  ─────────────────────────────────────────────────── */
+  const CFG = {
+    startX : 0.50,  // fraction of section width
+    startY : 0.62,  // fraction of section height
+    deltaX : 0.33,  // travel distance X
+    deltaY : 0.11,  // travel distance Y (belt angle ≈ 18°)
+    travel : 5.0,   // seconds for one hoodie to cross
+    stagger: 1.5,   // seconds between each hoodie
+    pool   : 6,     // number of hoodie elements in the DOM pool
+  };
+
+  /* ── INIT ─────────────────────────────────────────── */
+  function init() {
+    const section   = document.getElementById('ab-hero-' + SID);
+    const container = document.getElementById('abh-hoodies-' + SID);
+    if (!section || !container) return;
+
+    /* Load GSAP from CDN then start */
+    if (window.gsap) {
+      boot(section, container);
+    } else {
+      const s = document.createElement('script');
+      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js';
+      s.onload = () => boot(section, container);
+      document.head.appendChild(s);
+    }
+  }
+
+  /* ── BOOT ─────────────────────────────────────────── */
+  function boot(section, container) {
+    const gsap = window.gsap;
+
+    /* Create DOM pool */
+    const pool = Array.from({ length: CFG.pool }, (_, i) => {
+      const el = document.createElement('div');
+      el.className  = 'abh-hoodie';
+      el.style.left = (CFG.startX * 100) + '%';
+      el.style.top  = (CFG.startY * 100) + '%';
+      el.innerHTML  = hoodieHTML(PALETTE[i % 4]);
+      container.appendChild(el);
+      return el;
+    });
+
+    /* Staggered loop for each slot */
+    pool.forEach((el, i) => {
+      animateHoodie(el, i, i * CFG.stagger, gsap, section);
+    });
+  }
+
+  /* ── SINGLE HOODIE LOOP ───────────────────────────── */
+  function animateHoodie(el, slotIdx, delay, gsap, section) {
+    let cycle = Math.floor(slotIdx / 1); // colour index starts offset by slot
+
+    function run(d) {
+      const W = section.offsetWidth;
+      const H = section.offsetHeight;
+      const dx = W * CFG.deltaX;
+      const dy = H * CFG.deltaY;
+
+      /* update colour for this cycle */
+      el.innerHTML = hoodieHTML(PALETTE[cycle % 4]);
+      cycle++;
+
+      const tl = gsap.timeline({
+        delay: d,
+        onComplete: () => run(0),
+      });
+
+      tl.set(el, { x: 0, y: 0, opacity: 0, force3D: true })
+        .to(el, { opacity: 1, duration: 0.35, ease: 'power1.in' })
+        .to(el, { x: dx, y: dy, duration: CFG.travel, ease: 'none' }, '<')
+        .to(el, { opacity: 0, duration: 0.55, ease: 'power1.out' }, `-=0.65`);
+    }
+
+    run(delay);
+  }
+
+  /* ── KICK OFF ─────────────────────────────────────── */
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "AB — Hero Animé",
+  "tag": "section",
+  "class": "ab-animated-hero",
+  "settings": [
+    {
+      "type": "header",
+      "content": "🖼 صورة المشهد"
+    },
+    {
+      "type": "image_picker",
+      "id": "scene_image",
+      "label": "صورة الخلفية (المشهد)",
+      "info": "ارفع AB_scene_1_green.png — أبعادها 2752×1536px"
+    },
+    {
+      "type": "header",
+      "content": "✍️ النصوص"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "النص الصغير فوق العنوان",
+      "default": "AB STREETWEAR — SS25"
+    },
+    {
+      "type": "text",
+      "id": "subline",
+      "label": "النص التحتي",
+      "default": "YOUNG · BOLD · DIFFERENT"
+    },
+    {
+      "type": "header",
+      "content": "🔗 الزر"
+    },
+    {
+      "type": "text",
+      "id": "btn_label",
+      "label": "نص الزر",
+      "default": "SHOP NOW"
+    },
+    {
+      "type": "url",
+      "id": "btn_link",
+      "label": "رابط الزر"
+    }
+  ],
+  "presets": [
+    {
+      "name": "AB — Hero Animé",
+      "settings": {
+        "eyebrow": "AB STREETWEAR — SS25",
+        "subline": "YOUNG · BOLD · DIFFERENT",
+        "btn_label": "SHOP NOW"
+      }
+    }
+  ]
+}
+{% endschema %}

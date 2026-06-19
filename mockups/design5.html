@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AB — 05 · RUNWAY SHOWROOM</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+:root{--bk:#080808;--nn:#AAFF00;--sv:#8c8c8c;--wh:#F2F2F2;--bd:#1c1c1c}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bk);color:var(--wh);font-family:'Cairo',sans-serif;overflow-x:hidden;min-height:100vh}
+.topbar{display:flex;justify-content:space-between;align-items:center;padding:1.8rem 2.5rem;animation:dn .8s both}
+.logo{font-family:'Bebas Neue';font-size:2rem}.logo b{color:var(--nn)}
+.nv{display:flex;gap:1.6rem;font-size:.8rem;color:var(--sv)}.nv span:first-child{color:var(--nn)}
+@keyframes dn{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:none}}
+@keyframes up{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+
+.stage{position:relative;padding:1rem 0 4rem}
+/* giant backdrop text */
+.bg-t{position:absolute;top:8%;left:0;right:0;text-align:center;font-family:'Bebas Neue';font-size:clamp(6rem,17vw,15rem);color:transparent;-webkit-text-stroke:1px #1e1e1e;line-height:1;pointer-events:none;animation:up 1.2s both}
+.head{text-align:center;position:relative;z-index:2;margin-bottom:2.2rem}
+.head .tag{font-size:.7rem;font-weight:700;letter-spacing:.34em;color:var(--nn);animation:up .9s .1s both}
+.head h1{font-family:'Bebas Neue';font-size:clamp(2.6rem,6vw,4.4rem);animation:up .9s .2s both}
+.head .sub{color:var(--sv);font-size:.85rem;letter-spacing:.12em;animation:up .9s .3s both}
+
+/* runway track */
+.rw{display:flex;gap:1.6rem;padding:2rem 3rem;overflow-x:auto;scroll-snap-type:x mandatory;position:relative;z-index:2}
+.rw::-webkit-scrollbar{height:4px}.rw::-webkit-scrollbar-thumb{background:var(--nn)}
+.cd{flex:0 0 300px;scroll-snap-align:center;position:relative;opacity:0;animation:up .9s both}
+.cd:nth-child(1){animation-delay:.35s}.cd:nth-child(2){animation-delay:.47s}.cd:nth-child(3){animation-delay:.59s}
+.cd:nth-child(4){animation-delay:.71s}.cd:nth-child(5){animation-delay:.83s}.cd:nth-child(6){animation-delay:.95s}.cd:nth-child(7){animation-delay:1.07s}
+.ci{height:420px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;border:1px solid var(--bd);transition:.45s cubic-bezier(.2,.9,.3,1)}
+.cd:hover .ci{border-color:var(--nn);transform:translateY(-10px) rotate(-1deg);box-shadow:0 30px 60px -20px rgba(170,255,0,.22)}
+.ci .em{font-family:'Bebas Neue';font-size:6rem;color:rgba(255,255,255,.05);transition:.5s}
+.cd:hover .ci .em{transform:scale(1.15)}
+.ix{position:absolute;top:1rem;left:1rem;font-family:'Bebas Neue';font-size:1.1rem;color:#3a3a3a}
+.bdg{position:absolute;top:1rem;right:1rem;background:var(--nn);color:#000;font-size:.55rem;font-weight:700;letter-spacing:.14em;padding:.35rem .7rem;animation:bl 2.4s infinite}
+@keyframes bl{0%,100%{box-shadow:0 0 0 0 rgba(170,255,0,.45)}55%{box-shadow:0 0 0 11px rgba(170,255,0,0)}}
+.nf{padding:1rem .2rem 0;display:flex;justify-content:space-between;align-items:flex-start}
+.nf .ct{font-size:.56rem;font-weight:600;letter-spacing:.2em;color:var(--sv);margin-bottom:.3rem}
+.nf .nm{font-size:.95rem;font-weight:700}
+.nf .pr{color:var(--nn);font-weight:700;font-size:.95rem;white-space:nowrap}
+/* shadow under cards = runway */
+.floor{height:1px;background:linear-gradient(90deg,transparent,#2a2a2a 20%,#2a2a2a 80%,transparent);margin:0 3rem;position:relative}
+.floor::after{content:'';position:absolute;top:0;width:18%;height:1px;background:var(--nn);animation:run 4s linear infinite}
+@keyframes run{from{left:-18%}to{left:100%}}
+.hint{text-align:center;color:#444;font-size:.7rem;letter-spacing:.2em;margin-top:1.6rem;animation:up 1s 1.2s both}
+.soon .ci{border-style:dashed;background:#0b0b0b}
+.soon .t{font-family:'Bebas Neue';font-size:1.7rem;color:var(--nn);text-align:center}
+.soon .d{font-size:.7rem;color:var(--sv);text-align:center;margin-top:.4rem}
+.t1{background:radial-gradient(circle at 50% 35%,#1c2b00,#0a0a0a 78%)}
+.t2{background:radial-gradient(circle at 50% 35%,#2b1600,#0a0a0a 78%)}
+.t3{background:radial-gradient(circle at 50% 35%,#001a2b,#0a0a0a 78%)}
+.t4{background:radial-gradient(circle at 50% 35%,#2b0019,#0a0a0a 78%)}
+.t5{background:radial-gradient(circle at 50% 35%,#1d1d1d,#0a0a0a 78%)}
+.t6{background:radial-gradient(circle at 50% 35%,#0f1d0f,#0a0a0a 78%)}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important}}
+</style>
+</head>
+<body>
+  <div class="topbar"><div class="logo">A<b>B</b></div><div class="nv"><span>المنتجات</span><span>طلب مسبق</span><span>عن AB</span></div></div>
+
+  <div class="stage">
+    <div class="bg-t">THE DROP</div>
+    <div class="head">
+      <p class="tag">● المجموعة الأولى</p>
+      <h1>منصّة العرض</h1>
+      <p class="sub">٦ قطع · اسحب لاستعراض المجموعة</p>
+    </div>
+
+    <div class="rw">
+      <div class="cd"><div class="ci t1"><span class="ix">01</span><span class="bdg">مميز</span><span class="em">AB</span></div><div class="nf"><div><p class="ct">هودي</p><p class="nm">Signature Hoodie</p></div><p class="pr">٣٤٩ ر.س</p></div></div>
+      <div class="cd"><div class="ci t2"><span class="ix">02</span><span class="em">AB</span></div><div class="nf"><div><p class="ct">تيشيرت</p><p class="nm">Attitude Tee</p></div><p class="pr">١٤٩ ر.س</p></div></div>
+      <div class="cd"><div class="ci t3"><span class="ix">03</span><span class="em">AB</span></div><div class="nf"><div><p class="ct">كارجو</p><p class="nm">Neon Cargo</p></div><p class="pr">٢٩٩ ر.س</p></div></div>
+      <div class="cd"><div class="ci t4"><span class="ix">04</span><span class="em">AB</span></div><div class="nf"><div><p class="ct">كاب</p><p class="nm">AB Logo Cap</p></div><p class="pr">٩٩ ر.س</p></div></div>
+      <div class="cd"><div class="ci t5"><span class="ix">05</span><span class="em">AB</span></div><div class="nf"><div><p class="ct">تيشيرت</p><p class="nm">Glitch Oversized</p></div><p class="pr">١٦٩ ر.س</p></div></div>
+      <div class="cd"><div class="ci t6"><span class="ix">06</span><span class="em">AB</span></div><div class="nf"><div><p class="ct">كرو نيك</p><p class="nm">Statement Crew</p></div><p class="pr">٢٧٩ ر.س</p></div></div>
+      <div class="cd soon"><div class="ci"><div><div class="t">الدفعة القادمة 🔒</div><div class="d">طلب مسبق — قريباً</div></div></div></div>
+    </div>
+    <div class="floor"></div>
+    <p class="hint">⟵ اسحب لاستعراض القطع ⟶</p>
+  </div>
+</body>
+</html>

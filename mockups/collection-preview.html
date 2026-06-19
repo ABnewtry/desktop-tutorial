@@ -1,0 +1,84 @@
+<!DOCTYPE html><html lang="ar" dir="rtl"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AB — معاينة المجموعات (بوستر فقط)</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--ab-black:#080808;--ab-neon:#AAFF00;--ab-silver:#9a9a9a;--ab-white:#F0F0F0;--ab-border:#222}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--ab-black);color:var(--ab-white);font-family:'Cairo',sans-serif;direction:rtl;overflow-x:hidden}
+.col{display:none}.col.active{display:block}
+.hero{position:relative;min-height:100vh;display:flex;align-items:flex-end;overflow:hidden}
+.poster{position:absolute;inset:0;z-index:0;background-size:cover;background-position:center;animation:kb 20s ease-in-out infinite alternate}
+@keyframes kb{from{transform:scale(1) translateY(0)}to{transform:scale(1.12) translateY(-2%)}}
+.ph{position:absolute;inset:0;z-index:0;background:radial-gradient(circle at 30% 30%,rgba(170,255,0,.10),transparent 55%),repeating-linear-gradient(45deg,#0d0d0d 0 22px,#0a0a0a 22px 44px);animation:kb 20s ease-in-out infinite alternate}
+.ph::after{content:'POSTER';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:clamp(2rem,8vw,5rem);font-weight:900;letter-spacing:.3em;color:rgba(255,255,255,.05)}
+.scrim{position:absolute;inset:0;z-index:1;background:linear-gradient(to top,var(--ab-black) 3%,rgba(8,8,8,.55) 42%,rgba(8,8,8,.10) 100%)}
+.in{position:relative;z-index:2;padding:0 7vw 9vh;width:100%}
+.tag{display:inline-block;font-size:.66rem;font-weight:700;letter-spacing:.3em;color:#000;background:var(--ab-neon);padding:.4rem 1rem;margin-bottom:1.2rem;clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%);animation:up .9s .1s both}
+.title{font-size:clamp(3rem,13vw,7rem);font-weight:900;line-height:.92;animation:up 1s .2s both}
+.sub{font-size:clamp(1rem,3.6vw,1.5rem);font-weight:300;color:var(--ab-silver);max-width:600px;margin:1rem 0 0;animation:up 1s .35s both}
+.cta{display:inline-block;margin-top:2rem;background:var(--ab-neon);color:#000;font-weight:700;font-size:.8rem;letter-spacing:.2em;padding:1rem 2.6rem;text-decoration:none;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%);animation:up 1s .55s both}
+.scroll{position:absolute;bottom:3vh;inset-inline-start:50%;transform:translateX(-50%);z-index:2;width:1px;height:42px;background:linear-gradient(var(--ab-neon),transparent);animation:fade 2s ease-in-out infinite}
+@keyframes fade{0%,100%{opacity:.2}50%{opacity:.9}}
+@keyframes up{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+.sw{position:fixed;bottom:0;left:0;right:0;z-index:99;display:flex;background:rgba(8,8,8,.92);backdrop-filter:blur(10px);border-top:1px solid var(--ab-border)}
+.sw button{flex:1;background:none;border:none;color:var(--ab-silver);font-family:'Cairo';font-weight:700;font-size:.78rem;padding:.9rem .4rem;cursor:pointer;border-top:2px solid transparent}
+.sw button.active{color:var(--ab-neon);border-top-color:var(--ab-neon)}
+</style></head><body>
+
+<section class="col active" id="travel">
+  <header class="hero">
+    <div class="poster" style="background-image:url('assets/poster-travel.png')"></div>
+    <div class="scrim"></div>
+    <div class="in">
+      <span class="tag">الدفعة الحالية</span>
+      <h1 class="title">TRAVEL</h1>
+      <p class="sub">اكتشف العالم — قطعٌ مستوحاة من الطريق.</p>
+      <a class="cta" href="#">تسوّق المجموعة</a>
+    </div>
+    <div class="scroll"></div>
+  </header>
+</section>
+
+<section class="col" id="anime">
+  <header class="hero">
+    <div class="ph"></div>
+    <div class="scrim"></div>
+    <div class="in">
+      <span class="tag">قريباً</span>
+      <h1 class="title">ANIME</h1>
+      <p class="sub">حيث يلتقي الستريت وير بعالم الأنمي.</p>
+      <a class="cta" href="#">تسوّق المجموعة</a>
+    </div>
+    <div class="scroll"></div>
+  </header>
+</section>
+
+<section class="col" id="couples">
+  <header class="hero">
+    <div class="ph"></div>
+    <div class="scrim"></div>
+    <div class="in">
+      <span class="tag">قريباً</span>
+      <h1 class="title">COUPLES</h1>
+      <p class="sub">قطعتان، حكاية واحدة.</p>
+      <a class="cta" href="#">تسوّق المجموعة</a>
+    </div>
+    <div class="scroll"></div>
+  </header>
+</section>
+
+<nav class="sw">
+  <button class="active" data-c="travel" onclick="act('travel')">TRAVEL</button>
+  <button data-c="anime" onclick="act('anime')">ANIME</button>
+  <button data-c="couples" onclick="act('couples')">COUPLES</button>
+</nav>
+
+<script>
+function act(id){
+  document.querySelectorAll('.col').forEach(s=>s.classList.toggle('active',s.id===id));
+  document.querySelectorAll('.sw button').forEach(b=>b.classList.toggle('active',b.dataset.c===id));
+  window.scrollTo(0,0);
+}
+</script>
+</body></html>

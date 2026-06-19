@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AB — 03 · MINIMAL FLOAT</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+:root{--bk:#080808;--nn:#AAFF00;--sv:#8c8c8c;--wh:#F2F2F2}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bk);color:var(--wh);font-family:'Cairo',sans-serif;overflow-x:hidden;
+  background-image:linear-gradient(rgba(170,255,0,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(170,255,0,.025) 1px,transparent 1px);
+  background-size:80px 80px}
+.wrap{max-width:1280px;margin:0 auto;padding:2.4rem 2.5rem 5rem}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:3.5rem;animation:dn .8s both}
+.logo{font-family:'Bebas Neue';font-size:2rem}.logo b{color:var(--nn)}
+.nv{display:flex;gap:1.6rem;font-size:.8rem;color:var(--sv)}.nv span:first-child{color:var(--nn)}
+@keyframes dn{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:none}}
+@keyframes up{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+
+.head{text-align:center;margin-bottom:3.5rem}
+.head .tag{font-size:.7rem;font-weight:700;letter-spacing:.34em;color:var(--nn);margin-bottom:.7rem;animation:up .9s .1s both}
+.head h1{font-family:'Bebas Neue';font-size:clamp(2.8rem,6vw,4.8rem);line-height:.95;animation:up .9s .2s both;position:relative;display:inline-block}
+.head h1::after{content:'';position:absolute;bottom:-12px;left:15%;right:15%;height:2px;background:linear-gradient(90deg,transparent,var(--nn),transparent);animation:wd 1.2s .8s both}
+@keyframes wd{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.head .sub{color:var(--sv);font-size:.85rem;margin-top:1.4rem;letter-spacing:.12em;animation:up .9s .3s both}
+
+.gr{display:grid;grid-template-columns:repeat(3,1fr);gap:3.2rem 2.6rem}
+.cd{position:relative;opacity:0;animation:up .85s both}
+.cd:nth-child(1){animation-delay:.4s}.cd:nth-child(2){animation-delay:.52s}.cd:nth-child(3){animation-delay:.64s}
+.cd:nth-child(4){animation-delay:.76s}.cd:nth-child(5){animation-delay:.88s}.cd:nth-child(6){animation-delay:1s}
+.ci{aspect-ratio:4/5;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;margin-bottom:1.1rem;transition:.45s cubic-bezier(.2,.9,.3,1)}
+.cd:hover .ci{transform:translateY(-8px);box-shadow:0 24px 50px -18px rgba(170,255,0,.18)}
+.ci .em{font-family:'Bebas Neue';font-size:5.5rem;color:rgba(255,255,255,.05);transition:.5s}
+.cd:hover .ci .em{transform:scale(1.12)}
+.qa{position:absolute;bottom:0;left:0;right:0;background:var(--nn);color:#000;font-weight:700;font-size:.7rem;letter-spacing:.18em;text-align:center;padding:.95rem;transform:translateY(100%);transition:.32s cubic-bezier(.2,.9,.3,1)}
+.cd:hover .qa{transform:none}
+.bdg{position:absolute;top:.9rem;right:.9rem;font-size:.55rem;font-weight:700;letter-spacing:.14em;color:var(--nn);border:1px solid var(--nn);padding:.3rem .6rem;z-index:2;background:rgba(8,8,8,.55);backdrop-filter:blur(4px)}
+.ct{font-size:.6rem;font-weight:600;letter-spacing:.24em;color:var(--sv);margin-bottom:.4rem}
+.nm{font-size:1rem;font-weight:700;margin-bottom:.3rem;transition:.25s}
+.cd:hover .nm{color:var(--nn)}
+.pr{font-size:.92rem;color:var(--nn);font-weight:600}
+.t1{background:radial-gradient(circle at 50% 32%,#1c2b00,#0b0b0b 75%)}
+.t2{background:radial-gradient(circle at 50% 32%,#2b1600,#0b0b0b 75%)}
+.t3{background:radial-gradient(circle at 50% 32%,#001a2b,#0b0b0b 75%)}
+.t4{background:radial-gradient(circle at 50% 32%,#2b0019,#0b0b0b 75%)}
+.t5{background:radial-gradient(circle at 50% 32%,#1d1d1d,#0b0b0b 75%)}
+.t6{background:radial-gradient(circle at 50% 32%,#0f1d0f,#0b0b0b 75%)}
+/* bottom CTA strip */
+.cta{margin-top:4.5rem;border:1px dashed #2a2a2a;display:flex;align-items:center;justify-content:space-between;padding:2rem 2.4rem;animation:up .9s 1.15s both}
+.cta .t{font-family:'Bebas Neue';font-size:1.8rem;color:var(--wh)}.cta .t b{color:var(--nn)}
+.cta a{color:#000;background:var(--nn);font-size:.7rem;font-weight:700;letter-spacing:.16em;padding:.85rem 1.8rem;text-decoration:none;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)}
+@media(max-width:860px){.gr{grid-template-columns:1fr 1fr;gap:2rem 1.2rem}.cta{flex-direction:column;gap:1.2rem}}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar"><div class="logo">A<b>B</b></div><div class="nv"><span>المنتجات</span><span>طلب مسبق</span><span>عن AB</span></div></div>
+
+  <div class="head">
+    <p class="tag">● المجموعة الأولى</p>
+    <h1>كل القطع</h1>
+    <p class="sub">٦ قطع · دفعة محدودة · صُنعت بنيّة</p>
+  </div>
+
+  <div class="gr">
+    <div class="cd"><div class="ci t1"><span class="bdg">مميز</span><span class="em">AB</span><div class="qa">أضف للسلة +</div></div><p class="ct">هودي</p><p class="nm">AB Signature Hoodie</p><p class="pr">٣٤٩ ر.س</p></div>
+    <div class="cd"><div class="ci t2"><span class="em">AB</span><div class="qa">أضف للسلة +</div></div><p class="ct">تيشيرت</p><p class="nm">Attitude Tee</p><p class="pr">١٤٩ ر.س</p></div>
+    <div class="cd"><div class="ci t3"><span class="em">AB</span><div class="qa">أضف للسلة +</div></div><p class="ct">كارجو</p><p class="nm">Neon Cargo Pants</p><p class="pr">٢٩٩ ر.س</p></div>
+    <div class="cd"><div class="ci t4"><span class="em">AB</span><div class="qa">أضف للسلة +</div></div><p class="ct">كاب</p><p class="nm">AB Logo Cap</p><p class="pr">٩٩ ر.س</p></div>
+    <div class="cd"><div class="ci t5"><span class="bdg">أول دفعة</span><span class="em">AB</span><div class="qa">أضف للسلة +</div></div><p class="ct">تيشيرت</p><p class="nm">Glitch Oversized Tee</p><p class="pr">١٦٩ ر.س</p></div>
+    <div class="cd"><div class="ci t6"><span class="em">AB</span><div class="qa">أضف للسلة +</div></div><p class="ct">كرو نيك</p><p class="nm">Statement Crewneck</p><p class="pr">٢٧٩ ر.س</p></div>
+  </div>
+
+  <div class="cta">
+    <div class="t">الدفعة القادمة <b>قريباً</b> — كن أول من يعرف</div>
+    <a href="#">طلب مسبق ←</a>
+  </div>
+</div>
+</body>
+</html>
