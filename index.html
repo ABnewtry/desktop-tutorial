@@ -75,6 +75,27 @@
   .stats{display:flex;gap:34px;flex-wrap:wrap;margin-top:54px}
   .stat b{display:block;font-size:2rem;font-weight:900}
   .stat span{color:var(--muted);font-size:.9rem}
+  /* hero photo */
+  .hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(30px,5vw,56px);align-items:center}
+  .hero-photo{position:relative;animation:float 6s ease-in-out infinite}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+  .hero-photo::before{content:"";position:absolute;inset:-30px;z-index:-1;border-radius:50%;
+    background:radial-gradient(circle,var(--accent) 0%,transparent 65%);filter:blur(40px);opacity:.55}
+  .photo-frame{padding:3px;background:var(--grad);border-radius:30px;
+    box-shadow:0 30px 80px -22px var(--accent);max-width:420px;margin-inline:auto}
+  .photo-inner{position:relative;border-radius:27px;overflow:hidden;aspect-ratio:4/5;background:var(--bg-soft)}
+  .photo-inner img{width:100%;height:100%;object-fit:cover;display:block}
+  .photo-inner img.missing{display:none}
+  .photo-fallback{display:none}
+  .photo-inner img.missing~.photo-fallback{display:grid;position:absolute;inset:0;place-content:center;
+    text-align:center;gap:10px;color:var(--muted);padding:24px}
+  .photo-fallback .big{font-size:2.6rem}
+  .photo-fallback code{font-size:.8rem;color:var(--accent2);background:var(--card);padding:4px 9px;border-radius:8px}
+  .float-chip{position:absolute;background:var(--card);border:1px solid var(--border);backdrop-filter:blur(8px);
+    padding:9px 14px;border-radius:12px;font-size:.82rem;font-weight:700;box-shadow:0 12px 30px -10px #0008;z-index:4}
+  .float-chip.c1{inset-block-start:14%;inset-inline-start:-8%}
+  .float-chip.c2{inset-block-end:16%;inset-inline-end:-6%}
+  .float-chip .d{color:var(--accent2)}
 
   /* SERVICES */
   .grid{display:grid;gap:20px}
@@ -141,6 +162,10 @@
     nav.links.open{transform:translateX(0)!important}
     .menu-toggle{display:grid}
     .about-grid{grid-template-columns:1fr}
+    .hero-grid{grid-template-columns:1fr;gap:44px}
+    .hero-photo{order:-1;max-width:340px;margin-inline:auto}
+    .float-chip.c1{inset-inline-start:0}
+    .float-chip.c2{inset-inline-end:0}
   }
 </style>
 </head>
@@ -166,17 +191,35 @@
 <main>
   <!-- HERO -->
   <section class="hero wrap">
-    <span class="badge reveal">✦ <b data-i18n="hero_badge">متاح لمشاريع جديدة</b></span>
-    <h1 class="reveal" data-i18n="hero_title_html"></h1>
-    <p class="lead reveal" data-i18n="hero_lead"></p>
-    <div class="cta-row reveal">
-      <button class="btn btn-primary" onclick="document.getElementById('work').scrollIntoView()" data-i18n="hero_cta1">شاهد أعمالي</button>
-      <button class="btn btn-ghost" onclick="document.getElementById('contact').scrollIntoView()" data-i18n="hero_cta2">تواصل معي</button>
-    </div>
-    <div class="stats reveal">
-      <div class="stat"><b class="grad-text">+150</b><span data-i18n="stat1">مشروع منجز</span></div>
-      <div class="stat"><b class="grad-text">+50</b><span data-i18n="stat2">عميل سعيد</span></div>
-      <div class="stat"><b class="grad-text">AI</b><span data-i18n="stat3">في صميم كل تصميم</span></div>
+    <div class="hero-grid">
+      <div class="hero-text">
+        <span class="badge reveal">✦ <b data-i18n="hero_badge">متاح لمشاريع جديدة</b></span>
+        <h1 class="reveal" data-i18n="hero_title_html"></h1>
+        <p class="lead reveal" data-i18n="hero_lead"></p>
+        <div class="cta-row reveal">
+          <button class="btn btn-primary" onclick="document.getElementById('work').scrollIntoView()" data-i18n="hero_cta1">شاهد أعمالي</button>
+          <button class="btn btn-ghost" onclick="document.getElementById('contact').scrollIntoView()" data-i18n="hero_cta2">تواصل معي</button>
+        </div>
+        <div class="stats reveal">
+          <div class="stat"><b class="grad-text">+150</b><span data-i18n="stat1">مشروع منجز</span></div>
+          <div class="stat"><b class="grad-text">+50</b><span data-i18n="stat2">عميل سعيد</span></div>
+          <div class="stat"><b class="grad-text">AI</b><span data-i18n="stat3">في صميم كل تصميم</span></div>
+        </div>
+      </div>
+      <div class="hero-photo reveal">
+        <div class="float-chip c1">✦ AI <span class="d" data-i18n="chip1">تصميم</span></div>
+        <div class="photo-frame">
+          <div class="photo-inner">
+            <img src="assets/profile.png" alt="عبد الرحمن" onerror="this.classList.add('missing')">
+            <div class="photo-fallback">
+              <span class="big">📸</span>
+              <span data-i18n="photo_hint">ضع صورتك الاحترافية هنا</span>
+              <code>assets/profile.png</code>
+            </div>
+          </div>
+        </div>
+        <div class="float-chip c2">🎬 <span class="d" data-i18n="chip2">مونتاج</span></div>
+      </div>
     </div>
   </section>
 
@@ -236,9 +279,10 @@ const G = ["linear-gradient(135deg,#7c5cff,#22d3ee)","linear-gradient(135deg,#ff
 const DATA = {
   ar:{
     dir:"rtl", langLabel:"EN",
-    brand:"اسمك هنا",
+    brand:"عبد الرحمن",
     nav_services:"الخدمات", nav_work:"الأعمال", nav_about:"عنّي", nav_contact:"تواصل",
     hero_badge:"متاح لمشاريع جديدة",
+    chip1:"تصميم", chip2:"مونتاج", photo_hint:"ضع صورتك الاحترافية هنا",
     hero_title_html:'أصمّم وأسوّق بـ<span class="grad-text">الذكاء الاصطناعي</span>',
     hero_lead:"إعلانات، بوسترات، لاندنق بيجز، مواقع، منيوهات، ومونتاج فيديو احترافي في Premiere Pro — كل شيء بلمسة AI ذكية تحوّل الأفكار إلى نتائج.",
     hero_cta1:"شاهد أعمالي", hero_cta2:"تواصل معي",
@@ -274,9 +318,10 @@ const DATA = {
   },
   en:{
     dir:"ltr", langLabel:"ع",
-    brand:"Your Name",
+    brand:"Abdulrahman",
     nav_services:"Services", nav_work:"Work", nav_about:"About", nav_contact:"Contact",
     hero_badge:"Available for new projects",
+    chip1:"Design", chip2:"Editing", photo_hint:"Place your professional photo here",
     hero_title_html:'I design & market with <span class="grad-text">AI</span>',
     hero_lead:"Ads, posters, landing pages, websites, menus, and pro video editing in Premiere Pro — everything with a smart AI touch that turns ideas into results.",
     hero_cta1:"View my work", hero_cta2:"Get in touch",
