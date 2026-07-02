@@ -132,6 +132,23 @@
   .work .tag{display:inline-block;margin-top:10px;font-size:.74rem;color:var(--accent2);
     border:1px solid var(--border);padding:3px 10px;border-radius:999px}
 
+  /* ADS transformation */
+  .ads-grid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));margin-top:44px}
+  .ad-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transition:.35s var(--ease)}
+  .ad-card:hover{transform:translateY(-6px);border-color:color-mix(in srgb,var(--accent) 45%,transparent)}
+  .ad-stage{aspect-ratio:4/5;position:relative;display:grid;place-items:center;color:#fff;overflow:hidden}
+  .ad-stage img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .ad-stage .ph{position:relative;z-index:1;font-weight:800;font-size:1.25rem;opacity:.92;text-shadow:0 2px 12px #0008}
+  .ad-stage::after{content:"";position:absolute;inset:0;background:#0002}
+  .ad-badge{position:absolute;top:12px;inset-inline-start:12px;z-index:3;background:#000000aa;backdrop-filter:blur(6px);
+    padding:6px 13px;border-radius:999px;font-size:.82rem;font-weight:800}
+  .ad-body{padding:16px 18px}
+  .ad-body h3{font-size:1.18rem;margin-bottom:12px}
+  .ad-tabs{display:flex;gap:6px}
+  .ad-tab{flex:1;cursor:pointer;padding:9px 6px;border-radius:10px;border:1px solid var(--border);
+    background:var(--bg-soft);color:var(--muted);font-weight:700;font-family:inherit;font-size:.86rem;transition:.2s var(--ease)}
+  .ad-tab.active{background:var(--grad);color:#fff;border-color:transparent}
+
   /* ABOUT */
   .about-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:40px;align-items:center}
   .about-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:30px}
@@ -180,6 +197,7 @@
     <div class="logo"><span class="dot"></span><span data-i18n="brand">اسمك هنا</span></div>
     <nav class="links" id="navlinks">
       <a href="#services" data-i18n="nav_services">الخدمات</a>
+      <a href="#ads" data-i18n="nav_ads">إعلانات</a>
       <a href="#work" data-i18n="nav_work">الأعمال</a>
       <a href="#about" data-i18n="nav_about">عنّي</a>
       <a href="#contact" data-i18n="nav_contact">تواصل</a>
@@ -237,6 +255,16 @@
     <div class="grid services-grid" id="servicesGrid" style="margin-top:40px"></div>
   </section>
 
+  <!-- ADS & POSTERS -->
+  <section id="ads" class="wrap">
+    <div class="reveal">
+      <span class="eyebrow" data-i18n="ads_eyebrow">إعلانات وبوسترات</span>
+      <h2 data-i18n="ads_title">من صورة عادية… إلى إعلان وبوستر يبيع</h2>
+      <p class="lead" data-i18n="ads_lead">شوف كيف أحوّل منتج العميل من صورة بسيطة إلى تصميم احترافي.</p>
+    </div>
+    <div class="grid ads-grid" id="adsGrid"></div>
+  </section>
+
   <!-- WORK -->
   <section id="work" class="wrap">
     <div class="reveal">
@@ -284,7 +312,7 @@ const DATA = {
   ar:{
     dir:"rtl", langLabel:"EN",
     brand:"عبد الرحمن",
-    nav_services:"الخدمات", nav_work:"الأعمال", nav_about:"عنّي", nav_contact:"تواصل",
+    nav_services:"الخدمات", nav_ads:"إعلانات", nav_work:"الأعمال", nav_about:"عنّي", nav_contact:"تواصل",
     hero_badge:"متاح لمشاريع جديدة",
     chip1:"تصميم", chip2:"مونتاج", photo_hint:"ضع صورتك الاحترافية هنا",
     hero_title_html:'خبير بـ<span class="grad-text">الذكاء الاصطناعي</span>',
@@ -301,6 +329,11 @@ const DATA = {
       {ic:"🍽️",t:"تصميم المنيوهات",d:"منيوهات أنيقة للمطاعم والكافيهات بهوية بصرية متكاملة."},
       {ic:"🎬",t:"مونتاج فيديو",d:"مونتاج وإخراج فيديوهات احترافية في Adobe Premiere Pro."}
     ],
+    ads_eyebrow:"إعلانات وبوسترات",
+    ads_title:"من صورة عادية… إلى إعلان وبوستر يبيع",
+    ads_lead:"شوف كيف أحوّل منتج العميل من صورة بسيطة إلى إعلان جذّاب، ثم بوستر احترافي جاهز للنشر.",
+    stages:{original:"عادية",ad:"إعلان",poster:"بوستر"},
+    ads_items:[{k:"food",l:"الأكل"},{k:"perfume",l:"العطور"},{k:"furniture",l:"الأثاث"}],
     work_eyebrow:"معرض الأعمال", work_title:"مختارات من مشاريعي",
     work_lead:"هذه نماذج توضيحية — استبدلها بأعمالك وصورك الحقيقية.",
     cats:[{k:"all",l:"الكل"},{k:"ads",l:"إعلانات"},{k:"web",l:"مواقع"},{k:"video",l:"فيديو"},{k:"menu",l:"منيوهات"}],
@@ -323,7 +356,7 @@ const DATA = {
   en:{
     dir:"ltr", langLabel:"ع",
     brand:"Abdulrahman",
-    nav_services:"Services", nav_work:"Work", nav_about:"About", nav_contact:"Contact",
+    nav_services:"Services", nav_ads:"Ads", nav_work:"Work", nav_about:"About", nav_contact:"Contact",
     hero_badge:"Available for new projects",
     chip1:"Design", chip2:"Editing", photo_hint:"Place your professional photo here",
     hero_title_html:'<span class="grad-text">AI</span> Expert',
@@ -340,6 +373,11 @@ const DATA = {
       {ic:"🍽️",t:"Menu Design",d:"Elegant menus for restaurants and cafés with a complete visual identity."},
       {ic:"🎬",t:"Video Editing",d:"Professional video editing and production in Adobe Premiere Pro."}
     ],
+    ads_eyebrow:"Ads & Posters",
+    ads_title:"From a plain photo… to an ad & poster that sells",
+    ads_lead:"See how I turn a client's product from a simple photo into an eye-catching ad, then a professional print-ready poster.",
+    stages:{original:"Original",ad:"Ad",poster:"Poster"},
+    ads_items:[{k:"food",l:"Food"},{k:"perfume",l:"Perfumes"},{k:"furniture",l:"Furniture"}],
     work_eyebrow:"Portfolio", work_title:"Selected projects",
     work_lead:"These are placeholders — replace them with your real work and images.",
     cats:[{k:"all",l:"All"},{k:"ads",l:"Ads"},{k:"web",l:"Web"},{k:"video",l:"Video"},{k:"menu",l:"Menus"}],
@@ -371,9 +409,17 @@ const SOCIALS=[
   {ic:"☏",l:"WhatsApp",href:"#"}
 ];
 
+/* ad transformation media — fill each with image paths later, e.g. "assets/work/food-original.jpg" */
+const ADS_MEDIA = {
+  food:      {original:null, ad:null, poster:null},
+  perfume:   {original:null, ad:null, poster:null},
+  furniture: {original:null, ad:null, poster:null}
+};
+
 /* ============ RENDER ============ */
 let lang = localStorage.getItem("lang") || "ar";
 let curCat = "all";
+const adState = {};
 
 function render(){
   const d = DATA[lang];
@@ -410,11 +456,42 @@ function render(){
     d.skills.map(s=>`<div class="skill"><div class="top"><span>${s.n}</span><span>${s.v}%</span></div>
       <div class="bar"><i style="width:${s.v}%"></i></div></div>`).join("");
 
+  // ads transformation
+  renderAds();
+
   // socials
   document.getElementById("socials").innerHTML = SOCIALS.map(s=>`
     <a href="${s.href}" target="_blank" rel="noopener"><span>${s.ic}</span><span>${s.l}</span></a>`).join("");
 
   observe();
+}
+
+function renderAds(){
+  const d = DATA[lang];
+  const stages = ["original","ad","poster"];
+  document.getElementById("adsGrid").innerHTML = d.ads_items.map((it,i)=>{
+    const cur = adState[it.k] || "original";
+    const media = ADS_MEDIA[it.k] || {};
+    const src = media[cur];
+    const g = G[i%G.length];
+    const inner = src
+      ? `<img src="${src}" alt="${it.l} - ${d.stages[cur]}">`
+      : `<span class="ph">${d.stages[cur]}</span>`;
+    return `<div class="ad-card">
+      <div class="ad-stage" style="background:${g}">
+        <span class="ad-badge">${d.stages[cur]}</span>${inner}
+      </div>
+      <div class="ad-body">
+        <h3>${it.l}</h3>
+        <div class="ad-tabs">
+          ${stages.map(s=>`<button class="ad-tab ${s===cur?'active':''}" data-k="${it.k}" data-s="${s}">${d.stages[s]}</button>`).join("")}
+        </div>
+      </div>
+    </div>`;
+  }).join("");
+  document.querySelectorAll(".ad-tab").forEach(b=>b.addEventListener("click",()=>{
+    adState[b.dataset.k]=b.dataset.s; renderAds();
+  }));
 }
 
 function renderWork(items){
