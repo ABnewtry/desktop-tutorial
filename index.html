@@ -535,10 +535,10 @@ const DATA = {
     work_eyebrow:"معرض الأعمال", work_title:"مختارات من مشاريعي",
     work_lead:"أربعة أبواب… كل باب يفتح عالم.",
     work_items:[
-      {ic:"🌐",t:"موقع إلكتروني",d:"موقع AB — اللي تتصفحه الآن",tag:"Live",href:"https://abnewtry.github.io/desktop-tutorial/",ext:true},
-      {ic:"▶️",t:"تصميم فيديوهات",d:"قناتي على يوتيوب",tag:"YouTube",href:"#",ext:true},
-      {ic:"🖼️",t:"بوسترات ترويجية",d:"من صورة عادية إلى بوستر يبيع",tag:"Posters",href:"#ads",ext:false},
-      {ic:"🧩",t:"هويات بصرية",d:"AB ومستر بطاطس",tag:"Branding",href:"#identity",ext:false}
+      {k:"web",ic:"🌐",t:"موقع إلكتروني",d:"متجر ثياب — تصميم وتنفيذ",tag:"Live",href:"https://7is8hb-km.myshopify.com/en",ext:true},
+      {k:"video",ic:"▶️",t:"تصميم فيديوهات",d:"شاهد شغلي على يوتيوب",tag:"YouTube",href:"https://www.youtube.com/watch?v=p-GT3_eqIZA",ext:true},
+      {k:"posters",ic:"🖼️",t:"بوسترات ترويجية",d:"من صورة عادية إلى بوستر يبيع",tag:"Posters",href:"#ads",ext:false},
+      {k:"identity",ic:"🧩",t:"هويات بصرية",d:"AB ومستر بطاطس",tag:"Branding",href:"#identity",ext:false}
     ],
     about_eyebrow:"نبذة", about_title:"ليش تختارني؟",
     about_p1:"لأني ما أبيع لك تصميم… أبيع لك نتيجة. عين مصمم، وعقل مسوّق.",
@@ -610,10 +610,10 @@ const DATA = {
     work_eyebrow:"Portfolio", work_title:"Selected projects",
     work_lead:"Four doors… each opens a world.",
     work_items:[
-      {ic:"🌐",t:"Website",d:"The AB site — you're browsing it now",tag:"Live",href:"https://abnewtry.github.io/desktop-tutorial/",ext:true},
-      {ic:"▶️",t:"Video Design",d:"My YouTube channel",tag:"YouTube",href:"#",ext:true},
-      {ic:"🖼️",t:"Promo Posters",d:"From plain photo to a poster that sells",tag:"Posters",href:"#ads",ext:false},
-      {ic:"🧩",t:"Brand Identities",d:"AB & Mr. Potato",tag:"Branding",href:"#identity",ext:false}
+      {k:"web",ic:"🌐",t:"Website",d:"Clothing store — design & build",tag:"Live",href:"https://7is8hb-km.myshopify.com/en",ext:true},
+      {k:"video",ic:"▶️",t:"Video Design",d:"Watch my work on YouTube",tag:"YouTube",href:"https://www.youtube.com/watch?v=p-GT3_eqIZA",ext:true},
+      {k:"posters",ic:"🖼️",t:"Promo Posters",d:"From plain photo to a poster that sells",tag:"Posters",href:"#ads",ext:false},
+      {k:"identity",ic:"🧩",t:"Brand Identities",d:"AB & Mr. Potato",tag:"Branding",href:"#identity",ext:false}
     ],
     about_eyebrow:"About", about_title:"Why me?",
     about_p1:"Because I don't sell you a design — I sell you a result. A designer's eye, a marketer's mind.",
@@ -831,13 +831,20 @@ document.getElementById("lightbox").addEventListener("click",e=>{
   if(e.target.id==="lightbox") document.getElementById("lightbox").classList.remove("open");
 });
 
+/* card thumbnails — filled when images are uploaded */
+const CARD_IMGS = {};
 function renderWork(){
   const d = DATA[lang];
-  document.getElementById("workGrid").innerHTML = d.work_items.map((w,i)=>`
-    <a class="work reveal" href="${w.href}" ${w.ext?'target="_blank" rel="noopener"':''}>
-      <div class="thumb" style="background:${G[i%G.length]}"><span class="wic">${w.ic}</span></div>
+  document.getElementById("workGrid").innerHTML = d.work_items.map((w,i)=>{
+    const img = CARD_IMGS[w.k];
+    const thumb = img
+      ? `<div class="thumb"><img src="${img}" alt="${w.t}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></div>`
+      : `<div class="thumb" style="background:${G[i%G.length]}"><span class="wic">${w.ic}</span></div>`;
+    return `<a class="work reveal" href="${w.href}" ${w.ext?'target="_blank" rel="noopener"':''}>
+      ${thumb}
       <div class="meta"><h3>${w.t}</h3><p>${w.d}</p><span class="tag">${w.tag}</span></div>
-    </a>`).join("");
+    </a>`;
+  }).join("");
 }
 
 /* reveal on scroll */
