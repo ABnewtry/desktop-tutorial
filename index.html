@@ -287,10 +287,12 @@
   <!-- GALLERY -->
   <section id="gallery" class="wrap">
     <div class="reveal">
-      <span class="eyebrow" data-i18n="gal_eyebrow">استخراج الصور</span>
-      <h2 data-i18n="gal_title">معرض صور صنعتها بالذكاء الاصطناعي</h2>
-      <p class="lead" data-i18n="gal_lead">صور استخرجتها بالذكاء الاصطناعي وحوّلتها إلى صور إعلانية جاهزة.</p>
+      <span class="eyebrow" data-i18n="gal_eyebrow">ستوري بورد</span>
+      <h2 data-i18n="gal_title">من ستوري بورد… إلى مشاهد إعلانية</h2>
+      <p class="lead" data-i18n="gal_lead">الستوري بورد هو الخطوة الأولى لأي إعلان ناجح.</p>
     </div>
+    <div class="grid services-grid" id="sbSteps" style="margin-top:40px"></div>
+    <h3 class="reveal" style="margin-top:52px;font-size:1.4rem" data-i18n="gal_examples">أمثلة من شغلي</h3>
     <div class="gal-grid" id="galGrid"></div>
   </section>
 
@@ -368,11 +370,17 @@ const DATA = {
     ads_lead:"شوف كيف أحوّل منتج العميل من صورة بسيطة إلى إعلان جذّاب، ثم بوستر احترافي جاهز للنشر.",
     stages:{original:"عادية",ad:"إعلان",poster:"بوستر"},
     ads_items:[{k:"food",l:"الأكل"},{k:"perfume",l:"العطور"},{k:"furniture",l:"الأثاث"}],
-    gal_eyebrow:"استخراج الصور",
-    gal_title:"معرض صور صنعتها بالذكاء الاصطناعي",
-    gal_lead:"صور استخرجتها بالذكاء الاصطناعي وحوّلتها إلى صور إعلانية جاهزة للنشر.",
+    gal_eyebrow:"ستوري بورد",
+    gal_title:"من ستوري بورد… إلى مشاهد إعلانية",
+    gal_lead:"الستوري بورد هو الخطوة الأولى لأي إعلان ناجح — وهذه أمثلة من شغلي.",
+    sb_steps:[
+      {ic:"📝",t:"وش هو الستوري بورد؟",d:"مخطط مرئي يقسّم فكرة إعلانك إلى مشاهد مرتّبة، لقطة بلقطة — مثل القصة المصوّرة، تشوف فيها إعلانك قبل ما ينتج."},
+      {ic:"🎯",t:"ليش مهم لك كعميل؟",d:"يخليك تشوف الإعلان وتعدّل عليه من البداية، قبل صرف أي ميزانية على الإنتاج — توفير وقت وتكلفة وقرارات أوضح."},
+      {ic:"🎬",t:"وش أسوي أنا فيه؟",d:"أرسم لك الستوري بورد بالذكاء الاصطناعي، وبعد موافقتك أحوّل كل مشهد فيه إلى لقطة إعلانية حقيقية جاهزة للنشر."}
+    ],
     gal_soon:"قريباً",
-    nav_gallery:"المعرض",
+    gal_examples:"أمثلة من شغلي",
+    nav_gallery:"ستوري بورد",
     work_eyebrow:"معرض الأعمال", work_title:"مختارات من مشاريعي",
     work_lead:"هذه نماذج توضيحية — استبدلها بأعمالك وصورك الحقيقية.",
     cats:[{k:"all",l:"الكل"},{k:"ads",l:"إعلانات"},{k:"web",l:"مواقع"},{k:"video",l:"فيديو"},{k:"menu",l:"منيوهات"}],
@@ -417,11 +425,17 @@ const DATA = {
     ads_lead:"See how I turn a client's product from a simple photo into an eye-catching ad, then a professional print-ready poster.",
     stages:{original:"Original",ad:"Ad",poster:"Poster"},
     ads_items:[{k:"food",l:"Food"},{k:"perfume",l:"Perfumes"},{k:"furniture",l:"Furniture"}],
-    gal_eyebrow:"AI Image Creation",
-    gal_title:"A gallery of images I created with AI",
-    gal_lead:"Images I generated with AI and turned into ready-to-publish ad visuals.",
+    gal_eyebrow:"Storyboard",
+    gal_title:"From storyboard… to advertising scenes",
+    gal_lead:"A storyboard is the first step of every successful ad — here are examples from my work.",
+    sb_steps:[
+      {ic:"📝",t:"What is a storyboard?",d:"A visual plan that breaks your ad idea into ordered scenes, shot by shot — like a comic strip where you see your ad before it's produced."},
+      {ic:"🎯",t:"Why does it matter to you?",d:"You see and refine the ad from the start, before spending any production budget — saving time, cost, and making clearer decisions."},
+      {ic:"🎬",t:"What do I do with it?",d:"I draw your storyboard with AI, and once you approve it, I turn every scene into a real, ready-to-publish advertising shot."}
+    ],
     gal_soon:"Coming soon",
-    nav_gallery:"Gallery",
+    gal_examples:"Examples from my work",
+    nav_gallery:"Storyboard",
     work_eyebrow:"Portfolio", work_title:"Selected projects",
     work_lead:"These are placeholders — replace them with your real work and images.",
     cats:[{k:"all",l:"All"},{k:"ads",l:"Ads"},{k:"web",l:"Web"},{k:"video",l:"Video"},{k:"menu",l:"Menus"}],
@@ -546,6 +560,8 @@ function renderAds(){
 
 function renderGallery(){
   const d = DATA[lang];
+  document.getElementById("sbSteps").innerHTML = d.sb_steps.map(s=>`
+    <div class="card reveal"><div class="ic">${s.ic}</div><h3>${s.t}</h3><p>${s.d}</p></div>`).join("");
   const grid = document.getElementById("galGrid");
   if(!GALLERY_MEDIA.length){
     grid.innerHTML = Array.from({length:6},(_,i)=>`
