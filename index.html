@@ -119,9 +119,10 @@
   .tab{cursor:pointer;padding:9px 18px;border-radius:999px;border:1px solid var(--border);
     background:var(--card);color:var(--muted);font-weight:600;font-family:inherit;font-size:.92rem;transition:.25s var(--ease)}
   .tab.active{background:var(--grad);color:#fff;border-color:transparent}
-  .work-grid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+  .work-grid{grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
   .work{border-radius:var(--r);overflow:hidden;border:1px solid var(--border);background:var(--card);
-    transition:.35s var(--ease);cursor:pointer}
+    transition:.35s var(--ease);cursor:pointer;display:block;color:inherit}
+  .work .wic{font-size:3.2rem;filter:drop-shadow(0 8px 20px #0006)}
   .work:hover{transform:translateY(-6px)}
   .work .thumb{aspect-ratio:16/10;display:grid;place-items:center;color:#fff;font-weight:800;font-size:1.05rem;
     text-align:center;padding:18px;position:relative}
@@ -228,6 +229,36 @@
   @media(max-width:700px){
     .ab-mosaic{grid-template-columns:repeat(2,1fr);grid-auto-rows:120px}
     .ab-cell.c1,.ab-cell.c4,.ab-cell.c5{grid-column:span 2}
+  }
+
+  /* Mr Potato warm showcase panel */
+  .pt-show{margin-top:48px;background:linear-gradient(140deg,#fff7e8,#ffe9c4);border:1px solid #f0b64d55;
+    border-radius:26px;padding:clamp(20px,3vw,34px);color:#3a2a12;position:relative;overflow:hidden}
+  .pt-show::before{content:"";position:absolute;bottom:-140px;inset-inline-end:-90px;width:360px;height:360px;
+    border-radius:50%;background:radial-gradient(circle,#ff8c1c30,transparent 65%);pointer-events:none}
+  .pt-head{display:flex;align-items:center;gap:14px;margin-bottom:24px;position:relative}
+  .pt-mark{font-size:2rem;background:#fff;border-radius:14px;width:56px;height:56px;display:grid;place-items:center;
+    box-shadow:0 10px 24px #d9962f33}
+  .pt-name{font-weight:900;font-size:1.4rem;color:#7a4b12}
+  .pt-sub{color:#a97e3f;font-size:.86rem}
+  .pt-collage{display:grid;grid-template-columns:.92fr 1.08fr;gap:34px;align-items:center;position:relative}
+  .pt-menus{position:relative;height:560px}
+  .pt-old,.pt-new{position:absolute;border-radius:14px;overflow:hidden;cursor:pointer;transition:.35s var(--ease)}
+  .pt-old{top:0;inset-inline-end:4%;width:58%;transform:rotate(5deg);filter:saturate(.5) brightness(.93);
+    z-index:1;border:2px solid #e6cba0;box-shadow:0 22px 46px -18px #7a4b1266}
+  .pt-new{bottom:0;inset-inline-start:0;width:64%;transform:rotate(-3deg);z-index:2;border:4px solid #fff;
+    box-shadow:0 36px 72px -22px #7a4b1299}
+  .pt-old:hover{transform:rotate(1.5deg) translateY(-6px);filter:none;z-index:4}
+  .pt-new:hover{transform:rotate(0) translateY(-8px)}
+  .pt-old img,.pt-new img{width:100%;height:auto;display:block}
+  .pt-menus .vs-badge{top:46%;left:44%}
+  .pt-pf .pf-h2{font-weight:800;color:#7a4b12;margin-bottom:4px;font-size:1.08rem}
+  .pt-show .pf-page{border:3px solid #fff;box-shadow:0 18px 40px -14px #7a4b1266}
+  @media(max-width:820px){
+    .pt-collage{grid-template-columns:1fr}
+    .pt-menus{height:auto;display:grid;gap:16px}
+    .pt-old,.pt-new{position:static;width:100%;transform:none;filter:none;border-width:2px}
+    .pt-menus .vs-badge{display:none}
   }
 
   /* potato before/after + portfolio fan */
@@ -516,15 +547,12 @@ const DATA = {
     id_brands:{ab:{n:"هوية AB",c:"هوية شخصية"},potato:{n:"مستر بطاطس",c:"منيو + بورتفوليو"}},
     id_potato:{old:"المنيو القديم",new:"تصميمي الجديد",pf:"بورتفوليو مستر بطاطس — من تصميمي",dl:"البورتفوليو كامل (PDF)",dl2:"المنيو (PDF)"},
     work_eyebrow:"معرض الأعمال", work_title:"مختارات من مشاريعي",
-    work_lead:"نماذج مختارة — والباقي يوصلك عند الطلب.",
-    cats:[{k:"all",l:"الكل"},{k:"ads",l:"إعلانات"},{k:"web",l:"مواقع"},{k:"video",l:"فيديو"},{k:"menu",l:"منيوهات"}],
-    work:[
-      {c:"ads",t:"حملة إعلانية لمنتج",d:"بوسترات سوشيال ميديا",tag:"AI Design"},
-      {c:"ads",t:"بوستر ترويجي",d:"تصميم إعلاني للطباعة",tag:"Poster"},
-      {c:"web",t:"لاندنق بيج لخدمة",d:"صفحة هبوط عالية التحويل",tag:"Landing"},
-      {c:"web",t:"موقع تعريفي",d:"موقع متجاوب متعدد الصفحات",tag:"Website"},
-      {c:"video",t:"إعلان فيديو",d:"مونتاج في Premiere Pro",tag:"Premiere"},
-      {c:"menu",t:"منيو مطعم",d:"تصميم قائمة طعام أنيقة",tag:"Menu"}
+    work_lead:"أربعة أبواب… كل باب يفتح عالم.",
+    work_items:[
+      {ic:"🌐",t:"موقع إلكتروني",d:"موقع AB — اللي تتصفحه الآن",tag:"Live",href:"https://abnewtry.github.io/desktop-tutorial/",ext:true},
+      {ic:"▶️",t:"تصميم فيديوهات",d:"قناتي على يوتيوب",tag:"YouTube",href:"#",ext:true},
+      {ic:"🖼️",t:"بوسترات ترويجية",d:"من صورة عادية إلى بوستر يبيع",tag:"Posters",href:"#ads",ext:false},
+      {ic:"🧩",t:"هويات بصرية",d:"AB ومستر بطاطس",tag:"Branding",href:"#identity",ext:false}
     ],
     about_eyebrow:"نبذة", about_title:"ليش تختارني؟",
     about_p1:"لأني ما أبيع لك تصميم… أبيع لك نتيجة. عين مصمم، وعقل مسوّق.",
@@ -594,15 +622,12 @@ const DATA = {
     id_brands:{ab:{n:"AB Identity",c:"Personal brand"},potato:{n:"Mr. Potato",c:"Menu + portfolio"}},
     id_potato:{old:"Old menu",new:"My redesign",pf:"Mr. Potato portfolio — designed by me",dl:"Full portfolio (PDF)",dl2:"Menu (PDF)"},
     work_eyebrow:"Portfolio", work_title:"Selected projects",
-    work_lead:"A curated selection — more on request.",
-    cats:[{k:"all",l:"All"},{k:"ads",l:"Ads"},{k:"web",l:"Web"},{k:"video",l:"Video"},{k:"menu",l:"Menus"}],
-    work:[
-      {c:"ads",t:"Product Ad Campaign",d:"Social media posters",tag:"AI Design"},
-      {c:"ads",t:"Promo Poster",d:"Print-ready ad design",tag:"Poster"},
-      {c:"web",t:"Service Landing Page",d:"High-converting landing page",tag:"Landing"},
-      {c:"web",t:"Business Website",d:"Responsive multi-page site",tag:"Website"},
-      {c:"video",t:"Video Ad",d:"Edited in Premiere Pro",tag:"Premiere"},
-      {c:"menu",t:"Restaurant Menu",d:"Elegant food menu design",tag:"Menu"}
+    work_lead:"Four doors… each opens a world.",
+    work_items:[
+      {ic:"🌐",t:"Website",d:"The AB site — you're browsing it now",tag:"Live",href:"https://abnewtry.github.io/desktop-tutorial/",ext:true},
+      {ic:"▶️",t:"Video Design",d:"My YouTube channel",tag:"YouTube",href:"#",ext:true},
+      {ic:"🖼️",t:"Promo Posters",d:"From plain photo to a poster that sells",tag:"Posters",href:"#ads",ext:false},
+      {ic:"🧩",t:"Brand Identities",d:"AB & Mr. Potato",tag:"Branding",href:"#identity",ext:false}
     ],
     about_eyebrow:"About", about_title:"Why me?",
     about_p1:"Because I don't sell you a design — I sell you a result. A designer's eye, a marketer's mind.",
@@ -673,17 +698,9 @@ function render(){
   document.getElementById("servicesGrid").innerHTML = d.services.map((s,i)=>`
     <div class="card reveal"><div class="ic">${s.ic}</div><h3>${s.t}</h3><p>${s.d}</p></div>`).join("");
 
-  // tabs
-  document.getElementById("workTabs").innerHTML = d.cats.map(c=>`
-    <button class="tab ${c.k===curCat?'active':''}" data-cat="${c.k}">${c.l}</button>`).join("");
-
-  // work
-  const items = d.work.map((w,i)=>({...w,g:G[i%G.length]}));
-  renderWork(items);
-
-  document.querySelectorAll(".tab").forEach(t=>t.addEventListener("click",()=>{
-    curCat=t.dataset.cat; render();
-  }));
+  // work — four gateway cards
+  document.getElementById("workTabs").innerHTML = "";
+  renderWork();
 
   // skills
   document.getElementById("skillsBox").innerHTML = `<h3 style="margin-bottom:20px">${lang==='ar'?'مهاراتي':'My Skills'}</h3>`+
@@ -800,18 +817,25 @@ function renderIdentity(){
       ${(ID_MEDIA.ab||[]).map((src,i)=>`<div class="ab-cell c${i}" data-src="${src}"><img src="${src}" alt="AB ${i+1}" loading="lazy"></div>`).join("")}
     </div>
   </div>`;
-  // Mr Potato — before/after with VS + portfolio page fan
+  // Mr Potato — warm branded panel: interlocked menus + portfolio fan
   if(P && P.old){
-    html += `<div class="id-brand reveal">
-      <div class="bhead"><span class="bname">${b.potato.n}</span><span class="bchip">${b.potato.c}</span></div>
-      <div class="ba-grid">
-        <div class="id-item" data-src="${P.old}"><span class="ba-tag old">${L.old}</span><img src="${P.old}" alt="${L.old}" loading="lazy"></div>
-        <div class="id-item" data-src="${P.new}"><span class="ba-tag new">${L.new}</span><img src="${P.new}" alt="${L.new}" loading="lazy"></div>
-        <span class="vs-badge">VS</span>
+    html += `<div class="pt-show reveal">
+      <div class="pt-head">
+        <span class="pt-mark">🥔</span>
+        <div><div class="pt-name">${b.potato.n}</div><div class="pt-sub">${b.potato.c}</div></div>
       </div>
-      <h4 class="pf-h">${L.pf}</h4>
-      <div class="pf-strip">${P.pages.map((s,i)=>`
-        <div class="pf-page" data-src="${s}"><img src="${s}" alt="portfolio ${i+1}" loading="lazy"></div>`).join("")}</div>
+      <div class="pt-collage">
+        <div class="pt-menus">
+          <div class="pt-old" data-src="${P.old}"><span class="ba-tag old">${L.old}</span><img src="${P.old}" alt="${L.old}" loading="lazy"></div>
+          <div class="pt-new" data-src="${P.new}"><span class="ba-tag new">${L.new}</span><img src="${P.new}" alt="${L.new}" loading="lazy"></div>
+          <span class="vs-badge">VS</span>
+        </div>
+        <div class="pt-pf">
+          <div class="pf-h2">${L.pf}</div>
+          <div class="pf-strip">${P.pages.map((s,i)=>`
+            <div class="pf-page" data-src="${s}"><img src="${s}" alt="portfolio ${i+1}" loading="lazy"></div>`).join("")}</div>
+        </div>
+      </div>
     </div>`;
   }
   document.getElementById("idBrands").innerHTML = html;
@@ -825,13 +849,13 @@ document.getElementById("lightbox").addEventListener("click",e=>{
   if(e.target.id==="lightbox") document.getElementById("lightbox").classList.remove("open");
 });
 
-function renderWork(items){
-  const list = curCat==="all"?items:items.filter(w=>w.c===curCat);
-  document.getElementById("workGrid").innerHTML = list.map(w=>`
-    <div class="work reveal">
-      <div class="thumb" style="background:${w.g}"><span>${w.t}</span></div>
+function renderWork(){
+  const d = DATA[lang];
+  document.getElementById("workGrid").innerHTML = d.work_items.map((w,i)=>`
+    <a class="work reveal" href="${w.href}" ${w.ext?'target="_blank" rel="noopener"':''}>
+      <div class="thumb" style="background:${G[i%G.length]}"><span class="wic">${w.ic}</span></div>
       <div class="meta"><h3>${w.t}</h3><p>${w.d}</p><span class="tag">${w.tag}</span></div>
-    </div>`).join("");
+    </a>`).join("");
 }
 
 /* reveal on scroll */
