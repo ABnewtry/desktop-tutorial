@@ -285,16 +285,30 @@
     border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--accent2) 22%,transparent),transparent 65%);pointer-events:none}
   .offer-head{display:flex;align-items:center;gap:10px;font-weight:900;font-size:1.25rem;margin-bottom:14px}
   .offer-head .spark{width:34px;height:34px;border-radius:10px;background:var(--grad);display:grid;place-items:center;font-size:1rem;color:#fff}
-  .off{display:flex;gap:15px;align-items:flex-start;padding:15px 12px;border-radius:14px;position:relative;
+  .off{display:flex;gap:16px;align-items:center;padding:17px 14px;border-radius:14px;
     transition:.3s var(--ease)}
   .off+.off{border-top:1px solid var(--border)}
-  .off:hover{background:var(--card);transform:translateY(-3px)}
-  .off .num{position:absolute;inset-inline-end:12px;top:10px;font-weight:900;font-size:1.7rem;
-    background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;opacity:.22}
-  .off .oic{width:44px;height:44px;border-radius:13px;flex:none;display:grid;place-items:center;font-size:1.25rem;
+  .off:hover{background:var(--card)}
+  .off .oic{width:46px;height:46px;border-radius:13px;flex:none;display:grid;place-items:center;font-size:1.3rem;
     background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 32%,transparent),color-mix(in srgb,var(--accent2) 32%,transparent))}
-  .off b{display:block;font-size:1.04rem;margin-bottom:3px}
-  .off span{color:var(--muted);font-size:.92rem;line-height:1.7}
+  .off .otx{flex:1;min-width:0}
+  .off .otx b{display:block;font-size:1.06rem;line-height:1.4;margin-bottom:5px}
+  .off .otx span{display:block;color:var(--muted);font-size:.94rem;line-height:1.75}
+  .off .num{flex:none;font-weight:900;font-size:1.35rem;align-self:flex-start;margin-top:2px;
+    background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;opacity:.3}
+  /* swipe hint (mobile) */
+  .swipe-hint{display:none}
+  @media(hover:none),(max-width:820px){
+    .swipe-hint{display:inline-flex;align-items:center;gap:8px;margin:6px 0 2px;padding:8px 16px;
+      border-radius:999px;background:var(--grad);color:#fff;font-weight:800;font-size:.88rem;
+      box-shadow:0 10px 26px -8px var(--accent);animation:nudge 1.2s ease-in-out infinite;
+      transition:opacity .5s var(--ease)}
+  }
+  .swipe-hint.off{opacity:0}
+  @keyframes nudge{0%,100%{transform:translateX(0)}50%{transform:translateX(-8px)}}
+  .pf-strip{scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
+  .pf-page{scroll-snap-align:center}
+  .ad-stage{touch-action:pan-y}
 
   /* CONTACT */
   .contact{text-align:center;background:var(--card);border:1px solid var(--border);border-radius:28px;
@@ -513,7 +527,7 @@ const DATA = {
     ],
     ads_eyebrow:"إعلانات وبوسترات",
     ads_title:"من صورة عادية… إلى إعلان وبوستر يبيع",
-    ads_lead_html:"نفس المنتج، ثلاث مراحل — <b class='hl'>اضغط وشوف الفرق</b> بعينك.",
+    ads_lead_html:"نفس المنتج، ثلاث مراحل — <b class='hl'>اضغط الأزرار أو اسحب الصورة</b> بإصبعك.",
     stages:{original:"عادية",ad:"إعلان",poster:"بوستر"},
     ads_items:[{k:"food",l:"الأكل"},{k:"perfume",l:"العطور"},{k:"furniture",l:"الأثاث"}],
     gal_eyebrow:"ستوري بورد",
@@ -549,6 +563,7 @@ const DATA = {
     ],
     id_soon:"قريباً",
     id_brands:{ab:{n:"هوية AB",c:"هوية شخصية"},potato:{n:"مستر بطاطس",c:"منيو + بورتفوليو"}},
+    swipe_hint:"👈 اسحب بإصبعك لتصفّح الصفحات",
     id_potato:{old:"المنيو القديم",new:"تصميمي الجديد",pf:"بورتفوليو مستر بطاطس — من تصميمي",dl:"البورتفوليو كامل (PDF)",dl2:"المنيو (PDF)"},
     work_eyebrow:"معرض الأعمال", work_title:"مختارات من مشاريعي",
     work_lead:"خمسة أبواب… كل باب يفتح عالم.",
@@ -596,7 +611,7 @@ const DATA = {
     ],
     ads_eyebrow:"Ads & Posters",
     ads_title:"From a plain photo… to an ad & poster that sells",
-    ads_lead_html:"Same product, three stages — <b class='hl'>tap and see the difference</b>.",
+    ads_lead_html:"Same product, three stages — <b class='hl'>tap the buttons or swipe the image</b>.",
     stages:{original:"Original",ad:"Ad",poster:"Poster"},
     ads_items:[{k:"food",l:"Food"},{k:"perfume",l:"Perfumes"},{k:"furniture",l:"Furniture"}],
     gal_eyebrow:"Storyboard",
@@ -632,6 +647,7 @@ const DATA = {
     ],
     id_soon:"Coming soon",
     id_brands:{ab:{n:"AB Identity",c:"Personal brand"},potato:{n:"Mr. Potato",c:"Menu + portfolio"}},
+    swipe_hint:"👈 Swipe to browse the pages",
     id_potato:{old:"Old menu",new:"My redesign",pf:"Mr. Potato portfolio — designed by me",dl:"Full portfolio (PDF)",dl2:"Menu (PDF)"},
     work_eyebrow:"Portfolio", work_title:"Selected projects",
     work_lead:"Five doors… each opens a world.",
@@ -726,9 +742,9 @@ function render(){
       <div class="offer-head"><span class="spark">✦</span>${d.offers_title}</div>
       ${d.offers.map((o,i)=>`
         <div class="off">
-          <span class="num">0${i+1}</span>
           <span class="oic">${o.ic}</span>
-          <div><b>${o.t}</b><span>${o.d}</span></div>
+          <div class="otx"><b>${o.t}</b><span>${o.d}</span></div>
+          <span class="num">0${i+1}</span>
         </div>`).join("")}
     </div></div>`;
 
@@ -763,7 +779,7 @@ function renderAds(){
       ? `<img src="${src}" alt="${it.l} - ${d.stages[cur]}">`
       : `<span class="ph">${d.stages[cur]}</span>`;
     return `<div class="ad-card">
-      <div class="ad-stage" style="background:${g}">
+      <div class="ad-stage" data-k="${it.k}" style="background:${g}">
         <span class="ad-badge">${d.stages[cur]}</span>${inner}
       </div>
       <div class="ad-body">
@@ -777,6 +793,20 @@ function renderAds(){
   document.querySelectorAll(".ad-tab").forEach(b=>b.addEventListener("click",()=>{
     adState[b.dataset.k]=b.dataset.s; renderAds();
   }));
+  // finger swipe on the image switches stages too
+  document.querySelectorAll(".ad-stage").forEach(st=>{
+    let x0=null;
+    st.addEventListener("touchstart",e=>{x0=e.touches[0].clientX},{passive:true});
+    st.addEventListener("touchend",e=>{
+      if(x0===null) return;
+      const dx=e.changedTouches[0].clientX-x0; x0=null;
+      if(Math.abs(dx)<40) return;
+      const stages=["original","ad","poster"], k=st.dataset.k;
+      let i=stages.indexOf(adState[k]||"original");
+      i = dx<0 ? (i+1)%3 : (i+2)%3;
+      adState[k]=stages[i]; renderAds();
+    },{passive:true});
+  });
 }
 
 function renderGallery(){
@@ -855,7 +885,8 @@ function renderIdentity(){
         <span class="vs-badge">VS</span>
       </div>
       <h4 class="pf-h">${L.pf}</h4>
-      <div class="pf-strip">${P.pages.map((s,i)=>`
+      <div class="swipe-hint" id="pfHint">${d.swipe_hint}</div>
+      <div class="pf-strip" id="pfStrip">${P.pages.map((s,i)=>`
         <div class="pf-page" data-src="${s}"><img src="${s}" alt="portfolio ${i+1}" loading="lazy"></div>`).join("")}</div>
     </div>`;
   }
@@ -864,6 +895,12 @@ function renderIdentity(){
     document.getElementById("lbImg").src = el.dataset.src;
     document.getElementById("lightbox").classList.add("open");
   }));
+  // hide the swipe hint once the user actually swipes
+  const strip = document.getElementById("pfStrip");
+  if(strip) strip.addEventListener("scroll",()=>{
+    const h = document.getElementById("pfHint");
+    if(h) h.classList.add("off");
+  },{once:true, passive:true});
 }
 document.getElementById("lbClose").addEventListener("click",()=>document.getElementById("lightbox").classList.remove("open"));
 document.getElementById("lightbox").addEventListener("click",e=>{
