@@ -46,3 +46,10 @@
 - الشبكة عبر بروكسي يمنع أغلب المواقع الخارجية (Google Drive, YouTube, github clone خارجي…) — **الرفع عبر GitHub upload فقط**، وpypi/npm مسموحة.
 - خطوط عربية للاندنق بيجز: تُحمّل من Google Fonts (مسموح) — Cairo 700/900 + Tajawal 400/500/800.
 - سكيل ui-ux-pro-max موجود جاهزاً على فرع `claude/nifty-cannon-3dPdw` في نفس المستودع (`.claude/skills/ui-ux-pro-max/`) — يمكن نسخه لفرع العمل عند الحاجة.
+
+## store-ab.html — متجر AB السينمائي (3D)
+- صفحة مستقلة: https://abnewtry.github.io/desktop-tutorial/store-ab.html
+- Scroll-Driven Cinematic WebGL: Three.js + GSAP ScrollTrigger + Lenis مجمّعة inline (esbuild) — ملف واحد ~1.3MB.
+- الكائن البطل: حروف AB معدنية مستخرجة من خط Cairo-900 عبر opentype.js (src في scratchpad/store/).
+- بيانات المتجر الحقيقية من Shopify MCP (TRAVEL/ANIME/COUPLES — 119 ر.س) والأزرار تفتح المتجر الحي.
+- التمرير = الزمن: CatmullRomCurve3 بخمس لقطات، scrub 1.2، fov 35، rectAreaLight منزلق، Bloom + Grain + Vignette.
