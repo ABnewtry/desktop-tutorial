@@ -66,3 +66,10 @@
 - الثلاثة: نفس بيانات Shopify الحقيقية (6 منتجات، 119 ر.س، مقاسات S–XXL)، سلة تعمل بـ localStorage،
   والدفع = يفتح واتساب 966546515366 برسالة الطلب جاهزة. صور المنتجات = SVG mockups مرسومة
   (تُستبدل بصور حقيقية لو رفعها). القوالب في scratchpad/store/tpl-*.html.
+
+## دراسات AB التصميمية (design studies — إنجليزية، بلا وظائف متجر)
+- docs/cinematic-playbook.md — دستور النوعية الكامل: كاميرا/إضاءة/خامات/بوست/حركة/إيفكتات + قواعد ذهبية. مرجع التخاطب معه.
+- ab-prism.html «PRISM — LIGHT STUDY 01»: جوهرة زجاج Transmission+Iridescence، بنفسجي #8B5CF6،
+  Dolly-Zoom (FOV keyframes) + Mouse Parallax، شظايا Instanced، RGB Shift، نصوص Scramble. (src/prism.js)
+- ab-flux.html «FLUX — FORM STUDY 02»: كروم سائل (CPU vertex displacement)، ماجنتا #F43F8E،
+  Crane + Dutch Roll، أرضية Reflector + شبكة، Afterimage trails، الغليان مربوط بالتمرير، Outline type + أرقام شبحية. (src/flux.js)
