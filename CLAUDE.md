@@ -53,3 +53,11 @@
 - الكائن البطل: حروف AB معدنية مستخرجة من خط Cairo-900 عبر opentype.js (src في scratchpad/store/).
 - بيانات المتجر الحقيقية من Shopify MCP (TRAVEL/ANIME/COUPLES — 119 ر.س) والأزرار تفتح المتجر الحي.
 - التمرير = الزمن: CatmullRomCurve3 بخمس لقطات، scrub 1.2، fov 35، rectAreaLight منزلق، Bloom + Grain + Vignette.
+
+## متاجر AB الكاملة الثلاثة (custom — بدون روابط للموقع القديم)
+- store-neon.html — «NEON DROP»: ثقافة الدروبات، عداد، شريط متحرك، بطاقات ليزر، سلة درج جانبي.
+- store-lookbook.html — «LOOKBOOK № 01»: مجلة ورقية فاتحة، كل قطعة صفحة/spread بأرقام شبحية، حقيبة شريط سفلي.
+- store-terminal.html — «AB_SHELL»: طرفية CRT خضراء بإقلاع نظام وجدول مخزون وCART_STACK.
+- الثلاثة: نفس بيانات Shopify الحقيقية (6 منتجات، 119 ر.س، مقاسات S–XXL)، سلة تعمل بـ localStorage،
+  والدفع = يفتح واتساب 966546515366 برسالة الطلب جاهزة. صور المنتجات = SVG mockups مرسومة
+  (تُستبدل بصور حقيقية لو رفعها). القوالب في scratchpad/store/tpl-*.html.
