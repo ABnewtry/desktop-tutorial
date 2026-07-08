@@ -54,10 +54,15 @@
 - بيانات المتجر الحقيقية من Shopify MCP (TRAVEL/ANIME/COUPLES — 119 ر.س) والأزرار تفتح المتجر الحي.
 - التمرير = الزمن: CatmullRomCurve3 بخمس لقطات، scrub 1.2، fov 35، rectAreaLight منزلق، Bloom + Grain + Vignette.
 
-## متاجر AB الكاملة الثلاثة (custom — بدون روابط للموقع القديم)
-- store-neon.html — «NEON DROP»: ثقافة الدروبات، عداد، شريط متحرك، بطاقات ليزر، سلة درج جانبي.
-- store-lookbook.html — «LOOKBOOK № 01»: مجلة ورقية فاتحة، كل قطعة صفحة/spread بأرقام شبحية، حقيبة شريط سفلي.
-- store-terminal.html — «AB_SHELL»: طرفية CRT خضراء بإقلاع نظام وجدول مخزون وCART_STACK.
+## متاجر AB الكاملة (custom — الطلب عبر واتساب، بدون روابط للموقع القديم)
+### الجيل الأول (متاجر UI عادية):
+- store-neon.html «NEON DROP» · store-lookbook.html «LOOKBOOK № 01» · store-terminal.html «AB_SHELL».
+### الجيل الثاني (سينمائية 3D حسب مواصفة Scroll-Driven Cinematic WebGL — المفضلة عنده):
+- store-abyss.html «ABYSSAL»: تيشيرت 3D قماشي، سماوي #1FB6C1، كاميرا تغطس + فقاعات.
+- store-atelier.html «ATELIER»: ميدالية AB ذهبية داخل إطار، ذهبي #C9A227، مدار حول القطعة.
+- store-monolith.html «MONOLITH»: مسلّة سوداء بحفر AB متوهج، أحمر #E84338، حلزون صاعد.
+- الثلاثة من محرك واحد scratchpad/store/src/cine.js (theme عبر window.CINE) + مولّد python؛
+  صفوف طلب مدمجة بالفيلم (قسم 4) + chip سلة + CTA واتساب. القواعد: fov35، scrub1.2، preloader، لون واحد.
 - الثلاثة: نفس بيانات Shopify الحقيقية (6 منتجات، 119 ر.س، مقاسات S–XXL)، سلة تعمل بـ localStorage،
   والدفع = يفتح واتساب 966546515366 برسالة الطلب جاهزة. صور المنتجات = SVG mockups مرسومة
   (تُستبدل بصور حقيقية لو رفعها). القوالب في scratchpad/store/tpl-*.html.
