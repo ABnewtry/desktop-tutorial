@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>AB® — Made of Noise, in Jeddah</title>
+<meta name="description" content="AB — premium heavyweight streetwear from Jeddah. 320GSM bodies, melted-in prints, numbered runs. No restocks.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Instrument+Serif:ital@1&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ══ PRELOADER ══ -->
+<div id="preloader" aria-hidden="true">
+  <div class="pre-inner">
+    <span id="preMono" class="pre-mono chrome-text">AB®</span>
+    <span id="preCount" class="pre-count">000</span>
+    <div class="pre-bar"><i id="preFill"></i></div>
+  </div>
+  <div id="curtain"></div>
+</div>
+
+<!-- ══ CUSTOM CURSOR ══ -->
+<div id="cursorDot" aria-hidden="true"></div>
+<div id="cursorRing" aria-hidden="true"><span id="cursorLabel"></span></div>
+
+<!-- ══ GRAIN ══ -->
+<div id="grain" aria-hidden="true"></div>
+
+<!-- ══ NAVBAR ══ -->
+<header id="nav">
+  <a href="#top" class="nav-logo chrome-text" data-magnetic>AB®</a>
+  <nav class="nav-center" aria-label="Primary">
+    <a href="#drop"        class="nav-link" data-magnetic data-scramble>SHOP</a>
+    <a href="#collections" class="nav-link" data-magnetic data-scramble>COLLECTIONS</a>
+    <a href="#social"      class="nav-link" data-magnetic data-scramble>ARCHIVE</a>
+    <a href="#manifesto"   class="nav-link" data-magnetic data-scramble>ABOUT</a>
+  </nav>
+  <div class="nav-right">
+    <button class="nav-search" data-magnetic aria-label="Search">
+      <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="6.2" cy="6.2" r="5.2" stroke="currentColor"/><path d="M10.2 10.2L14 14" stroke="currentColor"/></svg>
+    </button>
+    <button class="nav-cart" id="cartBtn" data-magnetic>CART (<span class="cart-flip"><span id="cartN">0</span></span>)</button>
+    <button class="nav-burger" id="burger" aria-label="Menu" aria-expanded="false"><i></i><i></i></button>
+  </div>
+</header>
+
+<!-- ══ MOBILE MENU ══ -->
+<div id="mobileMenu" aria-hidden="true">
+  <a href="#drop"        class="mm-link"><em>01</em>SHOP</a>
+  <a href="#collections" class="mm-link"><em>02</em>COLLECTIONS</a>
+  <a href="#social"      class="mm-link"><em>03</em>ARCHIVE</a>
+  <a href="#manifesto"   class="mm-link"><em>04</em>ABOUT</a>
+</div>
+
+<div id="viewport"><div id="content">
+
+<!-- ══ SECTION 2 — HERO ══ -->
+<section id="top" class="hero">
+  <div class="hero-grid" aria-hidden="true"></div>
+  <canvas id="trail" aria-hidden="true"></canvas>
+  <div class="hero-monogram chrome-text" id="heroMono" aria-hidden="true">AB</div>
+
+  <aside class="hero-info mono">
+    <span class="live"><i class="live-dot"></i>DROP 001 LIVE</span>
+    EST. 2026 — JEDDAH<br>
+    320GSM HEAVYWEIGHT<br>
+    NUMBERED RUNS ONLY
+  </aside>
+
+  <h1 class="hero-title" id="heroTitle">
+    <span class="line-mask"><span class="line" id="heroLine1">WEAR THE</span></span>
+    <span class="line-mask"><span class="line line-serif" id="heroLine2">noise.</span></span>
+  </h1>
+
+  <div class="hero-meta mono">
+    <span>21.54°N 39.17°E</span>
+    <span id="heroClock">--:--:--</span>
+    <span class="scroll-cue">SCROLL <i>↓</i></span>
+  </div>
+</section>
+
+<!-- ══ SECTION 3 — TICKER ══ -->
+<div class="ticker ticker-neon" aria-hidden="true"><div class="ticker-track" id="ticker1"></div></div>
+<div class="ticker ticker-carbon" aria-hidden="true"><div class="ticker-track" id="ticker2"></div></div>
+
+<!-- ══ SECTION 4 — FEATURED DROP ══ -->
+<section id="drop" class="drop">
+  <div class="drop-head">
+    <span class="label mono"><i class="label-line"></i>01 — LATEST DROP</span>
+    <a href="https://7is8hb-km.myshopify.com/en" target="_blank" rel="noopener" class="view-all mono" data-magnetic data-scramble>VIEW ALL →</a>
+  </div>
+  <h2 class="drop-title">
+    <span class="line-mask"><span class="line rv">THE ARCHIVE <em class="serif-neon">bodies</em></span></span>
+  </h2>
+
+  <div class="drop-grid" id="dropGrid">
+    <!-- product cards injected by JS (front/back SVG tees) -->
+  </div>
+</section>
+
+<!-- ══ SECTION 5 — MANIFESTO ══ -->
+<section id="manifesto" class="manifesto">
+  <div class="mani-320 mono" id="mani320" aria-hidden="true">320</div>
+  <p class="mani-statement" id="maniStatement">
+    WE DON'T PRINT ON SHIRTS — WE <em class="serif-neon">melt into them.</em>
+  </p>
+  <div class="mani-col mono">
+    320GSM COTTON — HEAVY ENOUGH TO HOLD ITS OWN SHAPE.<br><br>
+    PRINTS FUSED AT FIBRE LEVEL. THEY CRACK ONLY WHEN YOU DO.<br><br>
+    EVERY RUN IS NUMBERED. WHEN IT'S GONE, IT'S GONE.
+  </div>
+</section>
+
+<!-- ══ SECTION 6 — COLLECTION SPLIT ══ -->
+<section id="collections" class="split">
+  <a class="half" href="https://7is8hb-km.myshopify.com/en" target="_blank" rel="noopener">
+    <div class="half-img half-img-a" aria-hidden="true"></div>
+    <div class="half-body">
+      <h3 class="half-title">TRAVEL<br>COLLECTION</h3>
+      <span class="mono half-count">8 PIECES</span>
+    </div>
+  </a>
+  <a class="half" href="https://7is8hb-km.myshopify.com/en" target="_blank" rel="noopener">
+    <div class="half-img half-img-b" aria-hidden="true"></div>
+    <div class="half-body">
+      <h3 class="half-title">COUPLES<br>COLLECTION</h3>
+      <span class="mono half-count">8 PIECES</span>
+    </div>
+  </a>
+</section>
+
+<!-- ══ SECTION 7 — SOCIAL PROOF ══ -->
+<section id="social" class="social">
+  <span class="mono social-label">AS WORN IN THE STREETS</span>
+  <div class="social-rail-wrap"><div class="social-rail" id="socialRail"></div></div>
+</section>
+
+<!-- ══ SECTION 8 — NEWSLETTER ══ -->
+<section class="news">
+  <h2 class="news-title">JOIN THE <em class="serif-neon">frequency</em></h2>
+  <form id="newsForm" autocomplete="off">
+    <div class="news-field">
+      <input type="email" id="newsInput" placeholder="YOUR@EMAIL.COM" aria-label="Email address" required>
+      <span class="news-caret mono" id="newsCaret">PRESS ENTER ↵</span>
+    </div>
+  </form>
+</section>
+
+<!-- ══ SECTION 9 — FOOTER ══ -->
+<footer class="footer">
+  <div class="footer-ab" id="footerAB"><span class="chrome-text">A</span><span class="chrome-text">B</span></div>
+  <div class="footer-cols mono">
+    <span>© 2026 AB — ALL FREQUENCIES RESERVED</span>
+    <span class="footer-socials">
+      <a href="https://www.tiktok.com/@abnewtrys" target="_blank" rel="noopener" data-scramble data-magnetic>TIKTOK</a> ·
+      <a href="https://www.youtube.com/@Abnewtrys" target="_blank" rel="noopener" data-scramble data-magnetic>YOUTUBE</a> ·
+      <a href="https://wa.me/966546515366" target="_blank" rel="noopener" data-scramble data-magnetic>WHATSAPP</a>
+    </span>
+    <span>MADE OF NOISE, IN JEDDAH</span>
+  </div>
+  <div class="footer-strip mono">
+    <span id="footClock">--:--:--</span>
+    <button id="toTop" data-magnetic data-scramble>BACK TO TOP ↑</button>
+  </div>
+</footer>
+
+</div></div>
+<div id="scrollSpacer" aria-hidden="true"></div>
+
+<script src="main.js"></script>
+</body>
+</html>
