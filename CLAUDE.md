@@ -180,6 +180,14 @@
 - **درس:** `background-clip:text` على أب لا يعمل مع أبناء spans عليهم transform (ستاكينغ كونتكست يكسر القص والحروف تختفي) — طبّق chrome-text على كل span نفسه.
 - **QA:** brand_test.js — 31 تأكيداً كلها خضراء: 1440/1024/390 بلا أي overflow أفقي، بريلودر وهيرو، كيرسر يتبع ويتحول VIEW، تيكر يتحرك، 4 بطاقات + hover + سلة، مانيفستو 10/10 كلمات، نشرة تتأكد، back-to-top، برغر الجوال stagger، reduced-motion يتخطى البريلودر. ملاحظة: الخطوط داخل بيئة الفحص fallback (الشبكة محجوبة) — على الموقع الحي Archivo Black تعمل.
 
+## ab-lab.html — «مختبر مؤثرات AB» 🧪 (معرض 50 مؤثراً حياً بأسمائها العلمية — بُني 2026-07-19 بطلبه)
+- صفحة مستقلة واحدة self-contained (بلا build ولا مكتبات): https://abnewtry.github.io/desktop-tutorial/ab-lab.html — طلبها بعد تحليل تقنيات ab-brand: «موقع الصفحة الأولى فيها عشر مؤثرات مثل حركة الفأرة… وتحت كل مؤثر اكتب ما هو، مثل معرض للعميل».
+- **البنية:** 5 تبويبات = 5 صفحات × 10 بطاقات = **50 مؤثراً حياً**: ١ المؤشر والفأرة 🖱️ · ٢ السكرول والتمرير 📜 · ٣ التايبوغرافي 🔤 · ٤ الحركة والانتقالات ⚡ · ٥ الأجواء والخامة 🌫️. كل بطاقة: demo حي (4:3) + رقم تسلسلي + **الاسم بالعربي (Cairo) + المصطلح العلمي بالإنجليزي (IBM Plex Mono) + تلميح تجربة**.
+- **الحيلة الأساسية للجوال:** كل مؤثرات المؤشر تعمل عبر `pointer(demo)` — مؤشر حقيقي عند التحويم (يعود للوهمي بعد 2.6ث من آخر لمسة)، و**مؤشر وهمي يتجول بمنحنى ليساجو** على اللمس، فالمعرض حي بلا فأرة. مؤثرات الحركة عبر `replayer()`: إعادة تلقائية كل ~5ث وهي ظاهرة + الضغط يعيد فوراً. مؤثرات السكرول تقودها `getBoundingClientRect` مع سكرول أصلي (لا lerp wrapper).
+- **الأداء:** حلقة rAF واحدة تحدّث الظاهر فقط (تتخطى r.width===0 للصفحات المخفية وخارج الشاشة ±80px). REDUCED يوقف كل الحلقات.
+- المؤثرات الخمسون تغطي القائمة العلمية التي شرحتها له (Cursor Follower/Magnetic/Repulsion/Particle Trail/Spotlight/3D Tilt/Image Trail/Velocity Skew/Cursor Label/Proximity Glow · Parallax/Progress/Scrub/Mask Reveal/Velocity Skew/Marquee Boost/Count-Up/Pinned/Horizontal-Link/Zoom · Split Stagger/Scramble/Wave/Outline-Fill/Chrome/Word Rotator/Typewriter/Font Pairing/Blur-In/Glitch · Stagger Grid/Spring/Elastic/Curtain/Flip/Blob Morph/Skeleton/Confetti/Ripple/Odometer · Grain/Mesh Blobs/Glassmorphism/Spotlight Scene/Starfield/Scanlines/Aurora/Dot Grid/God Rays/RGB Shift).
+- **QA:** 12 تأكيداً خضراء: 50 بطاقة (10×5)، كل بطاقة باسمها ومصطلحها، الديمو الوهمي يتحرك على اللمس، التبويبات الخمسة تعمل، عروض السكرول تتفاعل، صفر overflow على 390 وصفر أخطاء.
+
 ## دراسات AB التصميمية (design studies — إنجليزية، بلا وظائف متجر)
 - docs/cinematic-playbook.md — دستور النوعية الكامل: كاميرا/إضاءة/خامات/بوست/حركة/إيفكتات + قواعد ذهبية. مرجع التخاطب معه.
 - ab-prism.html «PRISM — LIGHT STUDY 01»: جوهرة زجاج Transmission+Iridescence، بنفسجي #8B5CF6،

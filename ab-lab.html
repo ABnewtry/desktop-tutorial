@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>مختبر مؤثرات AB — ٥٠ مؤثراً حياً بأسمائها العلمية</title>
+<meta name="description" content="معرض حي: ٥٠ مؤثر ويب تفاعلي مقسمة على ٥ أقسام — المؤشر، السكرول، التايبوغرافي، الحركة، والأجواء — وتحت كل مؤثر اسمه العلمي.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;800;900&family=Tajawal:wght@400;500;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#07070e; --card:#111120; --border:#ffffff1c; --text:#f4f4fb; --muted:#a9a6c2;
+  --v:#7c5cff; --c:#22d3ee; --p:#ff5c8a; --y:#ffd75e; --g:#4cd07d;
+  --grad:linear-gradient(120deg,#7c5cff 0%,#22d3ee 50%,#ff5c8a 100%);
+  --sat:env(safe-area-inset-top); --sab:env(safe-area-inset-bottom);
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Tajawal','Cairo',system-ui,sans-serif;
+  overflow-x:hidden;-webkit-font-smoothing:antialiased}
+button{font-family:inherit;cursor:pointer;border:0;background:transparent;color:inherit}
+::selection{background:var(--v);color:#fff}
+
+/* ═══ الهيدر والتبويبات ═══ */
+#top{position:fixed;top:0;left:0;right:0;z-index:50;padding:calc(10px + var(--sat)) 14px 0;
+  background:linear-gradient(180deg,rgba(7,7,14,.96) 60%,rgba(7,7,14,.82));backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--border)}
+#brand{display:flex;align-items:center;gap:11px;margin-bottom:10px}
+#logo{width:40px;height:40px;border-radius:12px;flex:none;display:flex;align-items:center;justify-content:center;
+  font-family:'Cairo';font-weight:900;font-size:16px;background:var(--grad);color:#0a0a12}
+#brand h1{font-family:'Cairo';font-weight:900;font-size:18.5px}
+#brand p{font-size:11.5px;color:var(--muted)}
+#tabs{display:flex;gap:7px;overflow-x:auto;padding-bottom:10px;scrollbar-width:none}
+#tabs::-webkit-scrollbar{display:none}
+.tab{flex:none;min-height:44px;padding:9px 15px;border-radius:12px;font-size:13px;font-weight:800;
+  color:var(--muted);border:1.5px solid var(--border);background:rgba(255,255,255,.04);
+  display:flex;align-items:center;gap:7px;transition:all .25s}
+.tab i{font-style:normal}
+.tab.on{color:#0a0a12;background:var(--grad);border-color:transparent}
+.tab:active{transform:scale(.95)}
+
+/* ═══ الصفحات ═══ */
+.page{display:none;padding:calc(128px + var(--sat)) 14px calc(40px + var(--sab));max-width:1200px;margin:0 auto}
+.page.on{display:block}
+.pgHead{margin-bottom:22px}
+.pgHead h2{font-family:'Cairo';font-weight:900;font-size:24px;
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;display:inline-block}
+.pgHead p{font-size:13.5px;color:var(--muted);margin-top:4px;line-height:1.8}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(285px,1fr));gap:16px}
+
+/* ═══ بطاقة المؤثر ═══ */
+.fx{border:1.5px solid var(--border);border-radius:18px;overflow:hidden;background:var(--card);
+  display:flex;flex-direction:column}
+.demo{position:relative;aspect-ratio:4/3;overflow:hidden;background:#0b0b16;touch-action:pan-y;
+  display:flex;align-items:center;justify-content:center;user-select:none;-webkit-user-select:none}
+.meta{padding:12px 14px calc(12px);border-top:1px solid var(--border)}
+.meta b{display:block;font-family:'Cairo';font-weight:800;font-size:14.5px}
+.meta span{display:block;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.08em;
+  color:var(--c);margin-top:3px;direction:ltr;text-align:right}
+.meta em{display:block;font-style:normal;font-size:11px;color:var(--muted);margin-top:5px}
+.num{position:absolute;top:9px;right:11px;z-index:5;font-family:'IBM Plex Mono',monospace;font-size:10px;
+  color:rgba(244,244,251,.4);letter-spacing:.1em}
+
+/* عناصر مشتركة للعروض */
+.dTitle{font-family:'Cairo';font-weight:900;font-size:26px;pointer-events:none}
+.chip{position:absolute;padding:6px 13px;border-radius:99px;font-size:11.5px;font-weight:800;
+  background:rgba(124,92,255,.2);border:1px solid rgba(124,92,255,.6);pointer-events:none;white-space:nowrap}
+canvas.dc{position:absolute;inset:0;width:100%;height:100%}
+.replayable{cursor:pointer}
+</style>
+</head>
+<body>
+
+<header id="top">
+  <div id="brand">
+    <span id="logo">AB</span>
+    <div><h1>مختبر مؤثرات AB</h1><p>٥٠ مؤثراً حياً — جرّبها بيدك، وتحت كل واحد اسمه العلمي</p></div>
+  </div>
+  <nav id="tabs" aria-label="أقسام المختبر"></nav>
+</header>
+
+<main id="pages"></main>
+
+<script>
+'use strict';
+/* ════════════════════════════════════════════════════════════
+   مختبر مؤثرات AB — 5 أقسام × 10 عروض حية
+   على الأجهزة اللمسية: مؤثرات المؤشر تعمل بمؤشر وهمي يتجول آلياً
+   ════════════════════════════════════════════════════════════ */
+const FINE = matchMedia('(hover:hover) and (pointer:fine)').matches;
+const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const $ = s => document.querySelector(s);
+const lerp = (a,b,t) => a + (b-a)*t;
+const clamp = (v,a,b) => Math.min(b, Math.max(a,v));
+const el = (tag, cls, html) => { const d = document.createElement(tag); if (cls) d.className = cls; if (html != null) d.innerHTML = html; return d; };
+
+const SECTIONS = [
+  { id:'cursor', icon:'🖱️', t:'المؤشر والفأرة', d:'كل ما يتفاعل مع حركة يدك. على الجوال تعمل تلقائياً بمؤشر وهمي — وعلى الكمبيوتر حرّك فأرتك فوق كل بطاقة.' },
+  { id:'scroll', icon:'📜', t:'السكرول والتمرير', d:'مؤثرات يقودها التمرير نفسه — مرّر الصفحة لأعلى وأسفل وراقب كل بطاقة تتفاعل.' },
+  { id:'type',   icon:'🔤', t:'التايبوغرافي', d:'الخطوط كعنصر تصميم حي — تُعيد كل بطاقة عرضها تلقائياً، واضغطها لإعادة التشغيل.' },
+  { id:'motion', icon:'⚡', t:'الحركة والانتقالات', d:'لغة الحركة: نوابض، ارتدادات، ستائر وجسيمات — اضغط أي بطاقة لإعادة العرض.' },
+  { id:'vibe',   icon:'🌫️', t:'الأجواء والخامة', d:'الطبقات التي تصنع الإحساس: حبيبات، ضباب، نجوم وإضاءة — تعمل باستمرار.' },
+];
+
+/* التبويبات والصفحات */
+const tabsEl = $('#tabs'), pagesEl = $('#pages');
+const AR_N = ['١','٢','٣','٤','٥'];
+SECTIONS.forEach((s, i) => {
+  const tab = el('button', 'tab' + (i === 0 ? ' on' : ''), `<i>${s.icon}</i>${AR_N[i]} ${s.t}`);
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('on'));
+    tab.classList.add('on');
+    document.getElementById('pg-' + s.id).classList.add('on');
+    scrollTo(0, 0);
+  });
+  tabsEl.appendChild(tab);
+  const page = el('section', 'page' + (i === 0 ? ' on' : ''));
+  page.id = 'pg-' + s.id;
+  page.innerHTML = `<div class="pgHead"><h2>${s.icon} الصفحة ${AR_N[i]} — ${s.t}</h2><p>${s.d}</p></div><div class="grid" id="grid-${s.id}"></div>`;
+  pagesEl.appendChild(page);
+});
+
+/* تسجيل عرض: يُنشئ بطاقة ويضيف دالة تحديث للحلقة الرئيسية */
+const updaters = [];
+let fxCount = 0;
+function fx(section, arName, enTerm, hint, setup) {
+  const grid = document.getElementById('grid-' + section);
+  const card = el('div', 'fx');
+  const demo = el('div', 'demo');
+  demo.appendChild(el('span', 'num', String(++fxCount).padStart(2, '0')));
+  card.appendChild(demo);
+  card.appendChild(el('div', 'meta', `<b>${arName}</b><span>${enTerm}</span><em>${hint}</em>`));
+  grid.appendChild(card);
+  const api = setup(demo) || {};
+  if (api.update) updaters.push({ el: demo, update: api.update });
+  return demo;
+}
+/* مؤشر لكل عرض: حقيقي عند التحويم، وإلا وهمي يتجول بمنحنى ليساجو */
+function pointer(demo, speed) {
+  const st = { x: 0.5, y: 0.5, real: false, seed: Math.random() * 10 };
+  demo.addEventListener('pointermove', e => {
+    const r = demo.getBoundingClientRect();
+    st.x = (e.clientX - r.left) / r.width; st.y = (e.clientY - r.top) / r.height;
+    st.real = true; st.last = performance.now();
+  });
+  demo.addEventListener('pointerleave', () => { st.real = false; });
+  st.tick = t => {
+    if (st.real && performance.now() - (st.last || 0) < 2600) return;
+    st.real = false;
+    const k = t / 1000 * (speed || 0.5) + st.seed;
+    st.x = 0.5 + Math.sin(k) * 0.34;
+    st.y = 0.5 + Math.sin(k * 1.37 + 1) * 0.3;
+  };
+  return st;
+}
+/* هل البطاقة ظاهرة؟ */
+const inView = r => r.bottom > 0 && r.top < innerHeight;
+/* إعادة تشغيل: عند الضغط + كل فترة وهي ظاهرة */
+function replayer(demo, run, period) {
+  demo.classList.add('replayable');
+  let lastRun = 0;
+  demo.addEventListener('pointerdown', () => { run(); lastRun = performance.now(); });
+  updaters.push({ el: demo, update: (t, r) => {
+    if (inView(r) && t - lastRun > (period || 5200)) { run(); lastRun = t; }
+  } });
+  setTimeout(run, 400);
+}
+
+/* ═══════════════ الصفحة ١ — المؤشر والفأرة ═══════════════ */
+
+fx('cursor', 'المؤشر التابع', 'Cursor Follower — Lerp', 'حرّك فوق البطاقة: نقطة فورية وحلقة تلحقها بنعومة', demo => {
+  demo.appendChild(el('span', 'dTitle', 'AB'));
+  const dot = el('div'); dot.style.cssText = 'position:absolute;width:8px;height:8px;border-radius:50%;background:var(--c);pointer-events:none;top:0;left:0';
+  const ring = el('div'); ring.style.cssText = 'position:absolute;width:38px;height:38px;border-radius:50%;border:1.5px solid var(--v);pointer-events:none;top:0;left:0';
+  demo.append(dot, ring);
+  const p = pointer(demo, .6); let rx = .5, ry = .5;
+  return { update: (t, r) => { p.tick(t);
+    dot.style.transform = `translate(${p.x * r.width - 4}px,${p.y * r.height - 4}px)`;
+    rx = lerp(rx, p.x, .1); ry = lerp(ry, p.y, .1);
+    ring.style.transform = `translate(${rx * r.width - 19}px,${ry * r.height - 19}px)`; } };
+});
+
+fx('cursor', 'الزر المغناطيسي', 'Magnetic Button', 'الزر ينجذب نحو المؤشر ويرجع بنابض', demo => {
+  const b = el('button', '', 'اطلب الآن');
+  b.style.cssText = 'padding:14px 30px;border-radius:99px;background:var(--grad);color:#0a0a12;font-weight:900;font-family:Cairo;font-size:15px;pointer-events:none';
+  demo.appendChild(b);
+  const p = pointer(demo, .55); let x = 0, y = 0;
+  return { update: (t, r) => { p.tick(t);
+    const dx = (p.x - .5) * r.width, dy = (p.y - .5) * r.height;
+    const d = Math.hypot(dx, dy), pull = d < 130;
+    x = lerp(x, pull ? dx * .45 : 0, .12); y = lerp(y, pull ? dy * .45 : 0, .12);
+    b.style.transform = `translate(${x}px,${y}px)`; } };
+});
+
+fx('cursor', 'تنافر الحروف', 'Mouse Repulsion + Spring', 'الحروف تهرب من المؤشر وترجع بمرونة', demo => {
+  const w = el('div', 'dTitle'); w.style.cssText = 'display:flex;gap:2px;font-size:34px';
+  const chars = [...'STUDIO'].map(c => { const s = el('span', '', c); s.style.cssText = 'display:inline-block'; w.appendChild(s); return { s, x: 0, y: 0 }; });
+  demo.appendChild(w);
+  const p = pointer(demo, .7);
+  return { update: (t, r) => { p.tick(t);
+    const mx = p.x * r.width, my = p.y * r.height;
+    for (const c of chars) {
+      const cr = c.s.getBoundingClientRect();
+      const cx = cr.left - r.left + cr.width / 2, cy = cr.top - r.top + cr.height / 2;
+      const dx = cx - mx, dy = cy - my, d = Math.hypot(dx, dy);
+      const f = d < 90 && d > 0.1 ? (1 - d / 90) * 34 : 0;
+      c.x = lerp(c.x, f ? dx / d * f : 0, .14); c.y = lerp(c.y, f ? dy / d * f : 0, .14);
+      c.s.style.transform = `translate(${c.x}px,${c.y}px)`;
+      c.s.style.color = f > 12 ? 'var(--c)' : '';
+    } } };
+});
+
+fx('cursor', 'ذيل الجزيئات', 'Particle Trail — Canvas', 'جزيئات مضيئة تولد خلف المؤشر وتموت بتلاشٍ', demo => {
+  const cv = el('canvas', 'dc'); demo.appendChild(cv);
+  const ctx = cv.getContext('2d'); let parts = [];
+  const p = pointer(demo, .8);
+  return { update: (t, r) => { p.tick(t);
+    if (cv.width !== r.width | 0) { cv.width = r.width; cv.height = r.height; }
+    parts.push({ x: p.x * r.width, y: p.y * r.height, vx: (Math.random() - .5) * .8, vy: (Math.random() - .5) * .8, life: 1 });
+    if (parts.length > 90) parts.shift();
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    ctx.globalCompositeOperation = 'lighter';
+    parts = parts.filter(q => q.life > 0);
+    for (const q of parts) { q.x += q.vx; q.y += q.vy; q.life -= .025;
+      ctx.globalAlpha = q.life * .7; ctx.fillStyle = '#22d3ee';
+      ctx.beginPath(); ctx.arc(q.x, q.y, 2.4, 0, 6.28); ctx.fill(); }
+    ctx.globalAlpha = 1; } };
+});
+
+fx('cursor', 'الكشاف الضوئي', 'Spotlight / Mask Reveal', 'المؤشر مصباح يكشف ما تحته', demo => {
+  const hid = el('div', '', 'أعمال<br>مخفية ✨');
+  hid.style.cssText = 'position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;font-family:Cairo;font-weight:900;font-size:30px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent';
+  const cover = el('div');
+  cover.style.cssText = 'position:absolute;inset:0;background:#0b0b16;pointer-events:none';
+  demo.append(hid, cover);
+  const p = pointer(demo, .5);
+  return { update: (t, r) => { p.tick(t);
+    cover.style.maskImage = cover.style.webkitMaskImage =
+      `radial-gradient(circle 70px at ${p.x * 100}% ${p.y * 100}%, transparent 0 60px, black 75px)`; } };
+});
+
+fx('cursor', 'بطاقة ثلاثية الأبعاد', '3D Tilt — Perspective', 'البطاقة تميل نحو المؤشر كأنها معلقة بالهواء', demo => {
+  demo.style.perspective = '600px';
+  const c = el('div', '', '<b style="font-family:Cairo;font-size:19px">AB®</b><span style="font-size:11px;color:var(--muted)">HEAVYWEIGHT TEE</span>');
+  c.style.cssText = 'width:56%;height:64%;border-radius:16px;background:linear-gradient(150deg,#1d1d33,#12121f);border:1.5px solid var(--border);display:flex;flex-direction:column;gap:6px;align-items:center;justify-content:center;pointer-events:none;box-shadow:0 18px 40px rgba(0,0,0,.5)';
+  demo.appendChild(c);
+  const p = pointer(demo, .45);
+  return { update: t => { p.tick(t);
+    c.style.transform = `rotateY(${(p.x - .5) * 26}deg) rotateX(${(.5 - p.y) * 22}deg)`; } };
+});
+
+fx('cursor', 'ذيل الصور', 'Image Trail', 'بطاقات مصغرة تنبثق على مسار المؤشر وتتلاشى', demo => {
+  const p = pointer(demo, .75);
+  const COLORS = ['#7c5cff', '#22d3ee', '#ff5c8a', '#ffd75e'];
+  let lastSpawn = 0, k = 0;
+  return { update: (t, r) => { p.tick(t);
+    if (t - lastSpawn > 130) {
+      lastSpawn = t;
+      const s = el('div', '', 'AB');
+      s.style.cssText = `position:absolute;width:44px;height:56px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:Cairo;font-weight:900;font-size:13px;color:#0a0a12;background:${COLORS[k++ % 4]};left:0;top:0;pointer-events:none;transform:translate(${p.x * r.width - 22}px,${p.y * r.height - 28}px) rotate(${(Math.random() - .5) * 24}deg)`;
+      demo.appendChild(s);
+      s.animate([{ opacity: 1, scale: 1 }, { opacity: 0, scale: .6 }], { duration: 900, easing: 'ease-out' })
+        .onfinish = () => s.remove();
+    } } };
+});
+
+fx('cursor', 'الميلان بالسرعة', 'Velocity Skew', 'العنصر يميل بمقدار سرعة يدك — ليس بمكانها', demo => {
+  const b = el('div', 'dTitle', 'سرعة اليد');
+  b.style.cssText += ';font-size:28px;padding:16px 26px;border:1.5px solid var(--border);border-radius:14px;background:var(--card)';
+  demo.appendChild(b);
+  const p = pointer(demo, 1.1); let px = .5, sk = 0;
+  return { update: t => { p.tick(t);
+    const v = (p.x - px) * 240; px = p.x;
+    sk = lerp(sk, clamp(v, -18, 18), .16);
+    b.style.transform = `skewX(${-sk}deg)`; } };
+});
+
+fx('cursor', 'الوسم التابع', 'Cursor Label / Tooltip Follower', 'وسم يطارد المؤشر بتأخير — مثل «VIEW» فوق المنتجات', demo => {
+  demo.appendChild(el('span', 'dTitle', '🖼️'));
+  const tag = el('span', 'chip', 'شاهد العمل ←');
+  demo.appendChild(tag);
+  const p = pointer(demo, .5); let x = .5, y = .5;
+  return { update: (t, r) => { p.tick(t);
+    x = lerp(x, p.x, .09); y = lerp(y, p.y, .09);
+    tag.style.transform = `translate(${x * r.width - 50}px,${y * r.height + 18}px)`; } };
+});
+
+fx('cursor', 'التوهج المحيطي', 'Proximity Glow / Hover Bloom', 'كلما اقترب المؤشر توهّج العنصر أكثر', demo => {
+  const b = el('div', 'dTitle', 'اقترب مني');
+  b.style.cssText += ';font-size:24px;padding:18px 28px;border-radius:16px;border:1.5px solid var(--v);transition:box-shadow .15s,color .15s';
+  demo.appendChild(b);
+  const p = pointer(demo, .5);
+  return { update: (t, r) => { p.tick(t);
+    const dx = (p.x - .5) * r.width, dy = (p.y - .5) * r.height;
+    const g = clamp(1 - Math.hypot(dx, dy) / 150, 0, 1);
+    b.style.boxShadow = `0 0 ${g * 46}px rgba(124,92,255,${g * .8}), inset 0 0 ${g * 22}px rgba(124,92,255,${g * .35})`;
+    b.style.color = g > .55 ? '#c4b5fd' : ''; } };
+});
+
+/* ═══════════════ الصفحة ٢ — السكرول والتمرير ═══════════════ */
+
+let scrollVel = 0, lastScrollY = 0;
+
+fx('scroll', 'الباراللاكس الطبقي', 'Parallax Layers', 'ثلاث طبقات تتحرك بسرعات مختلفة مع تمريرك', demo => {
+  const mk = (txt, size, color, z) => { const d = el('div', '', txt);
+    d.style.cssText = `position:absolute;font-family:Cairo;font-weight:900;font-size:${size}px;color:${color};z-index:${z};pointer-events:none`; demo.appendChild(d); return d; };
+  const l1 = mk('AB', 120, 'rgba(124,92,255,.14)', 1);
+  const l2 = mk('معرض الأعمال', 24, 'rgba(244,244,251,.85)', 2);
+  const l3 = mk('✦', 26, 'var(--c)', 3); l3.style.top = '18%'; l3.style.right = '16%';
+  return { update: (t, r) => {
+    const p = (innerHeight / 2 - (r.top + r.height / 2)) / innerHeight;
+    l1.style.transform = `translateY(${p * 90}px)`;
+    l2.style.transform = `translateY(${p * 34}px)`;
+    l3.style.transform = `translateY(${p * 150}px)`; } };
+});
+
+fx('scroll', 'شريط تقدم القراءة', 'Scroll Progress Indicator', 'يعبأ بنسبة تقدمك في الصفحة كلها', demo => {
+  const wrap = el('div'); wrap.style.cssText = 'width:72%;display:flex;flex-direction:column;gap:12px;align-items:center';
+  const num = el('b', '', '٠٪'); num.style.cssText = 'font-family:Cairo;font-size:34px';
+  const bar = el('div'); bar.style.cssText = 'width:100%;height:8px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden';
+  const fill = el('i'); fill.style.cssText = 'display:block;height:100%;width:0;border-radius:99px;background:var(--grad)';
+  bar.appendChild(fill); wrap.append(num, bar); demo.appendChild(wrap);
+  const AR = '٠١٢٣٤٥٦٧٨٩';
+  return { update: () => {
+    const max = document.documentElement.scrollHeight - innerHeight;
+    const p = max ? clamp(scrollY / max, 0, 1) : 0;
+    fill.style.width = p * 100 + '%';
+    num.textContent = String(Math.round(p * 100)).split('').map(d => AR[+d]).join('') + '٪'; } };
+});
+
+fx('scroll', 'إضاءة الكلمات بالتمرير', 'Text Scrub / Scroll-Driven Highlight', 'الكلمات تُضاء واحدة واحدة حسب موضع البطاقة', demo => {
+  const words = 'التمرير يقود الحكاية كلمة تلو كلمة حتى النهاية'.split(' ');
+  const par = el('p'); par.style.cssText = 'font-family:Cairo;font-weight:800;font-size:19px;line-height:2;width:78%;text-align:center';
+  const spans = words.map(w => { const s = el('span', '', w + ' '); s.style.cssText = 'color:#3f3d5c;transition:color .25s'; par.appendChild(s); return s; });
+  demo.appendChild(par);
+  return { update: (t, r) => {
+    const p = clamp((innerHeight * .9 - r.top) / (innerHeight * .95), 0, 1);
+    spans.forEach((s, i) => s.style.color = i < p * spans.length ? (i % 4 === 3 ? 'var(--c)' : 'var(--text)') : '#3f3d5c'); } };
+});
+
+fx('scroll', 'الكشف من القناع', 'Mask Reveal on Enter', 'العنوان ينزلق من داخل قصّ مخفي كلما دخلت البطاقة الشاشة', demo => {
+  const mask = el('div'); mask.style.cssText = 'overflow:hidden;padding:4px 8px';
+  const line = el('div', 'dTitle', 'عنوان يولد من جديد');
+  line.style.cssText += ';font-size:23px;transform:translateY(120%) rotate(3deg);transform-origin:right bottom';
+  mask.appendChild(line); demo.appendChild(mask);
+  let wasOut = true;
+  return { update: (t, r) => {
+    const visible = r.top < innerHeight * .82 && r.bottom > 0;
+    if (visible && wasOut) { wasOut = false;
+      line.style.transition = 'none'; line.style.transform = 'translateY(120%) rotate(3deg)';
+      requestAnimationFrame(() => { line.style.transition = 'transform .9s cubic-bezier(.16,1,.3,1)'; line.style.transform = 'none'; }); }
+    if (!visible) wasOut = true; } };
+});
+
+fx('scroll', 'ميلان بسرعة التمرير', 'Scroll Velocity Skew', 'مرّر بسرعة وشاهد الصفوف تميل مع القوة', demo => {
+  const wrap = el('div'); wrap.style.cssText = 'display:flex;flex-direction:column;gap:8px;width:74%';
+  for (let i = 0; i < 4; i++) {
+    const rrow = el('div'); rrow.style.cssText = 'height:26px;border-radius:8px;background:linear-gradient(90deg,rgba(124,92,255,.35),rgba(34,211,238,.3))';
+    wrap.appendChild(rrow);
+  }
+  demo.appendChild(wrap);
+  let sk = 0;
+  return { update: () => {
+    sk = lerp(sk, clamp(scrollVel * .5, -14, 14), .15);
+    wrap.style.transform = `skewY(${sk * .5}deg)`; } };
+});
+
+fx('scroll', 'الشريط المتسارع', 'Marquee + Scroll Boost', 'شريط لانهائي يتسارع مع سرعة تمريرك', demo => {
+  const strip = el('div'); strip.style.cssText = 'white-space:nowrap;font-family:Cairo;font-weight:900;font-size:22px;color:var(--y);will-change:transform;direction:ltr';
+  strip.innerHTML = 'AB STUDIO · NO LIMITS · '.repeat(8);
+  demo.appendChild(strip); let x = 0;
+  return { update: (t, r) => {
+    x -= 1 + Math.abs(scrollVel) * .35;
+    const w = strip.scrollWidth / 2 || 1;
+    if (x < -w) x += w;
+    strip.style.transform = `translateX(${x}px)`; } };
+});
+
+fx('scroll', 'العداد الصاعد', 'Count-Up on View', 'الرقم يعد من الصفر كلما ظهرت البطاقة', demo => {
+  const n = el('b', '', '٠'); n.style.cssText = 'font-family:Cairo;font-size:52px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent';
+  const cap = el('span', '', 'مشروع منجز'); cap.style.cssText = 'font-size:13px;color:var(--muted)';
+  const wrap = el('div'); wrap.style.cssText = 'display:flex;flex-direction:column;align-items:center;gap:4px';
+  wrap.append(n, cap); demo.appendChild(wrap);
+  const AR = '٠١٢٣٤٥٦٧٨٩';
+  let t0 = 0, wasOut = true;
+  return { update: (t, r) => {
+    const visible = inView(r);
+    if (visible && wasOut) { wasOut = false; t0 = t; }
+    if (!visible) { wasOut = true; return; }
+    const p = clamp((t - t0) / 1600, 0, 1);
+    const v = Math.round((1 - Math.pow(1 - p, 3)) * 320);
+    n.textContent = String(v).split('').map(d => AR[+d]).join(''); } };
+});
+
+fx('scroll', 'العنصر المثبّت', 'Pinned / Sticky Element', 'الدائرة تثبت بمكانها بينما البطاقة تعبر الشاشة', demo => {
+  const pin = el('div', '', '📌');
+  pin.style.cssText = 'width:64px;height:64px;border-radius:50%;background:var(--card);border:1.5px solid var(--v);display:flex;align-items:center;justify-content:center;font-size:26px;pointer-events:none';
+  demo.appendChild(pin);
+  return { update: (t, r) => {
+    const travel = clamp((innerHeight * .75 - r.top) / (innerHeight * .8), 0, 1);
+    pin.style.transform = `translateY(${(travel - .5) * (r.height * .55)}px) rotate(${travel * 360}deg)`; } };
+});
+
+fx('scroll', 'الحركة الأفقية بالتمرير العمودي', 'Horizontal Scroll-Linked Motion', 'تمريرك للأسفل يحرك القطار يميناً ويساراً', demo => {
+  const train = el('div'); train.style.cssText = 'display:flex;gap:10px;will-change:transform';
+  ['🍔','🧴','🛋️','☕','🌿'].forEach(e => {
+    const c = el('div', '', e); c.style.cssText = 'width:58px;height:74px;border-radius:12px;background:var(--card);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:26px;flex:none'; train.appendChild(c);
+  });
+  demo.appendChild(train);
+  return { update: (t, r) => {
+    const p = (innerHeight / 2 - (r.top + r.height / 2)) / innerHeight;
+    train.style.transform = `translateX(${p * 220}px)`; } };
+});
+
+fx('scroll', 'الزوم بالتمرير', 'Scroll-Driven Zoom', 'المشهد يقترب كلما مرّت البطاقة بمنتصف الشاشة', demo => {
+  const img = el('div', '', 'AB');
+  img.style.cssText = 'position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:Cairo;font-weight:900;font-size:80px;color:rgba(244,244,251,.9);background:radial-gradient(70% 70% at 50% 40%,rgba(124,92,255,.4),rgba(11,11,22,1) 75%);will-change:transform;pointer-events:none';
+  demo.appendChild(img);
+  return { update: (t, r) => {
+    const mid = 1 - clamp(Math.abs((r.top + r.height / 2) - innerHeight / 2) / (innerHeight / 2), 0, 1);
+    img.style.transform = `scale(${1 + mid * .55})`; } };
+});
+
+/* ═══════════════ الصفحة ٣ — التايبوغرافي ═══════════════ */
+
+fx('type', 'دخول الحروف المتتابع', 'Split Text — Stagger Reveal', 'العنوان يتقطع حروفاً تصعد واحداً واحداً', demo => {
+  const w = el('div', 'dTitle'); w.style.cssText += ';display:flex;gap:1px;font-size:30px;overflow:hidden;padding:6px';
+  demo.appendChild(w);
+  replayer(demo, () => {
+    w.innerHTML = '';
+    [...'عبدالرحمن'].forEach((c, i) => {
+      const s = el('span', '', c); s.style.cssText = `display:inline-block;transform:translateY(120%)`;
+      w.appendChild(s);
+      s.animate([{ transform: 'translateY(120%) rotate(6deg)' }, { transform: 'none' }],
+        { duration: 700, delay: i * 55, easing: 'cubic-bezier(.16,1,.3,1)', fill: 'forwards' });
+    });
+  });
+});
+
+fx('type', 'فك التشفير', 'Text Scramble / Decode', 'حروف عشوائية تنحل إلى الكلمة الحقيقية', demo => {
+  const b = el('div', 'dTitle', ''); b.style.cssText += ';font-size:24px;font-family:"IBM Plex Mono",monospace;direction:ltr';
+  demo.appendChild(b);
+  const TXT = 'AB CREATIVE', GL = '!<>-_/[]{}=+*^?#';
+  replayer(demo, () => {
+    const t0 = performance.now();
+    (function tick(t) {
+      const p = clamp((t - t0) / 900, 0, 1);
+      const solved = Math.floor(TXT.length * p);
+      let out = '';
+      for (let i = 0; i < TXT.length; i++) out += i < solved || TXT[i] === ' ' ? TXT[i] : GL[(Math.random() * GL.length) | 0];
+      b.textContent = out;
+      if (p < 1) requestAnimationFrame(tick);
+    })(t0);
+  });
+});
+
+fx('type', 'موجة الحروف', 'Wave Text / Letter Oscillation', 'كل حرف يسبح بموجة جيبية بإزاحة زمنية', demo => {
+  const w = el('div', 'dTitle'); w.style.cssText += ';display:flex;font-size:28px';
+  const chars = [...'إبداع بلا حدود'].map((c, i) => { const s = el('span', '', c === ' ' ? ' ' : c); s.style.display = 'inline-block'; w.appendChild(s); return s; });
+  demo.appendChild(w);
+  return { update: t => chars.forEach((s, i) => {
+    s.style.transform = `translateY(${Math.sin(t / 400 + i * .55) * 9}px)`;
+    s.style.color = Math.sin(t / 400 + i * .55) > .8 ? 'var(--p)' : ''; }) };
+});
+
+fx('type', 'المفرّغ يمتلئ', 'Outlined → Filled Text', 'النص حدود فقط… ثم يمتلئ باللون', demo => {
+  const b = el('div', '', 'AB'); demo.appendChild(b);
+  b.style.cssText = 'font-family:Cairo;font-weight:900;font-size:84px;color:transparent;-webkit-text-stroke:1.5px var(--text);transition:color .8s';
+  updaters.push({ el: demo, update: t => {
+    const on = Math.sin(t / 1400) > 0;
+    b.style.color = on ? 'var(--c)' : 'transparent';
+    b.style.webkitTextStroke = on ? '1.5px var(--c)' : '1.5px var(--text)'; } });
+});
+
+fx('type', 'التدرج المعدني', 'Gradient / Chrome Text', 'التدرج يقصّ داخل الحروف نفسها ويتزحلق', demo => {
+  const b = el('div', '', 'CHROME');
+  b.style.cssText = 'font-family:Cairo;font-weight:900;font-size:44px;direction:ltr;background:linear-gradient(110deg,#e8e8e8,#6e6e6e 30%,#f2f2f2 50%,#9a9a9a 70%,#e8e8e8);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent';
+  demo.appendChild(b);
+  return { update: t => b.style.backgroundPosition = `${(t / 30) % 250}% 0` };
+});
+
+fx('type', 'الكلمات المتناوبة', 'Word Rotator / Flip Words', 'كلمة واحدة تتبدل بينما الجملة ثابتة', demo => {
+  const wrap = el('div'); wrap.style.cssText = 'font-family:Cairo;font-weight:900;font-size:24px;display:flex;gap:8px;align-items:baseline';
+  wrap.appendChild(el('span', '', 'أصمم لك'));
+  const slot = el('span'); slot.style.cssText = 'display:inline-block;min-width:110px;color:var(--c);overflow:hidden;height:1.4em';
+  wrap.appendChild(slot); demo.appendChild(wrap);
+  const WORDS = ['هوية 🧩', 'بوستر 🎨', 'موقعاً 🌐', 'فيديو 🎬'];
+  let i = 0, last = 0;
+  return { update: t => {
+    if (t - last > 1700) { last = t;
+      const w = el('span', '', WORDS[i++ % WORDS.length]); w.style.display = 'inline-block';
+      slot.innerHTML = ''; slot.appendChild(w);
+      w.animate([{ transform: 'translateY(110%)', opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: 450, easing: 'cubic-bezier(.16,1,.3,1)' }); } } };
+});
+
+fx('type', 'الآلة الكاتبة', 'Typewriter Effect', 'النص يُكتب حرفاً حرفاً بمؤشر ينبض', demo => {
+  const b = el('div'); b.style.cssText = 'font-family:"IBM Plex Mono",monospace;font-size:15px;direction:ltr;color:var(--g)';
+  demo.appendChild(b);
+  const TXT = '> AB.design(everything);';
+  let start = 0;
+  updaters.push({ el: demo, update: t => {
+    if (!start) start = t;
+    const n = Math.floor((t - start) / 90) % (TXT.length + 14);
+    b.innerHTML = TXT.slice(0, Math.min(n, TXT.length)) + `<span style="opacity:${Math.sin(t / 150) > 0 ? 1 : 0}">▌</span>`; } });
+});
+
+fx('type', 'معادلة الخطين', 'Editorial Font Pairing', 'عريض صارخ + مائل شاعري — معادلة المواقع الفاخرة', demo => {
+  const b = el('div');
+  b.style.cssText = 'text-align:center;line-height:1';
+  b.innerHTML = `<div style="font-family:Cairo;font-weight:900;font-size:34px;letter-spacing:-.02em">اصنع ال</div>
+    <div style="font-family:Georgia,serif;font-style:italic;font-size:44px;color:var(--y);margin-top:-6px">فرق.</div>`;
+  demo.appendChild(b);
+  return { update: t => b.style.transform = `translateY(${Math.sin(t / 900) * 4}px)` };
+});
+
+fx('type', 'الظهور من الضباب', 'Blur-In Text Reveal', 'الكلمات تدخل من عمق ضبابي إلى حدة تامة', demo => {
+  const b = el('div', 'dTitle', 'وضوح تام'); b.style.cssText += ';font-size:32px';
+  demo.appendChild(b);
+  replayer(demo, () => {
+    b.animate([{ filter: 'blur(14px)', opacity: 0, transform: 'scale(1.15)' }, { filter: 'blur(0)', opacity: 1, transform: 'none' }],
+      { duration: 1100, easing: 'cubic-bezier(.16,1,.3,1)', fill: 'forwards' });
+  });
+});
+
+fx('type', 'القلتش الرقمي', 'Glitch Text / RGB Split', 'انقسام قنوات الألوان بومضات عشوائية', demo => {
+  const b = el('div', 'dTitle', 'GLITCH'); b.style.cssText += ';font-size:38px;direction:ltr;position:relative';
+  demo.appendChild(b);
+  return { update: t => {
+    if (Math.random() < .09) {
+      const o = (Math.random() - .5) * 8;
+      b.style.textShadow = `${o}px 0 rgba(255,0,80,.8), ${-o}px 0 rgba(0,220,255,.8)`;
+      b.style.transform = `translateX(${(Math.random() - .5) * 5}px)`;
+    } else if (Math.random() < .2) { b.style.textShadow = 'none'; b.style.transform = 'none'; } } };
+});
+
+/* ═══════════════ الصفحة ٤ — الحركة والانتقالات ═══════════════ */
+
+fx('motion', 'الدخول المتعاقب', 'Staggered Grid Entrance', 'تسع بلاطات تدخل متتابعة بفارق زمني صغير', demo => {
+  const g = el('div'); g.style.cssText = 'display:grid;grid-template-columns:repeat(3,44px);gap:8px';
+  demo.appendChild(g);
+  replayer(demo, () => {
+    g.innerHTML = '';
+    for (let i = 0; i < 9; i++) {
+      const s = el('div'); s.style.cssText = 'width:44px;height:44px;border-radius:10px;background:var(--grad);opacity:0';
+      g.appendChild(s);
+      s.animate([{ opacity: 0, transform: 'translateY(22px) scale(.7)' }, { opacity: 1, transform: 'none' }],
+        { duration: 500, delay: i * 70, easing: 'cubic-bezier(.34,1.56,.64,1)', fill: 'forwards' });
+    }
+  });
+});
+
+fx('motion', 'نبضة النابض', 'Spring / Overshoot Pop', 'العنصر يتجاوز حجمه ثم يستقر — إحساس المطاط', demo => {
+  const b = el('div', '', '💜'); b.style.cssText = 'font-size:52px';
+  demo.appendChild(b);
+  replayer(demo, () => {
+    b.animate([{ transform: 'scale(0)' }, { transform: 'scale(1.35)', offset: .55 }, { transform: 'scale(.92)', offset: .75 }, { transform: 'scale(1)' }],
+      { duration: 750, easing: 'cubic-bezier(.34,1.2,.64,1)' });
+  }, 3400);
+});
+
+fx('motion', 'الارتداد المطاطي', 'Elastic Bounce', 'كرة تسقط وترتد بفقدان طاقة واقعي', demo => {
+  const ball = el('div'); ball.style.cssText = 'width:42px;height:42px;border-radius:50%;background:var(--c);position:absolute;top:10%;box-shadow:0 0 24px rgba(34,211,238,.5)';
+  demo.appendChild(ball);
+  replayer(demo, () => {
+    ball.animate([
+      { transform: 'translateY(0)', offset: 0 },
+      { transform: 'translateY(140px)', offset: .35, easing: 'cubic-bezier(.55,0,1,.45)' },
+      { transform: 'translateY(46px)', offset: .55, easing: 'cubic-bezier(0,.55,.45,1)' },
+      { transform: 'translateY(140px)', offset: .72, easing: 'cubic-bezier(.55,0,1,.45)' },
+      { transform: 'translateY(96px)', offset: .84, easing: 'cubic-bezier(0,.55,.45,1)' },
+      { transform: 'translateY(140px)', offset: 1 },
+    ], { duration: 1900, fill: 'forwards' });
+  }, 4200);
+});
+
+fx('motion', 'انتقال الستارة', 'Curtain Wipe Transition', 'ستارة تكشف المحتوى الجديد بمنحنى سينمائي', demo => {
+  const scene = el('div', 'dTitle', 'مشهد ١'); scene.style.cssText += ';font-size:26px';
+  const cur = el('div'); cur.style.cssText = 'position:absolute;inset:0;background:var(--grad);transform:translateY(101%)';
+  demo.append(scene, cur);
+  let flip = false;
+  replayer(demo, () => {
+    cur.animate([{ transform: 'translateY(101%)' }, { transform: 'translateY(0)' }],
+      { duration: 550, easing: 'cubic-bezier(.77,0,.18,1)', fill: 'forwards' }).onfinish = () => {
+      flip = !flip; scene.textContent = flip ? 'مشهد ٢' : 'مشهد ١';
+      cur.animate([{ transform: 'translateY(0)' }, { transform: 'translateY(-101%)' }],
+        { duration: 550, easing: 'cubic-bezier(.77,0,.18,1)', fill: 'forwards' });
+    };
+  }, 4600);
+});
+
+fx('motion', 'قلب البطاقة', 'Card Flip — rotateY', 'وجهان لبطاقة تنقلب بمنظور ثلاثي الأبعاد', demo => {
+  demo.style.perspective = '700px';
+  const c = el('div'); c.style.cssText = 'width:120px;height:150px;position:relative;transform-style:preserve-3d;transition:transform .8s cubic-bezier(.34,1.2,.64,1)';
+  const face = 'position:absolute;inset:0;border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:Cairo;font-weight:900;font-size:22px;backface-visibility:hidden';
+  const f1 = el('div', '', 'قبل'); f1.style.cssText = face + ';background:var(--card);border:1.5px solid var(--border)';
+  const f2 = el('div', '', 'بعد ✨'); f2.style.cssText = face + ';background:var(--grad);color:#0a0a12;transform:rotateY(180deg)';
+  c.append(f1, f2); demo.appendChild(c);
+  let on = false;
+  replayer(demo, () => { on = !on; c.style.transform = on ? 'rotateY(180deg)' : 'none'; }, 2800);
+});
+
+fx('motion', 'الكتلة المتحولة', 'Morphing Blob', 'شكل عضوي يتنفس بتغيير أنصاف أقطاره', demo => {
+  const b = el('div'); demo.appendChild(b);
+  b.style.cssText = 'width:130px;height:130px;background:var(--grad);opacity:.85';
+  return { update: t => {
+    const k = t / 1000;
+    b.style.borderRadius = `${50 + Math.sin(k) * 22}% ${50 + Math.cos(k * 1.3) * 22}% ${50 + Math.sin(k * .8 + 2) * 22}% ${50 + Math.cos(k * 1.1 + 1) * 22}% / ${50 + Math.cos(k * .9) * 22}% ${50 + Math.sin(k * 1.2 + 1) * 22}% ${50 + Math.cos(k * .7 + 2) * 22}% ${50 + Math.sin(k) * 22}%`;
+    b.style.transform = `rotate(${k * 12}deg)`; } };
+});
+
+fx('motion', 'وميض التحميل', 'Skeleton Shimmer', 'هياكل رمادية يعبرها ضوء — إحساس «جارٍ التحميل»', demo => {
+  const w = el('div'); w.style.cssText = 'width:70%;display:flex;flex-direction:column;gap:10px';
+  [46, 14, 14, 14].forEach((h, i) => {
+    const s = el('div'); s.style.cssText = `height:${h}px;border-radius:${h > 20 ? 12 : 6}px;background:linear-gradient(100deg,#1a1a2e 40%,#2e2e4a 50%,#1a1a2e 60%);background-size:280% 100%;${i === 3 ? 'width:55%' : ''}`;
+    w.appendChild(s);
+  });
+  demo.appendChild(w);
+  return { update: t => [...w.children].forEach(s => s.style.backgroundPosition = `${-(t / 9) % 280}% 0`) };
+});
+
+fx('motion', 'انفجار الجسيمات', 'Confetti / Particle Burst', 'اضغط البطاقة — احتفال كامل من مركز الضغطة', demo => {
+  const cv = el('canvas', 'dc'); demo.appendChild(cv);
+  const ctx = cv.getContext('2d'); let parts = [];
+  const COLORS = ['#7c5cff', '#22d3ee', '#ff5c8a', '#ffd75e', '#f4f4fb'];
+  const boom = (x, y) => { for (let i = 0; i < 34; i++) {
+    const a = Math.random() * 6.28, sp = Math.random() * 4 + 1.5;
+    parts.push({ x, y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp - 2, g: .16, life: 1, c: COLORS[i % 5], w: Math.random() * 5 + 3, rot: Math.random() * 6.28 }); } };
+  demo.addEventListener('pointerdown', e => { const r = demo.getBoundingClientRect(); boom(e.clientX - r.left, e.clientY - r.top); });
+  demo.classList.add('replayable');
+  let lastAuto = 0;
+  return { update: (t, r) => {
+    if (cv.width !== r.width | 0) { cv.width = r.width; cv.height = r.height; }
+    if (inView(r) && t - lastAuto > 3600) { lastAuto = t; boom(cv.width / 2, cv.height / 2); }
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    parts = parts.filter(p => p.life > 0);
+    for (const p of parts) { p.x += p.vx; p.y += p.vy; p.vy += p.g; p.life -= .016; p.rot += .1;
+      ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot); ctx.globalAlpha = Math.max(0, p.life);
+      ctx.fillStyle = p.c; ctx.fillRect(-p.w / 2, -p.w / 2, p.w, p.w * .65); ctx.restore(); }
+    ctx.globalAlpha = 1; } };
+});
+
+fx('motion', 'تموج الضغطة', 'Ripple Effect', 'موجة دائرية تنتشر من نقطة اللمس — أثر ماتيريال الشهير', demo => {
+  const b = el('button', '', 'اضغطني'); demo.appendChild(b);
+  b.style.cssText = 'padding:16px 38px;border-radius:14px;background:var(--card);border:1.5px solid var(--v);font-family:Cairo;font-weight:800;font-size:16px;color:var(--text);position:relative;overflow:hidden';
+  const rip = (x, y) => {
+    const r = el('span'); const br = b.getBoundingClientRect();
+    r.style.cssText = `position:absolute;left:${x - br.left}px;top:${y - br.top}px;width:8px;height:8px;margin:-4px;border-radius:50%;background:rgba(124,92,255,.5);pointer-events:none`;
+    b.appendChild(r);
+    r.animate([{ transform: 'scale(1)', opacity: 1 }, { transform: 'scale(38)', opacity: 0 }], { duration: 750, easing: 'ease-out' }).onfinish = () => r.remove();
+  };
+  b.addEventListener('pointerdown', e => rip(e.clientX, e.clientY));
+  let lastAuto = 0;
+  updaters.push({ el: demo, update: (t, rr) => {
+    if (inView(rr) && t - lastAuto > 3800) { lastAuto = t; const br = b.getBoundingClientRect(); rip(br.left + br.width / 2, br.top + br.height / 2); } } });
+});
+
+fx('motion', 'عداد الأرقام المنقلبة', 'Number Flip / Odometer', 'الأرقام تتدحرج عمودياً مثل عدادات المطارات', demo => {
+  const wrap = el('div'); wrap.style.cssText = 'display:flex;gap:6px;direction:ltr';
+  const cols = [1, 1, 9].map(() => {
+    const c = el('div'); c.style.cssText = 'width:44px;height:64px;border-radius:10px;background:var(--card);border:1.5px solid var(--border);overflow:hidden;position:relative';
+    const roll = el('div'); roll.style.cssText = 'position:absolute;left:0;right:0;top:0;transition:transform 1s cubic-bezier(.16,1,.3,1);text-align:center';
+    for (let d = 0; d <= 9; d++) roll.appendChild(el('div', '', String(d))).style.cssText = 'height:64px;line-height:64px;font-family:Cairo;font-weight:900;font-size:28px';
+    c.appendChild(roll); wrap.appendChild(c); return roll;
+  });
+  demo.appendChild(wrap);
+  let on = false;
+  replayer(demo, () => {
+    on = !on;
+    const target = on ? [1, 1, 9] : [0, 0, 0];
+    cols.forEach((roll, i) => roll.style.transform = `translateY(${-target[i] * 64}px)`);
+  }, 3200);
+});
+
+/* ═══════════════ الصفحة ٥ — الأجواء والخامة ═══════════════ */
+
+fx('vibe', 'حبيبات الفيلم', 'Film Grain / Noise Overlay', 'طبقة ضجيج متحركة تعطي ملمس السينما', demo => {
+  demo.appendChild(el('span', 'dTitle', 'ملمس خام'));
+  const g = el('div');
+  g.style.cssText = `position:absolute;inset:-60px;opacity:.14;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E")`;
+  demo.appendChild(g);
+  let f = 0;
+  return { update: t => { if ((f++ % 5) === 0) g.style.transform = `translate(${(Math.random() - .5) * 40}px,${(Math.random() - .5) * 40}px)`; } };
+});
+
+fx('vibe', 'بقع الألوان العائمة', 'Gradient Mesh / Floating Blobs', 'كتل ضوء مموهة تسبح خلف المحتوى', demo => {
+  const mk = c => { const b = el('div');
+    b.style.cssText = `position:absolute;width:130px;height:130px;border-radius:50%;filter:blur(38px);opacity:.55;background:${c};pointer-events:none`; demo.appendChild(b); return b; };
+  const b1 = mk('#7c5cff'), b2 = mk('#22d3ee'), b3 = mk('#ff5c8a');
+  demo.appendChild(el('span', 'dTitle', 'أجواء حية'));
+  return { update: (t, r) => { const k = t / 1000;
+    b1.style.transform = `translate(${Math.sin(k * .7) * 70}px,${Math.cos(k * .5) * 44}px)`;
+    b2.style.transform = `translate(${Math.cos(k * .6 + 2) * 80}px,${Math.sin(k * .8) * 50}px)`;
+    b3.style.transform = `translate(${Math.sin(k * .5 + 4) * 60}px,${Math.cos(k * .9 + 1) * 40}px)`; } };
+});
+
+fx('vibe', 'الزجاج الضبابي', 'Glassmorphism / Backdrop Blur', 'بطاقة زجاجية تموّه ما يتحرك خلفها', demo => {
+  const mk = c => { const b = el('div');
+    b.style.cssText = `position:absolute;width:90px;height:90px;border-radius:50%;background:${c};pointer-events:none`; demo.appendChild(b); return b; };
+  const b1 = mk('#7c5cff'), b2 = mk('#ff5c8a');
+  const glass = el('div', '', '<b style="font-family:Cairo;font-size:16px">بطاقة زجاجية</b><span style="font-size:11px;color:var(--muted)">backdrop-filter: blur()</span>');
+  glass.style.cssText = 'position:relative;z-index:2;width:64%;padding:20px;border-radius:16px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);display:flex;flex-direction:column;gap:4px;align-items:center;text-align:center';
+  demo.appendChild(glass);
+  return { update: t => { const k = t / 900;
+    b1.style.transform = `translate(${Math.sin(k) * 90 - 30}px,${Math.cos(k * .8) * 55}px)`;
+    b2.style.transform = `translate(${Math.cos(k * .7) * 90 + 30}px,${Math.sin(k * 1.1) * 55}px)`; } };
+});
+
+fx('vibe', 'الكشاف المسرحي', 'Vignette + Roaming Spotlight', 'عتمة محيطية وكشاف يتجول على المشهد', demo => {
+  demo.appendChild(el('span', 'dTitle', '🎭 المسرح'));
+  const spot = el('div'); spot.style.cssText = 'position:absolute;inset:0;pointer-events:none';
+  demo.appendChild(spot);
+  return { update: t => { const k = t / 1300;
+    const x = 50 + Math.sin(k) * 30, y = 50 + Math.cos(k * .7) * 24;
+    spot.style.background = `radial-gradient(circle 90px at ${x}% ${y}%, transparent 0 55px, rgba(4,4,10,.88) 110px)`; } };
+});
+
+fx('vibe', 'حقل النجوم', 'Starfield / Ambient Particles', 'نجوم تتلألأ وتنجرف ببطء — عمق كوني', demo => {
+  const cv = el('canvas', 'dc'); demo.appendChild(cv);
+  const ctx = cv.getContext('2d');
+  let stars = [];
+  return { update: (t, r) => {
+    if (cv.width !== r.width | 0) { cv.width = r.width; cv.height = r.height;
+      stars = Array.from({ length: 70 }, () => ({ x: Math.random() * cv.width, y: Math.random() * cv.height, r: Math.random() * 1.6 + .4, s: Math.random() * 8 + 3, p: Math.random() * 6.28 })); }
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    for (const s of stars) {
+      ctx.globalAlpha = .3 + Math.sin(t / 700 + s.p) * .28;
+      ctx.fillStyle = '#c9c6ec';
+      ctx.beginPath(); ctx.arc(s.x, (s.y + t / 1000 * s.s) % cv.height, s.r, 0, 6.28); ctx.fill(); }
+    ctx.globalAlpha = 1; } };
+});
+
+fx('vibe', 'خطوط الشاشة القديمة', 'CRT Scanlines', 'خطوط أفقية دقيقة + وميض — نوستالجيا الشاشات', demo => {
+  const b = el('span', 'dTitle', 'AB-TV'); b.style.cssText += ';font-size:34px;color:var(--g);direction:ltr;font-family:"IBM Plex Mono",monospace';
+  demo.appendChild(b);
+  const lines = el('div');
+  lines.style.cssText = 'position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.28) 0 2px,transparent 2px 4px)';
+  demo.appendChild(lines);
+  return { update: t => {
+    b.style.opacity = Math.random() < .04 ? .6 : 1;
+    lines.style.transform = `translateY(${(t / 60) % 4}px)`; } };
+});
+
+fx('vibe', 'الشفق القطبي', 'Aurora Gradient Animation', 'تدرج يتنفس ويغير ألوانه كسماء قطبية', demo => {
+  const a = el('div');
+  a.style.cssText = 'position:absolute;inset:0;opacity:.8;background:linear-gradient(120deg,#7c5cff,#22d3ee,#4cd07d,#ff5c8a);background-size:320% 320%;filter:blur(26px) saturate(1.3)';
+  demo.appendChild(a);
+  demo.appendChild(el('span', 'dTitle', 'أورورا'));
+  return { update: t => a.style.backgroundPosition = `${50 + Math.sin(t / 2600) * 50}% ${50 + Math.cos(t / 3400) * 50}%` };
+});
+
+fx('vibe', 'شبكة النقاط النابضة', 'Dot Grid Pulse', 'موجة تعبر شبكة نقاط — إيقاع هندسي حي', demo => {
+  const cv = el('canvas', 'dc'); demo.appendChild(cv);
+  const ctx = cv.getContext('2d');
+  return { update: (t, r) => {
+    if (cv.width !== r.width | 0) { cv.width = r.width; cv.height = r.height; }
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    const GAP = 22;
+    for (let x = GAP / 2; x < cv.width; x += GAP) for (let y = GAP / 2; y < cv.height; y += GAP) {
+      const d = Math.hypot(x - cv.width / 2, y - cv.height / 2);
+      const w = Math.sin(t / 500 - d / 26) * .5 + .5;
+      ctx.globalAlpha = .18 + w * .6;
+      ctx.fillStyle = w > .82 ? '#22d3ee' : '#8a86c8';
+      ctx.beginPath(); ctx.arc(x, y, 1.1 + w * 1.9, 0, 6.28); ctx.fill(); }
+    ctx.globalAlpha = 1; } };
+});
+
+fx('vibe', 'أشعة الغروب', 'God Rays / Light Shafts', 'حزم ضوء مخروطية تدور ببطء خلف العنوان', demo => {
+  const rays = el('div');
+  rays.style.cssText = 'position:absolute;width:200%;aspect-ratio:1;border-radius:50%;background:conic-gradient(from 0deg,transparent 0 14deg,rgba(255,215,94,.12) 14deg 22deg,transparent 22deg 40deg,rgba(255,215,94,.09) 40deg 47deg,transparent 47deg 76deg,rgba(255,215,94,.13) 76deg 85deg,transparent 85deg 120deg,rgba(255,215,94,.1) 120deg 128deg,transparent 128deg 180deg,rgba(255,215,94,.12) 180deg 188deg,transparent 188deg 230deg,rgba(255,215,94,.09) 230deg 238deg,transparent 238deg 290deg,rgba(255,215,94,.11) 290deg 299deg,transparent 299deg 360deg);pointer-events:none';
+  demo.appendChild(rays);
+  demo.appendChild(el('span', 'dTitle', '🌇'));
+  return { update: t => rays.style.transform = `rotate(${t / 300}deg)` };
+});
+
+fx('vibe', 'انحراف الألوان', 'Chromatic Aberration / RGB Shift', 'طبقتا أحمر وأزرق تنزاحان عن الأصل — عدسة سينمائية', demo => {
+  const mk = (c, blend) => { const b = el('div', '', 'AB');
+    b.style.cssText = `position:absolute;font-family:Cairo;font-weight:900;font-size:84px;color:${c};mix-blend-mode:${blend};pointer-events:none`; demo.appendChild(b); return b; };
+  const r = mk('rgba(255,40,90,.85)', 'screen'), g = mk('#f4f4fb', 'normal'), b = mk('rgba(40,200,255,.85)', 'screen');
+  return { update: t => {
+    const k = Math.sin(t / 1000) * 4 + Math.sin(t / 240) * 1.4;
+    r.style.transform = `translate(${k}px,0)`;
+    b.style.transform = `translate(${-k}px,0)`; } };
+});
+
+/* ═══ الحلقة الرئيسية: تحديث العروض الظاهرة فقط ═══ */
+addEventListener('scroll', () => {
+  scrollVel = lerp(scrollVel, scrollY - lastScrollY, .5);
+  lastScrollY = scrollY;
+}, { passive: true });
+(function master(t) {
+  requestAnimationFrame(master);
+  if (REDUCED) return;
+  scrollVel *= .9;
+  for (const u of updaters) {
+    const r = u.el.getBoundingClientRect();
+    if (r.width === 0) continue;          /* صفحة مخفية */
+    if (r.bottom < -80 || r.top > innerHeight + 80) continue; /* خارج الشاشة */
+    u.update(t || 0, r);
+  }
+})(0);
+</script>
+</body>
+</html>
