@@ -92,12 +92,15 @@ img{max-width:100%;display:block;-webkit-user-drag:none}
 h1{font-family:'Cairo';font-weight:900;font-size:clamp(36px,7.8vw,88px);line-height:1.16;letter-spacing:-.01em}
 h1 .wd{display:inline-block;will-change:transform;transition:color .2s}
 h1 .wd.hot{color:var(--c)}
-.serifA{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.serifA{font-style:normal;background:linear-gradient(120deg,#b9a1ff 0%,#5ee6ff 50%,#ff8fb3 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+:root[data-theme="light"] .serifA{background:linear-gradient(120deg,#5a3ecc 0%,#0879a8 50%,#c2255c 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent}
 #rotWrap{display:inline-flex;align-items:baseline;gap:11px;font-family:'Cairo';font-weight:900;
   font-size:clamp(21px,4.3vw,40px);margin-top:16px}
-#rotSlot{display:inline-block;min-width:6em;height:1.45em;overflow:hidden;color:var(--y)}
-:root[data-theme="light"] #rotSlot{color:#b8860b}
-#rotSlot span{display:inline-block}
+#rotSlot{display:inline-block;min-width:7.2em;height:1.95em;overflow:hidden;color:var(--y);vertical-align:top}
+:root[data-theme="light"] #rotSlot{color:#9a6b00}
+#rotSlot span{display:inline-block;line-height:1.85;padding-bottom:.15em}
 .heroCtas{display:flex;gap:12px;margin-top:30px;flex-wrap:wrap}
 .btnA{min-height:54px;padding:14px 30px;border-radius:16px;font-family:'Cairo';font-weight:900;font-size:16px;
   background:var(--grad);color:#0a0a12;display:inline-flex;align-items:center;gap:8px;position:relative;overflow:hidden}
@@ -126,21 +129,25 @@ h2{font-family:'Cairo';font-weight:900;font-size:clamp(26px,5.2vw,52px);line-hei
 .svc p{font-size:13.5px;color:var(--muted);line-height:1.85}
 .svc .tools{display:block;margin-top:12px;font-size:10.5px;color:var(--c);font-family:'IBM Plex Mono',monospace;letter-spacing:.1em;direction:ltr;text-align:start}
 
-#pinSec{height:320vh;position:relative}
-#pinStick{position:sticky;top:0;height:100svh;overflow:hidden;display:flex;align-items:center}
-#pinInner{display:flex;gap:5vw;align-items:center;width:100%;max-width:1100px;margin:0 auto;padding:calc(76px + var(--sat)) 5vw 20px}
-#pinImgs{position:relative;width:min(44vw,380px);flex:none;aspect-ratio:3/4;border-radius:22px;overflow:hidden;
-  border:1.5px solid var(--border);box-shadow:0 24px 70px rgba(10,8,30,.35)}
-#pinImgs img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .45s}
-#pinImgs img.on{opacity:1}
-#pinTxt{flex:1;min-width:0}
-.stg{display:flex;align-items:center;gap:12px;padding:13px 16px;border-radius:15px;border:1.5px solid var(--border);
-  margin-bottom:10px;background:var(--pill);opacity:.45;transition:all .4s}
-.stg.on{opacity:1;border-color:var(--v);background:rgba(124,92,255,.1);transform:translateX(-6px)}
-[dir="ltr"] .stg.on{transform:translateX(6px)}
-.stg i{font-style:normal;font-size:21px}
-.stg b{font-family:'Cairo';font-size:15.5px;display:block}
-.stg span{font-size:12px;color:var(--muted);display:block}
+.stageWrap{display:flex;gap:4vw;align-items:center;flex-wrap:wrap;padding-bottom:12vh}
+.stageFrame{position:relative;width:min(88vw,380px);aspect-ratio:3/4;border-radius:22px;overflow:hidden;
+  border:1.5px solid var(--border);box-shadow:0 24px 70px rgba(10,8,30,.35);margin:0 auto;flex:none}
+.stageFrame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;
+  transition:opacity .55s,transform .55s;transform:scale(1.05)}
+.stageFrame img.on{opacity:1;transform:none}
+.stageTag{position:absolute;bottom:12px;right:12px;left:12px;z-index:3;text-align:center;
+  font-family:'Cairo';font-weight:800;font-size:14px;color:#fff;background:rgba(7,7,14,.72);
+  border-radius:13px;padding:9px 14px;backdrop-filter:blur(6px)}
+.stageSteps{flex:1;min-width:270px;display:flex;flex-direction:column;gap:10px}
+.step{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:15px;border:1.5px solid var(--border);
+  background:var(--pill);opacity:.55;transition:opacity .3s,border-color .3s,background .3s;
+  text-align:start;position:relative;overflow:hidden;min-height:58px;width:100%}
+.step.on{opacity:1;border-color:var(--v);background:rgba(124,92,255,.1)}
+.step>i{font-style:normal;font-size:22px;flex:none}
+.step b{font-family:'Cairo';font-size:15.5px;display:block}
+.step .sub{font-size:12px;color:var(--muted);display:block}
+.sbar{position:absolute;left:0;right:0;bottom:0;height:3.5px}
+.sbar i{display:block;height:100%;width:0;background:var(--grad)}
 #pinMinis{display:flex;gap:9px;margin-top:16px;flex-wrap:wrap}
 #pinMinis img{width:70px;border-radius:11px;border:1px solid var(--border);cursor:zoom-in}
 
@@ -206,7 +213,7 @@ h2{font-family:'Cairo';font-weight:900;font-size:clamp(26px,5.2vw,52px);line-hei
 .cRow{display:flex;gap:10px;justify-content:center;margin-top:18px;flex-wrap:wrap}
 .cRow a{min-height:48px;padding:11px 20px;border-radius:14px;border:1.5px solid var(--border);font-size:13px;font-weight:800;
   display:inline-flex;align-items:center;gap:7px;background:var(--pill)}
-#footAB{display:flex;justify-content:center;margin-top:7vh;user-select:none;line-height:.9;overflow:hidden}
+#footAB{display:flex;justify-content:center;margin-top:7vh;user-select:none;line-height:.9;overflow:hidden;direction:ltr}
 #footAB span{font-family:'Cairo';font-weight:900;font-size:min(38vw,320px);letter-spacing:-.04em;display:inline-block;
   background:var(--chrome);-webkit-background-clip:text;background-clip:text;color:transparent;will-change:transform}
 .footNote{text-align:center;font-size:11.5px;color:var(--muted);padding:20px 0 calc(26px + var(--sab))}
@@ -219,10 +226,7 @@ h2{font-family:'Cairo';font-weight:900;font-size:clamp(26px,5.2vw,52px);line-hei
 #fx{position:fixed;inset:0;z-index:210;pointer-events:none}
 
 @media (max-width:760px){
-  #pinInner{flex-direction:column;justify-content:center;gap:14px;padding-top:calc(80px + var(--sat))}
-  #pinImgs{width:min(58vw,250px)}
-  .stg{padding:10px 13px;margin-bottom:7px}
-  .stg span{display:none}
+  .stageFrame{width:min(74vw,300px)}
   h1{font-size:clamp(32px,9.6vw,54px)}
   .heroPic{max-width:250px;margin:0 auto}
   .hdrBtns .tgl{padding:9px 11px}
@@ -291,14 +295,15 @@ h2{font-family:'Cairo';font-weight:900;font-size:clamp(26px,5.2vw,52px);line-hei
     <p class="secSub reveal fadeUp" id="s2s"></p>
     <div class="reveal fadeUp"><span class="hint" id="s2hint"></span></div>
   </div></div>
-  <div id="pinSec"><div id="pinStick"><div id="pinInner">
-    <div id="pinImgs">
+  <div class="wrap"><div class="stageWrap">
+    <div class="stageFrame">
       <img data-img="food_orig" class="on" alt="">
       <img data-img="food_ad" alt="">
       <img data-img="food_poster" alt="">
+      <span class="stageTag" id="stageTag"></span>
     </div>
-    <div id="pinTxt">
-      <div class="stg on"></div><div class="stg"></div><div class="stg"></div>
+    <div class="stageSteps">
+      <button class="step on"></button><button class="step"></button><button class="step"></button>
       <div id="pinMinis">
         <img data-img="perfume_ad" class="zoomable" alt="">
         <img data-img="perfume_poster" class="zoomable" alt="">
@@ -306,7 +311,7 @@ h2{font-family:'Cairo';font-weight:900;font-size:clamp(26px,5.2vw,52px);line-hei
         <img data-img="furniture_poster" class="zoomable" alt="">
       </div>
     </div>
-  </div></div></div>
+  </div></div>
 </section>
 
 <section class="sec" id="sb"><div class="wrap">
@@ -415,7 +420,6 @@ h2{font-family:'Cairo';font-weight:900;font-size:clamp(26px,5.2vw,52px);line-hei
   </div>
   <a class="waBig" href="https://wa.me/966546515366?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20%D8%B9%D8%A8%D8%AF%20%D8%A7%D9%84%D8%B1%D8%AD%D9%85%D9%86%20%F0%9F%91%8B%20%D8%B4%D9%81%D8%AA%20%D8%A8%D9%88%D8%B1%D8%AA%D9%81%D9%88%D9%84%D9%8A%D9%88%D9%83%20%D9%88%D8%AD%D8%A7%D8%A8%20%D9%86%D8%A8%D8%AF%D8%A3%20%D9%85%D8%B4%D8%B1%D9%88%D8%B9" target="_blank" rel="noopener" id="waBigTxt" data-mag></a>
   <div class="cRow">
-    <a href="mailto:abnewtry@gmail.com" data-mag>📧 abnewtry@gmail.com</a>
     <a href="https://www.tiktok.com/@abnewtrys" target="_blank" rel="noopener" data-mag>🎵 TikTok</a>
     <a href="https://www.youtube.com/@Abnewtrys" target="_blank" rel="noopener" data-mag>🎬 YouTube</a>
   </div>
@@ -443,47 +447,47 @@ document.querySelectorAll('[data-img]').forEach(im => im.src = A[im.dataset.img]
 /* ════════ الترجمة الكاملة ════════ */
 const T = {
   ar: {
-    dir:'rtl', kicker:'بورتفوليو ٢٠٢٦ · جدة', hName:'عبد الرحمن',
+    dir:'rtl', kicker:'معرض أعمال · جدة ٢٠٢٦', hName:'عبد الرحمن',
     hTitle:'خبير <span class="serifA">الذكاء الاصطناعي</span>',
-    rotPre:'أصمم لك', rot:['هوية كاملة 🧩','بوستراً يبيع 🎨','موقعاً حياً 🌐','فيديو إعلانياً 🎬','صفحة تحويل 📱'],
+    rotPre:'أصمم لك', rot:['هويةً تُعرَف بها 🧩','بوسترًا يبيع 🎨','موقعًا يعمل اليوم 🌐','فيديو يوقف التمرير 🎬','صفحةً تضاعف الطلبات 📱'],
     ctaWork:'شاهد أعمالي ↓', ctaWa:'💬 تواصل معي', hdrWa:'💬 واتساب',
-    m1:'<b>Higgsfield · Canva</b> أدواتي', m2:'<b>٢٤ ساعة</b> متوسط التسليم', m3:'<b>واتساب مباشر</b> دون وسطاء',
-    heroHint:'<i>🖱️</i> حرّك مؤشرك فوق الاسم — الكلمات تتفاعل معك',
-    s1n:'٠١ — SERVICES', s1t:'ما الذي أقدمه لمشروعك؟', s1s:'ست خدمات يجمعها هدف واحد: عمل <b style="color:var(--c)">يبيع</b> — لا مجرد شكل جميل.',
-    s1hint:'<i>👆</i> مرّر لتدخل البطاقات — وعلى الحاسوب حرّك مؤشرك فوقها لتميل معك',
-    svc:[['🎨','بوسترات وإعلانات','من صورة منتجك العادية إلى إعلان وبوستر جاهزين للنشر برسالتك وهويتك.','HIGGSFIELD · CANVA'],
-         ['🎬','ستوري بورد','قصة الفيديو مرسومة مشهداً مشهداً قبل التنفيذ — ثم أحوّلها فيديو بالذكاء الاصطناعي.','HIGGSFIELD AI'],
-         ['📱','صفحات هبوط تبيع','صفحة برسالة واحدة وزر واحد وسبب مقنع يدفع الزائر للطلب فوراً.','MOBILE-FIRST'],
-         ['🌐','مواقع إعلانية','ترسل صور منتجاتك فقط — وأبني منها موقعاً متكاملاً منشوراً على الإنترنت.','LIVE DEPLOY'],
-         ['🧩','هويات بصرية','نظام متكامل: شعار وألوان وتطبيقات على كل قطعة — حضور يميزك عن منافسيك.','CANVA · AI'],
-         ['🎞️','مونتاج فيديو','قصّ وإيقاع وترجمة بصرية تخدم رسالتك — بأدوات المحترفين.','PREMIERE · DAVINCI']],
-    s2n:'٠٢ — TRANSFORMATION', s2t:'شاهد التحول يحدث أمام عينيك', s2s:'الصورة نفسها تمر بثلاث مراحل — وأنت من يقودها.',
-    s2hint:'<i>🖱️</i> مرّر ببطء داخل هذا القسم — الشاشة تثبت والصورة تتحول مرحلة بعد مرحلة',
-    stg:[['📷','١ · صورة العميل الأصلية','هذا كل ما أحتاجه منك'],
-         ['⚡','٢ · المعالجة بالذكاء الاصطناعي','إعادة بناء الإضاءة والمشهد بالكامل'],
-         ['🎨','٣ · البوستر النهائي','رسالة تسويقية + هوية = جاهز للنشر']],
-    s3n:'٠٣ — STORYBOARD', s3t:'القصة تُرسم قبل الكاميرا',
-    s3hint:'<i>📜</i> تابع التمرير — الكلمات تضيء بترتيب القراءة، والصور تطفو بسرعات مختلفة',
-    scrub:'أرسم قصة الفيديو مشهداً مشهداً: ١ نصوّر المشاهد بالذكاء الاصطناعي، ٢ نرتب التسلسل الذي يبيع، ٣ نحوّله فيديو جاهزاً — فتعتمد شكل الفيديو قبل أن يُنفذ، دون مفاجآت أو تكاليف إعادة.',
-    s4n:'٠٤ — PAGES THAT SELL', s4t:'صفحات تحوّل الزائر إلى مشترٍ', s4s:'ثلاث صفحات صممتها لقطاعات مختلفة — والقطار يتحرك بتمريرك.',
-    s4hint:'<i>🚂</i> استمر بالتمرير للأسفل — القطار ينزلق ويعرض الصفحات الثلاث، واضغط أي صفحة لتكبيرها',
-    solKick:'CASE STUDY — سولارا 🌿', solT:'من صور المنتجات فقط…<br>إلى موقع حي خلال', solH:'ساعة',
-    solBtn:'🌐 افتح الموقع الحي', solHint:'<i>🔢</i> راقب العداد وهو يصعد — ثم افتح الموقع الحقيقي بنفسك',
-    s5n:'٠٥ — IDENTITY', s5t:'هويات تُلمَس ولا تُشرَح', s5s:'ثلاث هويات متكاملة نفذتها من الصفر.',
-    s5hint:'<i>🔦</i> حرّك إصبعك فوق اللوحة السوداء لتكشفها بالمصباح — واضغط المنيو ليقلب من القديم إلى الجديد',
-    spotTag:'🔦 اكتشف هوية AB بالمصباح', flipHint:'👆 اضغط للقلب: قبل ← بعد',
+    m1:'أدواتي: <b>Higgsfield · Canva</b>', m2:'التسليم خلال <b>٢٤ ساعة</b>', m3:'تواصل <b>مباشر</b> من دون وسطاء',
+    heroHint:'<i>🖱️</i> حرِّك المؤشر فوق الاسم وشاهد الكلمات تتفاعل معك',
+    s1n:'٠١ — SERVICES', s1t:'ماذا أصنع لمشروعك؟', s1s:'ست خدمات تمنح مشروعك حضورًا <b style="color:var(--c)">يبيع</b> — لا مجرد شكل جميل.',
+    s1hint:'<i>👆</i> مرِّر لتظهر البطاقات، وعلى الحاسوب مرِّر المؤشر فوقها لتميل معك',
+    svc:[['🎨','بوسترات وإعلانات','أحوِّل صورة منتجك العادية إلى إعلان وبوستر جاهزَين للنشر، برسالة تسويقية تصيب هدفها.','HIGGSFIELD · CANVA'],
+         ['🎬','ستوري بورد','أرسم قصة الفيديو مشهدًا مشهدًا قبل التنفيذ، ثم أحوِّلها إلى فيديو كامل بالذكاء الاصطناعي.','HIGGSFIELD AI'],
+         ['📱','صفحات هبوط تبيع','رسالة واحدة، وزر واحد، وسبب مقنع يدفع الزائر إلى الطلب في اللحظة نفسها.','MOBILE-FIRST'],
+         ['🌐','مواقع إعلانية','أرسِل لي صور منتجاتك فقط، وأسلِّمك موقعًا متكاملًا منشورًا على الإنترنت.','LIVE DEPLOY'],
+         ['🧩','هويات بصرية','نظام متكامل: شعار وألوان وتطبيقات على كل قطعة، ليصبح لمشروعك حضور يُعرَف به.','CANVA · AI'],
+         ['🎞️','مونتاج فيديو','قصّ وإيقاع وسرد بصري يخدم رسالتك — بأدوات المحترفين.','PREMIERE · DAVINCI']],
+    s2n:'٠٢ — TRANSFORMATION', s2t:'شاهد التحوُّل بنفسك', s2s:'صورة واحدة من عميل حقيقي تمرّ بثلاث مراحل حتى تصبح بوسترًا جاهزًا للنشر.',
+    s2hint:'<i>👆</i> المراحل تتبدّل تلقائيًا أمامك — واضغط أي مرحلة لتعود إليها متى شئت',
+    stg:[['📷','١ · الصورة الأصلية','كما وصلتني من العميل تمامًا'],
+         ['⚡','٢ · إعلان بالذكاء الاصطناعي','أعيد بناء الإضاءة والمشهد بالكامل'],
+         ['🎨','٣ · البوستر النهائي','رسالة تسويقية وهوية — جاهز للنشر']],
+    s3n:'٠٣ — STORYBOARD', s3t:'القصة تُرسَم قبل الكاميرا',
+    s3hint:'<i>📜</i> تابع التمرير — الكلمات تُضاء بترتيب القراءة، والصور تطفو بسرعات مختلفة',
+    scrub:'أرسم قصة الفيديو مشهدًا مشهدًا: ١ نصوِّر المشاهد بالذكاء الاصطناعي، ٢ نرتِّب التسلسل الذي يبيع، ٣ نحوِّله فيديو جاهزًا — فتعتمد شكل الفيديو قبل تنفيذه، من دون مفاجآت أو تكاليف إعادة.',
+    s4n:'٠٤ — PAGES THAT SELL', s4t:'صفحات تحوِّل الزائر إلى مشترٍ', s4s:'ثلاث صفحات صممتها لثلاثة قطاعات مختلفة — والقطار يتحرك بتمريرك.',
+    s4hint:'<i>🚂</i> واصل التمرير ينزلق القطار أمامك — واضغط أي صفحة لتكبيرها',
+    solKick:'CASE STUDY — سولارا 🌿', solT:'من صور المنتجات وحدها…<br>إلى موقع يعمل خلال', solH:'ساعة',
+    solBtn:'🌐 افتح الموقع الحي', solHint:'<i>🔢</i> راقب العدّاد وهو يصعد، ثم افتح الموقع الحقيقي بنفسك',
+    s5n:'٠٥ — IDENTITY', s5t:'هويات تُلمَس ولا تُشرَح', s5s:'ثلاث هويات متكاملة نفّذتها من الصفر — جرِّبها بيدك.',
+    s5hint:'<i>🔦</i> حرِّك إصبعك فوق اللوحة السوداء لتكشفها بالمصباح، واضغط المنيو ليُقلَب من القديم إلى الجديد',
+    spotTag:'🔦 اكتشف هوية AB بالمصباح', flipHint:'👆 اضغط لقلب المنيو: قبل ← بعد',
     extraT:'مختارات إضافية — اضغط أي قطعة لتكبيرها 🔍',
-    s6n:'٠٦ — TRY IT YOURSELF', s6t:'🎮 جرّب بنفسك', s6s:'تجربة تفاعلية، متجر حقيقي، وأرشيف كامل — كلها بضغطة.',
+    s6n:'٠٦ — TRY IT YOURSELF', s6t:'🎮 جرِّب بنفسك', s6s:'تجربة تفاعلية، ومتجر حقيقي، وأرشيف كامل — كلها على بُعد ضغطة.',
     portals:[['💬','دردشات AB','سبع محادثات واتساب حقيقية — عِش تجربة التعامل معي من أول رسالة حتى «تم التسليم ✓✓».','افتح الدردشات ←','ab-chats.html'],
-             ['🛍️','متجر AB','متجري الحقيقي للتيشيرتات — تصميمي، هويتي، ومنتجات تُشحن فعلاً.','تسوّق الآن ←','https://7is8hb-km.myshopify.com/en'],
-             ['📁','أرشيف الأعمال الكامل','كل ملفاتي ومشاريعي بجودتها الأصلية على قوقل درايف.','تصفح الأرشيف ←','https://drive.google.com/drive/folders/1LboUjF-OlcELYUJ6X_4bV3l3jl4KWqFL']],
+             ['🛍️','متجر AB','متجري الحقيقي للتيشيرتات: تصميمي وهويتي، ومنتجات تُشحَن فعلًا.','تسوَّق الآن ←','https://7is8hb-km.myshopify.com/en'],
+             ['📁','أرشيف الأعمال الكامل','جميع ملفاتي ومشاريعي بجودتها الأصلية على قوقل درايف.','تصفَّح الأرشيف ←','https://drive.google.com/drive/folders/1LboUjF-OlcELYUJ6X_4bV3l3jl4KWqFL']],
     s7n:'٠٧ — PROMISES', s7t:'ماذا أضمن لك؟',
-    s7hint:'<i>🌫️</i> مرّر ببطء — الوعود تخرج من الضباب واحداً تلو الآخر',
-    prom:[['⚖️','تسعير ثابت قبل البدء','تعرف التكلفة كاملة — دون مفاجآت'],
-          ['⚡','تسليم سريع','الذكاء الاصطناعي يختصر الأسابيع إلى أيام'],
-          ['🎯','عمل هدفه البيع','كل قرار تصميمي يخدم رسالتك التسويقية'],
-          ['💬','تواصل مباشر معي','واتساب دون وسطاء ولا انتظار'],
-          ['🔁','تعديلات حتى الرضا','لا ننشر إلا وأنت فخور بالنتيجة']],
+    s7hint:'<i>🌫️</i> مرِّر بهدوء — تخرج الوعود من الضباب واحدًا تلو الآخر',
+    prom:[['⚖️','سعر ثابت قبل البدء','تعرف التكلفة كاملة من اليوم الأول، من دون مفاجآت'],
+          ['⚡','تسليم سريع','الذكاء الاصطناعي يختصر أسابيع العمل إلى أيام'],
+          ['🎯','تصميم هدفه البيع','كل قرار بصري يخدم رسالتك التسويقية'],
+          ['💬','تواصل مباشر معي','واتساب من دون وسطاء ولا انتظار'],
+          ['🔁','تعديلات حتى الرضا','لا ننشر العمل إلا وأنت فخور به']],
     s8n:'٠٨ — CONTACT', s8t:'مشروعك القادم يبدأ برسالة واحدة',
     waBig:'💬 راسلني على واتساب', foot:'عبد الرحمن © ٢٠٢٦ — صُنع بشغف في جدة',
     themeD:'🌙 ليلي', themeL:'☀️ مشع', langBtn:'EN',
@@ -503,10 +507,10 @@ const T = {
          ['🌐','Promo Websites','Send product photos only — I build a complete live website from them.','LIVE DEPLOY'],
          ['🧩','Brand Identities','A full system: logo, colors and applications on every piece.','CANVA · AI'],
          ['🎞️','Video Editing','Cut, rhythm and visual storytelling that serve your message.','PREMIERE · DAVINCI']],
-    s2n:'02 — TRANSFORMATION', s2t:'Watch the transformation happen', s2s:'The same photo passes through three stages — and you drive it.',
-    s2hint:'<i>🖱️</i> Scroll slowly — the screen pins and the image transforms stage by stage',
-    stg:[['📷','1 · Client\'s original photo','All I need from you'],
-         ['⚡','2 · AI processing','Lighting and scene fully rebuilt'],
+    s2n:'02 — TRANSFORMATION', s2t:'Watch the transformation yourself', s2s:'One real client photo passes through three stages until it becomes a publish-ready poster.',
+    s2hint:'<i>👆</i> Stages rotate automatically — tap any stage to revisit it anytime',
+    stg:[['📷','1 · The original photo','Exactly as the client sent it'],
+         ['⚡','2 · AI-crafted ad','Lighting and scene fully rebuilt'],
          ['🎨','3 · Final poster','Marketing message + identity = ready to publish']],
     s3n:'03 — STORYBOARD', s3t:'The story is drawn before the camera',
     s3hint:'<i>📜</i> Keep scrolling — words light up in reading order, images float at different speeds',
@@ -567,10 +571,11 @@ function applyLang() {
     el.innerHTML = `<i>${ic}</i><b>${t}</b><p>${p}</p><span class="tools">${tools}</span>`;
   });
   set('s2n', L.s2n); set('s2t', L.s2t); set('s2s', L.s2s); set('s2hint', L.s2hint);
-  document.querySelectorAll('.stg').forEach((el, i) => {
-    const [ic, t, sub] = L.stg[i];
-    el.innerHTML = `<i>${ic}</i><div><b>${t}</b><span>${sub}</span></div>`;
+  document.querySelectorAll('.step').forEach((el, i) => {
+    const [ic, tt, sub] = L.stg[i];
+    el.innerHTML = `<i>${ic}</i><div><b>${tt}</b><span class="sub">${sub}</span></div><span class="sbar"><i></i></span>`;
   });
+  if ($('stageTag')) $('stageTag').textContent = L.stg[0][1];
   set('s3n', L.s3n); set('s3t', L.s3t); set('s3hint', L.s3hint);
   set('s4n', L.s4n); set('s4t', L.s4t); set('s4s', L.s4s); set('s4hint', L.s4hint);
   set('solKick', L.solKick); set('solT', L.solT); set('solH', L.solH);
@@ -694,8 +699,26 @@ function enterHero() {
   setTimeout(() => document.querySelectorAll('.hero .fadeUp').forEach(f => f.classList.add('in')), 480);
 }
 
-const pinSec = $('pinSec');
-const pinImgs = [...document.querySelectorAll('#pinImgs img')];
+/* مسرح المراحل: تبدّل تلقائي + ضغط للاختيار */
+const stageImgs = [...document.querySelectorAll('.stageFrame img')];
+const stageSteps = [...document.querySelectorAll('.step')];
+let stgI = 0, stgT0 = 0, stgHold = 0;
+const STG_MS = 2800;
+function stageApply(t) {
+  stageImgs.forEach((im, i) => im.classList.toggle('on', i === stgI));
+  stageSteps.forEach((st, i) => {
+    st.classList.toggle('on', i === stgI);
+    const bar = st.querySelector('.sbar i');
+    if (bar && i !== stgI) bar.style.width = '0%';
+  });
+  const L = T[LANG];
+  $('stageTag').textContent = L.stg[stgI][1];
+  stgT0 = t;
+}
+stageSteps.forEach((st, i) => st.addEventListener('click', () => {
+  stgI = i; stageApply(performance.now());
+  stgHold = performance.now() + 6500;
+}));
 const spotCover = document.querySelector('.idSpot .cover');
 const idSpot = document.querySelector('.idSpot');
 const spotP = { x: .5, y: .4, real: false, last: 0, seed: Math.random() * 9 };
@@ -785,11 +808,20 @@ let lastY = 0, vel = 0;
   });
 
   {
-    const r = pinSec.getBoundingClientRect();
-    const p = clamp(-r.top / (r.height - innerHeight), 0, 1);
-    const idx = p < .33 ? 0 : p < .72 ? 1 : 2;
-    pinImgs.forEach((im, i) => im.classList.toggle('on', i === idx));
-    document.querySelectorAll('.stg').forEach((s, i) => s.classList.toggle('on', i === idx));
+    const fr = document.querySelector('.stageFrame').getBoundingClientRect();
+    if (fr.bottom > 0 && fr.top < innerHeight) {
+      if (!stgT0) stageApply(t);
+      if (t < stgHold) {
+        const bar = stageSteps[stgI].querySelector('.sbar i');
+        if (bar) bar.style.width = '100%';
+      } else {
+        if (stgT0 < stgHold) stgT0 = stgHold;
+        const p = clamp((t - stgT0) / STG_MS, 0, 1);
+        const bar = stageSteps[stgI].querySelector('.sbar i');
+        if (bar) bar.style.width = (p * 100) + '%';
+        if (p >= 1) { stgI = (stgI + 1) % 3; stageApply(t); }
+      }
+    }
   }
   {
     const sc = $('scrub'), r = sc.getBoundingClientRect();
