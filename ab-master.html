@@ -225,8 +225,57 @@ h2{font-family:'Cairo';font-weight:900;font-size:clamp(26px,5.2vw,52px);line-hei
   background:rgba(255,255,255,.12);backdrop-filter:blur(6px);z-index:281;color:#fff}
 #fx{position:fixed;inset:0;z-index:210;pointer-events:none}
 
+
+/* ═══ v4: نظام التسلسل اللوني ═══ */
+.sec{--ac:var(--v)}
+.hl{color:var(--c);font-weight:800;text-shadow:0 0 16px rgba(34,211,238,.5)}
+:root[data-theme="light"] .hl{color:#067a96;text-shadow:0 0 14px rgba(6,122,150,.25)}
+.gw{background:linear-gradient(120deg,#b9a1ff,#5ee6ff 55%,#ff8fb3);-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 16px rgba(124,92,255,.4))}
+:root[data-theme="light"] .gw{background:linear-gradient(120deg,#5a3ecc,#0879a8 55%,#c2255c);-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 10px rgba(90,62,204,.2))}
+.secNum{color:var(--ac) !important}
+.secHead{position:relative}
+.ghost{position:absolute;top:-14px;inset-inline-end:-6px;font-family:'Cairo';font-weight:900;
+  font-size:clamp(88px,17vw,170px);line-height:1;color:transparent;
+  -webkit-text-stroke:1.5px rgba(124,92,255,.16);pointer-events:none;user-select:none;direction:ltr}
+:root[data-theme="light"] .ghost{-webkit-text-stroke:1.5px rgba(90,62,204,.14)}
+.secSub{font-size:15.5px;line-height:2}
+.svc p{font-size:14px}
+.svc{border-top:3px solid transparent}
+.svc.in{border-top-color:var(--ac)}
+.svc>i{width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;
+  background:rgba(124,92,255,.12);border:1.5px solid rgba(124,92,255,.35);font-size:26px !important;margin-bottom:14px !important}
+.btnA{box-shadow:0 8px 30px rgba(124,92,255,.35);animation:ctaGlow 2.6s ease-in-out infinite}
+@keyframes ctaGlow{50%{box-shadow:0 8px 44px rgba(34,211,238,.5)}}
+.hint i{display:inline-block;animation:hintBob 1.6s ease-in-out infinite}
+@keyframes hintBob{50%{transform:translateY(-3px)}}
+
+/* ═══ v4: شرائط الكلمات المتحركة ═══ */
+.tick{height:56px;overflow:hidden;display:flex;align-items:center;border-top:1px solid var(--border);border-bottom:1px solid var(--border);direction:ltr}
+.tickTrack{display:flex;white-space:nowrap;will-change:transform;direction:ltr}
+.tickTrack span{font-family:'Cairo';font-weight:900;font-size:17.5px;padding:0 4px;display:inline-flex;align-items:center;gap:9px}
+.tickA{background:var(--grad);color:#0a0a12}
+.tickB{background:var(--card)}
+.tickB .tickTrack span{color:transparent;-webkit-text-stroke:1.2px var(--muted)}
+.tickC{background:rgba(76,208,125,.1);color:#4cd07d;border-color:rgba(76,208,125,.3)}
+:root[data-theme="light"] .tickC{color:#1d7a3d}
+
+/* ═══ v4: الهيدر الحي ═══ */
+#hdr{transform:translateY(-90px);transition:transform .8s cubic-bezier(.16,1,.3,1),background .4s,border-color .4s}
+#hdr.enter{transform:none}
+#hdrLogo{animation:logoGlow 3s ease-in-out infinite}
+@keyframes logoGlow{50%{box-shadow:0 0 24px rgba(124,92,255,.65)}}
+#hdrMid{flex:1;display:flex;justify-content:center;min-width:0}
+#hdrSec{display:inline-flex;align-items:center;gap:8px;height:34px;overflow:hidden;
+  padding:0 16px;border-radius:99px;border:1.5px solid var(--border);background:var(--pill);
+  font-size:12.5px;font-weight:800;color:var(--muted);white-space:nowrap}
+#hdrSec b{color:var(--text);display:inline-block}
+
 @media (max-width:760px){
   .stageFrame{width:min(74vw,300px)}
+  .ghost{font-size:clamp(70px,22vw,110px);top:-6px}
+  #hdrSec{display:none}
   h1{font-size:clamp(32px,9.6vw,54px)}
   .heroPic{max-width:250px;margin:0 auto}
   .hdrBtns .tgl{padding:9px 11px}
@@ -247,6 +296,7 @@ h2{font-family:'Cairo';font-weight:900;font-size:clamp(26px,5.2vw,52px);line-hei
 
 <header id="hdr">
   <span id="hdrLogo">AB</span>
+  <div id="hdrMid"><span id="hdrSec"><b id="hdrSecTxt"></b></span></div>
   <div class="hdrBtns">
     <button class="tgl" id="tglTheme">☀️</button>
     <button class="tgl" id="tglLang">EN</button>
@@ -275,7 +325,9 @@ h2{font-family:'Cairo';font-weight:900;font-size:clamp(26px,5.2vw,52px);line-hei
   </div>
 </section>
 
-<section class="sec" id="services"><div class="wrap">
+<div class="tick tickA"><div class="tickTrack" id="tick1"></div></div>
+
+<section class="sec" id="services" data-ghost="01"><div class="wrap">
   <div class="secHead">
     <span class="secNum" id="s1n"></span>
     <span class="hMask"><span class="hLine"><h2 id="s1t"></h2></span></span>
@@ -288,7 +340,7 @@ h2{font-family:'Cairo';font-weight:900;font-size:clamp(26px,5.2vw,52px);line-hei
   </div>
 </div></section>
 
-<section class="sec" id="ads">
+<section class="sec" id="ads" data-ghost="02">
   <div class="wrap"><div class="secHead">
     <span class="secNum" id="s2n"></span>
     <span class="hMask"><span class="hLine"><h2 id="s2t"></h2></span></span>
@@ -314,7 +366,7 @@ h2{font-family:'Cairo';font-weight:900;font-size:clamp(26px,5.2vw,52px);line-hei
   </div></div>
 </section>
 
-<section class="sec" id="sb"><div class="wrap">
+<section class="sec" id="sb" data-ghost="03"><div class="wrap">
   <div class="secHead">
     <span class="secNum" id="s3n"></span>
     <span class="hMask"><span class="hLine"><h2 id="s3t"></h2></span></span>
@@ -329,7 +381,7 @@ h2{font-family:'Cairo';font-weight:900;font-size:clamp(26px,5.2vw,52px);line-hei
   </div>
 </div></section>
 
-<section class="sec" id="lp"><div class="wrap">
+<section class="sec" id="lp" data-ghost="04"><div class="wrap">
   <div class="secHead">
     <span class="secNum" id="s4n"></span>
     <span class="hMask"><span class="hLine"><h2 id="s4t"></h2></span></span>
@@ -353,7 +405,7 @@ h2{font-family:'Cairo';font-weight:900;font-size:clamp(26px,5.2vw,52px);line-hei
   </div></div>
 </section>
 
-<section class="sec" id="identity"><div class="wrap">
+<section class="sec" id="identity" data-ghost="05"><div class="wrap">
   <div class="secHead">
     <span class="secNum" id="s5n"></span>
     <span class="hMask"><span class="hLine"><h2 id="s5t"></h2></span></span>
@@ -388,7 +440,9 @@ h2{font-family:'Cairo';font-weight:900;font-size:clamp(26px,5.2vw,52px);line-hei
   </div>
 </div></section>
 
-<section class="sec" id="play"><div class="wrap">
+<div class="tick tickB"><div class="tickTrack" id="tick2"></div></div>
+
+<section class="sec" id="play" data-ghost="06"><div class="wrap">
   <div class="secHead">
     <span class="secNum" id="s6n"></span>
     <span class="hMask"><span class="hLine"><h2 id="s6t"></h2></span></span>
@@ -401,7 +455,7 @@ h2{font-family:'Cairo';font-weight:900;font-size:clamp(26px,5.2vw,52px);line-hei
   </div>
 </div></section>
 
-<section class="sec" id="why"><div class="wrap">
+<section class="sec" id="why" data-ghost="07"><div class="wrap">
   <div class="secHead">
     <span class="secNum" id="s7n"></span>
     <span class="hMask"><span class="hLine"><h2 id="s7t"></h2></span></span>
@@ -413,7 +467,9 @@ h2{font-family:'Cairo';font-weight:900;font-size:clamp(26px,5.2vw,52px);line-hei
   </div>
 </div></section>
 
-<section class="sec" id="contact"><div class="wrap contact">
+<div class="tick tickC"><div class="tickTrack" id="tick3"></div></div>
+
+<section class="sec" id="contact" data-ghost="08"><div class="wrap contact">
   <div class="secHead" style="padding-bottom:2vh">
     <span class="secNum" id="s8n" style="text-align:center"></span>
     <span class="hMask"><span class="hLine"><h2 id="s8t"></h2></span></span>
@@ -443,6 +499,11 @@ const clamp = (v,a,b) => Math.min(b,Math.max(a,v));
 const ARN = '٠١٢٣٤٥٦٧٨٩';
 const A = window.ABASSETS;
 document.querySelectorAll('[data-img]').forEach(im => im.src = A[im.dataset.img]);
+/* الأرقام الشبحية خلف عناوين الأقسام */
+document.querySelectorAll('.sec[data-ghost]').forEach(sec => {
+  const h = sec.querySelector('.secHead');
+  if (h) { const g = document.createElement('span'); g.className = 'ghost'; g.textContent = sec.dataset.ghost; h.appendChild(g); }
+});
 
 /* ════════ الترجمة الكاملة ════════ */
 const T = {
@@ -453,7 +514,7 @@ const T = {
     ctaWork:'شاهد أعمالي ↓', ctaWa:'💬 تواصل معي', hdrWa:'💬 واتساب',
     m1:'أدواتي: <b>Higgsfield · Canva</b>', m2:'التسليم خلال <b>٢٤ ساعة</b>', m3:'تواصل <b>مباشر</b> من دون وسطاء',
     heroHint:'<i>🖱️</i> حرِّك المؤشر فوق الاسم وشاهد الكلمات تتفاعل معك',
-    s1n:'٠١ — SERVICES', s1t:'ماذا أصنع لمشروعك؟', s1s:'ست خدمات تمنح مشروعك حضورًا <b style="color:var(--c)">يبيع</b> — لا مجرد شكل جميل.',
+    s1n:'٠١ — SERVICES', s1t:'ماذا أصنع <em class=\"gw\">لمشروعك؟</em>', s1s:'ست خدمات تمنح مشروعك <b class=\"hl\">حضورًا يبيع</b> — لا مجرد شكل جميل.',
     s1hint:'<i>👆</i> مرِّر لتظهر البطاقات، وعلى الحاسوب مرِّر المؤشر فوقها لتميل معك',
     svc:[['🎨','بوسترات وإعلانات','أحوِّل صورة منتجك العادية إلى إعلان وبوستر جاهزَين للنشر، برسالة تسويقية تصيب هدفها.','HIGGSFIELD · CANVA'],
          ['🎬','ستوري بورد','أرسم قصة الفيديو مشهدًا مشهدًا قبل التنفيذ، ثم أحوِّلها إلى فيديو كامل بالذكاء الاصطناعي.','HIGGSFIELD AI'],
@@ -461,36 +522,40 @@ const T = {
          ['🌐','مواقع إعلانية','أرسِل لي صور منتجاتك فقط، وأسلِّمك موقعًا متكاملًا منشورًا على الإنترنت.','LIVE DEPLOY'],
          ['🧩','هويات بصرية','نظام متكامل: شعار وألوان وتطبيقات على كل قطعة، ليصبح لمشروعك حضور يُعرَف به.','CANVA · AI'],
          ['🎞️','مونتاج فيديو','قصّ وإيقاع وسرد بصري يخدم رسالتك — بأدوات المحترفين.','PREMIERE · DAVINCI']],
-    s2n:'٠٢ — TRANSFORMATION', s2t:'شاهد التحوُّل بنفسك', s2s:'صورة واحدة من عميل حقيقي تمرّ بثلاث مراحل حتى تصبح بوسترًا جاهزًا للنشر.',
+    s2n:'٠٢ — TRANSFORMATION', s2t:'شاهد <em class=\"gw\">التحوُّل</em> بنفسك', s2s:'صورة واحدة من عميل حقيقي تمرّ بثلاث مراحل حتى تصبح <b class=\"hl\">بوسترًا جاهزًا للنشر</b>.',
     s2hint:'<i>👆</i> المراحل تتبدّل تلقائيًا أمامك — واضغط أي مرحلة لتعود إليها متى شئت',
     stg:[['📷','١ · الصورة الأصلية','كما وصلتني من العميل تمامًا'],
          ['⚡','٢ · إعلان بالذكاء الاصطناعي','أعيد بناء الإضاءة والمشهد بالكامل'],
          ['🎨','٣ · البوستر النهائي','رسالة تسويقية وهوية — جاهز للنشر']],
-    s3n:'٠٣ — STORYBOARD', s3t:'القصة تُرسَم قبل الكاميرا',
+    s3n:'٠٣ — STORYBOARD', s3t:'القصة تُرسَم <em class=\"gw\">قبل الكاميرا</em>',
     s3hint:'<i>📜</i> تابع التمرير — الكلمات تُضاء بترتيب القراءة، والصور تطفو بسرعات مختلفة',
     scrub:'أرسم قصة الفيديو مشهدًا مشهدًا: ١ نصوِّر المشاهد بالذكاء الاصطناعي، ٢ نرتِّب التسلسل الذي يبيع، ٣ نحوِّله فيديو جاهزًا — فتعتمد شكل الفيديو قبل تنفيذه، من دون مفاجآت أو تكاليف إعادة.',
-    s4n:'٠٤ — PAGES THAT SELL', s4t:'صفحات تحوِّل الزائر إلى مشترٍ', s4s:'ثلاث صفحات صممتها لثلاثة قطاعات مختلفة — والقطار يتحرك بتمريرك.',
+    s4n:'٠٤ — PAGES THAT SELL', s4t:'صفحات تحوِّل الزائر إلى <em class=\"gw\">مشترٍ</em>', s4s:'ثلاث صفحات صممتها لثلاثة قطاعات مختلفة — <b class=\"hl\">والقطار يتحرك بتمريرك</b>.',
     s4hint:'<i>🚂</i> واصل التمرير ينزلق القطار أمامك — واضغط أي صفحة لتكبيرها',
     solKick:'CASE STUDY — سولارا 🌿', solT:'من صور المنتجات وحدها…<br>إلى موقع يعمل خلال', solH:'ساعة',
     solBtn:'🌐 افتح الموقع الحي', solHint:'<i>🔢</i> راقب العدّاد وهو يصعد، ثم افتح الموقع الحقيقي بنفسك',
-    s5n:'٠٥ — IDENTITY', s5t:'هويات تُلمَس ولا تُشرَح', s5s:'ثلاث هويات متكاملة نفّذتها من الصفر — جرِّبها بيدك.',
+    s5n:'٠٥ — IDENTITY', s5t:'هويات <em class=\"gw\">تُلمَس</em> ولا تُشرَح', s5s:'ثلاث هويات متكاملة نفّذتها من الصفر — <b class=\"hl\">جرِّبها بيدك</b>.',
     s5hint:'<i>🔦</i> حرِّك إصبعك فوق اللوحة السوداء لتكشفها بالمصباح، واضغط المنيو ليُقلَب من القديم إلى الجديد',
     spotTag:'🔦 اكتشف هوية AB بالمصباح', flipHint:'👆 اضغط لقلب المنيو: قبل ← بعد',
     extraT:'مختارات إضافية — اضغط أي قطعة لتكبيرها 🔍',
-    s6n:'٠٦ — TRY IT YOURSELF', s6t:'🎮 جرِّب بنفسك', s6s:'تجربة تفاعلية، ومتجر حقيقي، وأرشيف كامل — كلها على بُعد ضغطة.',
+    s6n:'٠٦ — TRY IT YOURSELF', s6t:'🎮 <em class=\"gw\">جرِّب</em> بنفسك', s6s:'تجربة تفاعلية، و<b class=\"hl\">متجر حقيقي</b>، وأرشيف كامل — كلها على بُعد ضغطة.',
     portals:[['💬','دردشات AB','سبع محادثات واتساب حقيقية — عِش تجربة التعامل معي من أول رسالة حتى «تم التسليم ✓✓».','افتح الدردشات ←','ab-chats.html'],
              ['🛍️','متجر AB','متجري الحقيقي للتيشيرتات: تصميمي وهويتي، ومنتجات تُشحَن فعلًا.','تسوَّق الآن ←','https://7is8hb-km.myshopify.com/en'],
              ['📁','أرشيف الأعمال الكامل','جميع ملفاتي ومشاريعي بجودتها الأصلية على قوقل درايف.','تصفَّح الأرشيف ←','https://drive.google.com/drive/folders/1LboUjF-OlcELYUJ6X_4bV3l3jl4KWqFL']],
-    s7n:'٠٧ — PROMISES', s7t:'ماذا أضمن لك؟',
+    s7n:'٠٧ — PROMISES', s7t:'ماذا <em class=\"gw\">أضمن</em> لك؟',
     s7hint:'<i>🌫️</i> مرِّر بهدوء — تخرج الوعود من الضباب واحدًا تلو الآخر',
     prom:[['⚖️','سعر ثابت قبل البدء','تعرف التكلفة كاملة من اليوم الأول، من دون مفاجآت'],
           ['⚡','تسليم سريع','الذكاء الاصطناعي يختصر أسابيع العمل إلى أيام'],
           ['🎯','تصميم هدفه البيع','كل قرار بصري يخدم رسالتك التسويقية'],
           ['💬','تواصل مباشر معي','واتساب من دون وسطاء ولا انتظار'],
           ['🔁','تعديلات حتى الرضا','لا ننشر العمل إلا وأنت فخور به']],
-    s8n:'٠٨ — CONTACT', s8t:'مشروعك القادم يبدأ برسالة واحدة',
+    s8n:'٠٨ — CONTACT', s8t:'مشروعك القادم يبدأ <em class=\"gw\">برسالة واحدة</em>',
     waBig:'💬 راسلني على واتساب', foot:'عبد الرحمن © ٢٠٢٦ — صُنع بشغف في جدة',
     themeD:'🌙 ليلي', themeL:'☀️ مشع', langBtn:'EN',
+    tick1:['بوسترات وإعلانات 🎨','ستوري بورد 🎬','صفحات هبوط 📱','مواقع إعلانية 🌐','هويات بصرية 🧩','مونتاج فيديو 🎞️'],
+    tick2:['جرِّب بنفسك 🎮','دردشات AB 💬','متجر AB 🛍️','أرشيف كامل 📁'],
+    tick3:['لنبدأ مشروعك 🚀','تسليم خلال ٢٤ ساعة ⚡','تواصل مباشر 💬','جودة تفخر بها ✨'],
+    secNames:['الرئيسية','الخدمات','التحوُّل','الستوري بورد','صفحات تبيع','الهويات','جرِّب بنفسك','الوعود','التواصل'],
   },
   en: {
     dir:'ltr', kicker:'PORTFOLIO 2026 · JEDDAH', hName:'Abdulrahman',
@@ -499,7 +564,7 @@ const T = {
     ctaWork:'See my work ↓', ctaWa:'💬 Contact me', hdrWa:'💬 WhatsApp',
     m1:'<b>Higgsfield · Canva</b> my tools', m2:'<b>24 hours</b> average delivery', m3:'<b>Direct WhatsApp</b> no middlemen',
     heroHint:'<i>🖱️</i> Move your cursor over the name — the words react to you',
-    s1n:'01 — SERVICES', s1t:'What can I build for you?', s1s:'Six services, one goal: work that <b style="color:var(--c)">sells</b> — not just looks good.',
+    s1n:'01 — SERVICES', s1t:'What can I build <em class=\"gw\">for you?</em>', s1s:'Six services, one goal: work that <b style="color:var(--c)">sells</b> — not just looks good.',
     s1hint:'<i>👆</i> Scroll to reveal the cards — on desktop, hover to tilt them',
     svc:[['🎨','Posters & Ads','From your plain product photo to a publish-ready ad and poster with your message and brand.','HIGGSFIELD · CANVA'],
          ['🎬','Storyboards','Your video story sketched scene by scene before production — then turned into AI video.','HIGGSFIELD AI'],
@@ -507,41 +572,45 @@ const T = {
          ['🌐','Promo Websites','Send product photos only — I build a complete live website from them.','LIVE DEPLOY'],
          ['🧩','Brand Identities','A full system: logo, colors and applications on every piece.','CANVA · AI'],
          ['🎞️','Video Editing','Cut, rhythm and visual storytelling that serve your message.','PREMIERE · DAVINCI']],
-    s2n:'02 — TRANSFORMATION', s2t:'Watch the transformation yourself', s2s:'One real client photo passes through three stages until it becomes a publish-ready poster.',
+    s2n:'02 — TRANSFORMATION', s2t:'Watch the <em class=\"gw\">transformation</em> yourself', s2s:'One real client photo passes through three stages until it becomes a publish-ready poster.',
     s2hint:'<i>👆</i> Stages rotate automatically — tap any stage to revisit it anytime',
     stg:[['📷','1 · The original photo','Exactly as the client sent it'],
          ['⚡','2 · AI-crafted ad','Lighting and scene fully rebuilt'],
          ['🎨','3 · Final poster','Marketing message + identity = ready to publish']],
-    s3n:'03 — STORYBOARD', s3t:'The story is drawn before the camera',
+    s3n:'03 — STORYBOARD', s3t:'The story is drawn <em class=\"gw\">before the camera</em>',
     s3hint:'<i>📜</i> Keep scrolling — words light up in reading order, images float at different speeds',
     scrub:'I sketch your video scene by scene: 1 we shoot the scenes with AI, 2 we order the sequence that sells, 3 we turn it into a finished video — so you approve the film before it is made. No surprises, no reshoot costs.',
-    s4n:'04 — PAGES THAT SELL', s4t:'Pages that turn visitors into buyers', s4s:'Three pages for three different industries — the train moves as you scroll.',
+    s4n:'04 — PAGES THAT SELL', s4t:'Pages that turn visitors into <em class=\"gw\">buyers</em>', s4s:'Three pages for three different industries — the train moves as you scroll.',
     s4hint:'<i>🚂</i> Keep scrolling — the train slides through all three pages. Tap any page to zoom',
     solKick:'CASE STUDY — SOLARA 🌿', solT:'From product photos only…<br>to a live website in', solH:'hours',
     solBtn:'🌐 Open the live site', solHint:'<i>🔢</i> Watch the counter climb — then open the real website yourself',
-    s5n:'05 — IDENTITY', s5t:'Identities you can touch', s5s:'Three complete identities built from scratch.',
+    s5n:'05 — IDENTITY', s5t:'Identities you can <em class=\"gw\">touch</em>', s5s:'Three complete identities built from scratch.',
     s5hint:'<i>🔦</i> Move your finger over the dark board to reveal it — and tap the menu to flip old → new',
     spotTag:'🔦 Reveal the AB identity', flipHint:'👆 Tap to flip: before → after',
     extraT:'Extra picks — tap any piece to zoom 🔍',
-    s6n:'06 — TRY IT YOURSELF', s6t:'🎮 Try it yourself', s6s:'An interactive experience, a real store, and the full archive — one tap away.',
+    s6n:'06 — TRY IT YOURSELF', s6t:'🎮 <em class=\"gw\">Try it</em> yourself', s6s:'An interactive experience, a real store, and the full archive — one tap away.',
     portals:[['💬','AB Chats','Seven real WhatsApp conversations — live the experience of working with me, from first message to "Delivered ✓✓".','Open the chats →','ab-chats.html'],
              ['🛍️','AB Store','My real t-shirt store — my designs, my brand, products that actually ship.','Shop now →','https://7is8hb-km.myshopify.com/en'],
              ['📁','Full Work Archive','All my files and projects in original quality on Google Drive.','Browse the archive →','https://drive.google.com/drive/folders/1LboUjF-OlcELYUJ6X_4bV3l3jl4KWqFL']],
-    s7n:'07 — PROMISES', s7t:'What do I guarantee?',
+    s7n:'07 — PROMISES', s7t:'What do I <em class=\"gw\">guarantee?</em>',
     s7hint:'<i>🌫️</i> Scroll slowly — the promises emerge from the fog one by one',
     prom:[['⚖️','Fixed pricing upfront','Full cost known before we start — no surprises'],
           ['⚡','Fast delivery','AI compresses weeks into days'],
           ['🎯','Built to sell','Every design decision serves your marketing message'],
           ['💬','Direct line to me','WhatsApp, no middlemen, no waiting'],
           ['🔁','Revisions until happy','We only publish when you are proud of it']],
-    s8n:'08 — CONTACT', s8t:'Your next project starts with one message',
+    s8n:'08 — CONTACT', s8t:'Your next project starts with <em class=\"gw\">one message</em>',
     waBig:'💬 Message me on WhatsApp', foot:'Abdulrahman © 2026 — Made with passion in Jeddah',
     themeD:'🌙 Dark', themeL:'☀️ Bright', langBtn:'ع',
+    tick1:['POSTERS & ADS 🎨','STORYBOARDS 🎬','LANDING PAGES 📱','PROMO WEBSITES 🌐','BRAND IDENTITIES 🧩','VIDEO EDITING 🎞️'],
+    tick2:['TRY IT YOURSELF 🎮','AB CHATS 💬','AB STORE 🛍️','FULL ARCHIVE 📁'],
+    tick3:['LET\'S START 🚀','24H DELIVERY ⚡','DIRECT LINE 💬','QUALITY YOU OWN ✨'],
+    secNames:['Home','Services','Transformation','Storyboard','Pages','Identity','Playground','Promises','Contact'],
   }
 };
 let LANG = localStorage.getItem('abm_lang') || 'ar';
 let THEME = localStorage.getItem('abm_theme') || 'dark';
-let cntStart = 0, cntDone = false, rotI = 0, rotLast = 0;
+let cntStart = 0, cntDone = false, rotI = 0, rotLast = 0, hdrSecI = -1;
 
 /* بناء النصوص القابلة للتقطيع */
 let words = [], scrubWords = [];
@@ -599,6 +668,11 @@ function applyLang() {
   set('s8n', L.s8n); set('s8t', L.s8t);
   set('waBigTxt', L.waBig); set('footNote', L.foot);
   $('tglLang').textContent = L.langBtn;
+  [['tick1', L.tick1], ['tick2', L.tick2], ['tick3', L.tick3]].forEach(([id, arr]) => {
+    const tr = $(id);
+    if (tr) tr.innerHTML = Array(4).fill(arr.map(w => `<span>${w} <i style="font-style:normal;opacity:.5">✦</i></span>`).join('')).join('');
+  });
+  hdrSecI = -1;
   $('tglTheme').textContent = THEME === 'dark' ? L.themeL : L.themeD;
   buildInteractiveText();
   cntDone = false; cntStart = 0; rotI = 0;
@@ -695,6 +769,7 @@ setTimeout(() => {
   }
 }, 6000);
 function enterHero() {
+  $('hdr').classList.add('enter');
   document.querySelectorAll('.hero .hLine').forEach((l, i) => setTimeout(() => l.classList.add('in'), i * 90));
   setTimeout(() => document.querySelectorAll('.hero .fadeUp').forEach(f => f.classList.add('in')), 480);
 }
@@ -737,6 +812,24 @@ document.querySelectorAll('.btnA,.waBig').forEach(b => b.addEventListener('point
   rp.animate([{transform:'scale(1)',opacity:1},{transform:'scale(42)',opacity:0}],{duration:700,easing:'ease-out'}).onfinish = () => rp.remove();
 }));
 
+/* شرائط الكلمات + سباي الهيدر */
+const tickState = [['tick1', 0, 1], ['tick2', 0, -1], ['tick3', 0, 1]].map(([id, x, d]) => ({ el: $(id), x, d }));
+const SPY = ['.hero', '#services', '#ads', '#sb', '#lp', '#identity', '#play', '#why', '#contact']
+  .map(q => document.querySelector(q));
+function spyHeader() {
+  let cur = 0;
+  for (let i = 0; i < SPY.length; i++) {
+    if (SPY[i].getBoundingClientRect().top < innerHeight * .42) cur = i;
+  }
+  if (cur !== hdrSecI) {
+    hdrSecI = cur;
+    const b = $('hdrSecTxt');
+    b.textContent = T[LANG].secNames[cur];
+    b.animate([{ transform: 'translateY(120%)', opacity: 0 }, { transform: 'none', opacity: 1 }],
+      { duration: 380, easing: 'cubic-bezier(.16,1,.3,1)' });
+  }
+}
+
 /* الحلقة الرئيسية */
 let lastY = 0, vel = 0;
 (function loop(t) {
@@ -747,6 +840,16 @@ let lastY = 0, vel = 0;
   const max = document.documentElement.scrollHeight - innerHeight;
   $('progFill').style.width = (max ? y / max * 100 : 0) + '%';
   $('hdr').classList.toggle('on', y > 60);
+  spyHeader();
+  for (const tk of tickState) {
+    if (!tk.el) continue;
+    const r = tk.el.parentElement.getBoundingClientRect();
+    if (r.bottom < 0 || r.top > innerHeight) continue;
+    const w = tk.el.scrollWidth / 4 || 0;
+    tk.x += tk.d * (0.55 + Math.abs(vel) * 0.06);
+    if (w) { if (tk.x > 0) tk.x -= w; if (tk.x < -w) tk.x += w; }
+    tk.el.style.transform = `translateX(${tk.x}px)`;
+  }
 
   if (FINE) {
     $('curDot').style.transform = `translate(${mx}px,${my}px)`;
